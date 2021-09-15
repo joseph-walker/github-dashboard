@@ -1,6 +1,39 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
-	import MeWidget from "$lib/widgets/PullRequestUser/Widget.svelte";
+	import PullRequestUser from "$lib/widgets/PullRequestUser/Widget.svelte";
+
+	type WidgetConfig = {
+		widget: string,
+		args: Record<string, string>,
+		placement: [number, number, number, number]
+	}[];
+
+	let widgetConfig: WidgetConfig = [];
+
+	onMount(function () {
+		widgetConfig = JSON.parse(localStorage.getItem("widget_config"));
+	});
+
+	/*
+	localStorage.setItem("widget_config", JSON.stringify([
+		{
+			widget: "PullRequestUser",
+			args: {
+				login: "Rich-Harris"
+			},
+			placement: [1, 2, 1, 2]
+		},
+		{
+			widget: "PullRequestUser",
+			args: {
+				login: "Conduitry"
+			},
+			placement: [3, 4, 1, 2]
+		}
+	]));
+	*/
 </script>
 
 <nav class="nav-bar">
@@ -9,18 +42,13 @@
 </nav>
 
 <main class="dashboard-grid">
-	<WidgetContainer colStart={1} colEnd={2} rowStart={1} rowEnd={2}>
-		<MeWidget login="kmorales13" />
-	</WidgetContainer>
-	<WidgetContainer colStart={3} colEnd={4} rowStart={1} rowEnd={2}>
-		<MeWidget login="tamars2" />
-	</WidgetContainer>
-	<WidgetContainer colStart={1} colEnd={2} rowStart={3} rowEnd={4}>
-		<MeWidget login="gabepages" />
-	</WidgetContainer>
-	<WidgetContainer colStart={5} colEnd={5} rowStart={1} rowEnd={2}>
-		<MeWidget login="joseph-walker" />
-	</WidgetContainer>
+	{#each widgetConfig as widget}
+		<WidgetContainer colStart={widget.placement[0]} colEnd={widget.placement[1]} rowStart={widget.placement[2]} rowEnd={widget.placement[3]}>
+			<PullRequestUser login={widget.args.login} />
+		</WidgetContainer>
+	{:else}
+		<p>Empty Config</p>
+	{/each}
 </main>
 
 <style>

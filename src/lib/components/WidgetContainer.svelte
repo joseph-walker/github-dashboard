@@ -1,6 +1,6 @@
 <script lang="ts">
-	export let colStart: 1 | 2 | 3 | 4 | 5;
-	export let colEnd: 1 | 2 | 3 | 4 | 5;
+	export let colStart: number;
+	export let colEnd: number;
 	export let rowStart: number;
 	export let rowEnd: number;
 

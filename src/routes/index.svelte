@@ -18,7 +18,7 @@
 </script>
 
 <nav class="nav-bar">
-	<h1>Github Dashboard</h1>
+	<h1><img class="logo" src="/logo-github.svg" alt="Github logo" />Github Dashboard</h1>
 	<a href="/auth/logout">Log Out</a>
 </nav>
 
@@ -52,6 +52,14 @@
 	.nav-bar h1 {
 		font-weight: var(--weight-bold);
 		font-size: 1.3rem;
+		display: flex;
+		align-items: center;
+	}
+
+	.logo {
+		height: 1.3rem;
+		margin-right: 4px;
+		margin-bottom: 2px;
 	}
 
 	.nav-bar a:first-of-type {

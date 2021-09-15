@@ -1,31 +1,60 @@
+<script lang="ts" context="module">
+	import type { Load } from "@sveltejs/kit";
+
+	export const load: Load = async function load(request) {
+		return {
+			props: {
+				token: request.session.accessToken
+			}
+		};
+	}
+</script>
+
 <script lang="ts">
 	import { initClient, defaultExchanges } from '@urql/svelte';
 	import { devtoolsExchange } from '@urql/devtools';
 
-	initClient({
-		url: 'https://api.github.com/graphql',
-		exchanges: [devtoolsExchange, ...defaultExchanges],
-		fetchOptions: () => {
-			const token = '';
+	import GithubAuth from "$lib/components/GithubAuth.svelte";
 
-			return {
-				headers: { authorization: `Bearer ${token}` }
-			};
-		}
-	});
+	export let token: string;
+
+	let authenticated = false;
+
+	if (token) {
+		initClient({
+			url: 'https://api.github.com/graphql',
+			exchanges: [devtoolsExchange, ...defaultExchanges],
+			fetchOptions: () => {
+				return {
+					headers: { authorization: `Bearer ${token}` }
+				};
+			}
+		});
+
+		authenticated = true;
+	}
 </script>
 
-<slot></slot>
+{#if authenticated}
+	<slot></slot>
+{:else}
+	<GithubAuth />
+{/if}
+
+<svelte:head>
+	<style>
+		@namespace svg "http://www.w3.org/2000/svg";
+
+		:not(svg|*) {
+			all: unset;
+			display: revert;
+			box-sizing: border-box;
+		}
+	</style>
+</svelte:head>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-	@namespace svg "http://www.w3.org/2000/svg";
-
-	:global(:not(svg|*)) {
-		all: unset;
-		display: revert;
-		box-sizing: border-box;
-	}
 
 	:global(html) {
 		font-size: 14px;
@@ -36,6 +65,10 @@
 		background: var(--body-bg);
 		color: var(--font-color);
 		font-family: 'Nunito', sans-serif;
+	}
+
+	:global(html, body, #svelte) {
+		height: 100%;
 	}
 
 	:root {

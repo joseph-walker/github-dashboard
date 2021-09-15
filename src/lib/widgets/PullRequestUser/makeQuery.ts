@@ -25,9 +25,30 @@ export function makeQuery(login: string, pageSize: number) {
 				) {
 					totalCount
 					nodes {
+						changedFiles
+						additions
+						deletions
 						title
 						repository {
 							name
+						}
+						comments(first: 5) {
+							totalCount
+							nodes {
+								author {
+									login
+								}
+							}
+						}
+						latestReviews(first: 5) {
+							totalCount
+							nodes {
+								author {
+									login
+								}
+								updatedAt
+								state
+							}
 						}
 					}
 					pageInfo {
@@ -47,10 +68,12 @@ export function makeQuery(login: string, pageSize: number) {
 		before: null
 	});
 
-	const paginator = makePaginator(query, pageSize);
+	const pullRequestPaginator = makePaginator(query, pageSize, function (next) {
+		return next.user.pullRequests.pageInfo;
+	});
 
 	return {
 		query,
-		paginator
+		pullRequestPaginator
 	}
 }

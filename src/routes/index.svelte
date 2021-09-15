@@ -13,27 +13,8 @@
 	let widgetConfig: WidgetConfig = [];
 
 	onMount(function () {
-		widgetConfig = JSON.parse(localStorage.getItem("widget_config"));
+		widgetConfig = JSON.parse(localStorage.getItem("widget_config")) || [];
 	});
-
-	/*
-	localStorage.setItem("widget_config", JSON.stringify([
-		{
-			widget: "PullRequestUser",
-			args: {
-				login: "Rich-Harris"
-			},
-			placement: [1, 2, 1, 2]
-		},
-		{
-			widget: "PullRequestUser",
-			args: {
-				login: "Conduitry"
-			},
-			placement: [3, 4, 1, 2]
-		}
-	]));
-	*/
 </script>
 
 <nav class="nav-bar">
@@ -54,7 +35,7 @@
 <style>
 	.dashboard-grid {
 		display: grid;
-		grid-template-columns: repeat(5, 1fr);
+		grid-template-columns: repeat(6, 1fr);
 		gap: 16px;
 		padding: 16px;
 	}
@@ -81,7 +62,7 @@
 		font-size: 0.9rem;
 		padding: 8px 16px;
 		cursor: pointer;
-		background: #546de5;
+		background: #2e86de;
 		color: white;
 		border-radius: 8px;
 	}

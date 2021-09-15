@@ -6,7 +6,7 @@
 
 	$: style = `
 		grid-column-start: ${colStart};
-		grid-column-end: ${colEnd + 1};
+		grid-column-end: ${colEnd};
 		grid-row-start: ${rowStart};
 		grid-row-end: ${rowEnd};
 	`;

@@ -12,19 +12,21 @@ type PaginationVars = {
     before?: string;
 }
 
-export function makePaginator<T extends OperationStore<any, PaginationVars, any>> (query: T, pageSize: number) {
-	let currentPage: number = 1;
-
+export function makePaginator<T extends object> (
+	query: OperationStore<T, PaginationVars>,
+	pageSize: number,
+	pageInfoLens: (data: T) => PageInfo
+) {
 	const cursors: PageInfo = {};
 
 	query.subscribe(function (next) {
 		if (!next.fetching && !next.error) {
-			const nextPageInfo = next.data.user.pullRequests.pageInfo;
+			const nextPageInfo = pageInfoLens(next.data);
 
 			cursors.startCursor = nextPageInfo.startCursor;
 			cursors.endCursor = nextPageInfo.endCursor;
 		}
-	})
+	});
 
 	function nextPage() {
 		query.set({

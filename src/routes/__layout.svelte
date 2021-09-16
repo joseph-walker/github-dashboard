@@ -71,6 +71,10 @@
 		height: 100%;
 	}
 
+	:global(a) {
+		cursor: pointer;
+	}
+
 	:root {
 		--body-bg: #f7f7f7;
 		--border-color: #ebebeb;

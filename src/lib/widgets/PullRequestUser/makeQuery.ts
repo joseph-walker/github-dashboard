@@ -25,6 +25,7 @@ export function makeQuery(login: string, pageSize: number) {
 				) {
 					totalCount
 					nodes {
+						url
 						changedFiles
 						additions
 						deletions

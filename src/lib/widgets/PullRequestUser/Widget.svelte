@@ -22,7 +22,10 @@
 		<ul>
 			{#each $pullRequestUserQuery.data.user.pullRequests.nodes as pr}
 				<li class="pr-card">
-					<h3>{pr.title}<span class="repo-name">{pr.repository.name}</span></h3>
+					<h3>
+						<a href={pr.url} target="_blank" rel="noopener noreferrer">{pr.title}</a>
+						<span class="repo-name">{pr.repository.name}</span>
+					</h3>
 					<p class="summary-line changes">
 						<img class="file icon" src="/document-outline.svg" alt="files" />
 						<span><b>{pr.changedFiles}</b> Changed File(s)</span>
@@ -125,6 +128,10 @@
 		margin-left: 8px;
 		color: var(--font-color-light);
 		font-weight: var(--weight-normal);
+	}
+
+	a:visited {
+		color: inherit;
 	}
 
 	.summary-line {

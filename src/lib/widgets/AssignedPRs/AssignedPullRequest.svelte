@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { query } from '@urql/svelte';
-
 	import PullRequest from '$lib/components/PullRequest.svelte';
+	import { queryWithUtilization } from '$lib/queryWithUtilization';
 	import { makeAssignedPullRequestQuery } from './makeQuery';
 
 	export let owner: string;
@@ -10,7 +9,7 @@
 
 	const prQuery = makeAssignedPullRequestQuery(owner, repo, prNumber);
 
-	query(prQuery);
+	queryWithUtilization(prQuery);
 </script>
 
 {#if $prQuery.data}

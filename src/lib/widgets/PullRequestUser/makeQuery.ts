@@ -59,6 +59,10 @@ export function makeQuery(login: string, pageSize: number) {
 					}
 				}
 			}
+			rateLimit {
+				remaining
+				resetAt
+			}
 		}
 	`, {
 		login,

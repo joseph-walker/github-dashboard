@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { query } from '@urql/svelte';
-
 	import { makeQuery } from './makeQuery';
+	import { queryWithUtilization } from '$lib/queryWithUtilization';
 	import PullRequest from '$lib/components/PullRequest.svelte';
 
 	export let login: string;
 
 	const { query: pullRequestUserQuery, pullRequestPaginator } = makeQuery(login, 5);
 
-	query(pullRequestUserQuery);
+	queryWithUtilization(pullRequestUserQuery);
 </script>
 
 <div class="pull-requests-for-user-widget">

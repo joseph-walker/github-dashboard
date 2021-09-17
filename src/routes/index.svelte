@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 
 	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
+	import { remaining } from "$lib/queryWithUtilization";
 
 	type WidgetConfig = {
 		widget: string,
@@ -29,6 +30,13 @@
 
 <nav class="nav-bar">
 	<h1><img class="logo" src="/logo-github.svg" alt="Github logo" />Github Dashboard</h1>
+	<div class="resources">
+		<p>Rate Limit:</p>
+		<em>{$remaining} / 5000</em>
+		<div class="hp-bar">
+			<div class="hp" style={`width: ${((Number($remaining) || 2500) / 5000) * 100}px`}></div>
+		</div>
+	</div>
 	<a href="/auth/logout">Log Out</a>
 </nav>
 
@@ -61,7 +69,7 @@
 		padding: 0 16px;
 	}
 
-	.nav-bar h1 {
+	h1 {
 		font-weight: var(--weight-bold);
 		font-size: 1.3rem;
 		display: flex;
@@ -74,16 +82,47 @@
 		margin-bottom: 2px;
 	}
 
-	.nav-bar a:first-of-type {
-		margin-left: auto;
-	}
-
-	.nav-bar a {
+	a {
 		font-size: 0.9rem;
 		padding: 8px 16px;
 		cursor: pointer;
 		background: #2e86de;
 		color: white;
 		border-radius: 8px;
+	}
+
+	.resources {
+		margin-left: auto;
+		font-size: 0.8rem;
+		display: flex;
+		align-items: center;
+		margin-right: 16px;
+	}
+
+	.resources p {
+		margin-right: 4px;
+	}
+
+	.resources em {
+		font-weight: var(--weight-bold);
+	}
+
+	.hp-bar {
+		position: relative;
+		width: 100px;
+		height: 8px;
+		background: var(--border-color);
+		margin-left: 8px;
+		border-radius: 4px;
+	}
+
+	.hp-bar .hp {
+		background-color: #1dd1a1;
+		height: 8px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		border-radius: 4px;
+		width: 32px;
 	}
 </style>

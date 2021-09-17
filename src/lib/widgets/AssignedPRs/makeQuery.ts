@@ -57,6 +57,10 @@ export function makeQuery(repos: [string, string][], iso: RepoNameIso) {
 	return operationStore<PullRequestAssignmentsQuery, never>(`
 		query PullRequestAssignments {
 			${repoFragments}
+			rateLimit {
+				remaining
+				resetAt
+			}
 		}
 	`);
 }
@@ -72,6 +76,10 @@ export function makeAssignedPullRequestQuery(owner: string, repo: string, prNumb
 				pullRequest(number: $prNumber) {
 					...pullRequest
 				}
+			}
+			rateLimit {
+				remaining
+				resetAt
 			}
 		}
 		${pullRequestFragment}

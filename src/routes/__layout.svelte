@@ -75,6 +75,10 @@
 		cursor: pointer;
 	}
 
+	:global(b) {
+		font-weight: var(--weight-bold);
+	}
+
 	:root {
 		--body-bg: #f7f7f7;
 		--border-color: #ebebeb;

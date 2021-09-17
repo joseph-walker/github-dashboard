@@ -2,6 +2,7 @@
 	import { query } from '@urql/svelte';
 
 	import { makeQuery } from './makeQuery';
+	import PullRequest from '$lib/components/PullRequest.svelte';
 
 	export let login: string;
 
@@ -21,36 +22,7 @@
 		</header>
 		<ul>
 			{#each $pullRequestUserQuery.data.user.pullRequests.nodes as pr}
-				<li class="pr-card">
-					<h3>
-						<a href={pr.url} target="_blank" rel="noopener noreferrer">{pr.title}</a>
-						<span class="repo-name">{pr.repository.name}</span>
-					</h3>
-					<p class="summary-line changes">
-						<img class="file icon" src="/document-outline.svg" alt="files" />
-						<span><b>{pr.changedFiles}</b> Changed File(s)</span>
-						<span class="additions">+{pr.additions}</span>
-						<span class="deletions">-{pr.deletions}</span>
-					</p>
-					<div class="comments">
-						<p class="summary-line">
-							<img class="comments icon" src="/chatbubble-outline.svg" alt="files" />
-							<b>{pr.comments.totalCount}</b>&nbsp;Comment(s)
-							{#if pr.comments.totalCount > 0}
-								<button class="inline-action">Show</button>
-							{/if}
-						</p>
-					</div>
-					<div class="reviews">
-						<p class="summary-line">
-							<img class="reviews icon" src="/chatbubbles-outline.svg" alt="files" />
-							<b>{pr.latestReviews.totalCount}</b>&nbsp;Review(s)
-							{#if pr.latestReviews.totalCount > 0}
-								<button class="inline-action">Show</button>
-							{/if}
-						</p>
-					</div>
-				</li>
+				<li><PullRequest {pr} /></li>
 			{:else}
 				<li class="no-content">No open PRs</li>
 			{/each}
@@ -74,6 +46,7 @@
 		font-size: 1rem;
 		border-bottom: 1px solid var(--border-color);
 		padding: 8px;
+		height: 41px;
 	}
 
 	.meta-data {
@@ -89,29 +62,11 @@
 		align-items: center;
 	}
 
-	.pr-card {
-		display: flex;
-		flex-direction: column;
-		gap: 8px;
-		box-shadow: var(--border-color) -1px 1px 0px;
-		padding: 6px;
-		margin-bottom: 8px;
-		border-radius: 4px;
-	}
-
-	.pr-card:last-child {
-		margin-bottom: 0;
-	}
-
 	.avatar {
 		margin-right: 8px;
 		border-radius: 100%;
 		max-width: 24px;
 		border: 1px solid var(--border-color);
-	}
-
-	b {
-		font-weight: var(--weight-bold);
 	}
 
 	ul {
@@ -120,49 +75,11 @@
 		padding: 8px;
 	}
 
-	h3 {
-		font-weight: var(--weight-bold);
+	ul li {
+		margin-bottom: 8px;
 	}
 
-	h3 .repo-name {
-		margin-left: 8px;
-		color: var(--font-color-light);
-		font-weight: var(--weight-normal);
-	}
-
-	a:visited {
-		color: inherit;
-	}
-
-	.summary-line {
-		display: flex;
-		align-items: center;
-	}
-
-	.icon {
-		height: 1.2rem;
-		margin-right: 4px;
-		/* Adjust icon placement for spacing issues */
-		margin-bottom: 2px;
-		margin-left: -2px;
-	}
-
-	.inline-action {
-		font-size: 0.9rem;
-		color: var(--font-color-light);
-		cursor: pointer;
-		margin-left: 8px;
-	}
-
-	.additions {
-		color: #10ac84;
-		font-weight: var(--weight-bold);
-		margin-left: 8px;
-	}
-
-	.deletions {
-		margin-left: 4px;
-		color: #ee5253;
-		font-weight: var(--weight-bold);
+	ul li:last-of-type {
+		margin-bottom: 0;
 	}
 </style>

@@ -2,7 +2,6 @@
 	import { onMount } from "svelte";
 
 	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
-	import PullRequestUser from "$lib/widgets/PullRequestUser/Widget.svelte";
 
 	type WidgetConfig = {
 		widget: string,
@@ -15,6 +14,17 @@
 	onMount(function () {
 		widgetConfig = JSON.parse(localStorage.getItem("widget_config")) || [];
 	});
+
+	$: widgetList = Promise.all(
+		widgetConfig.map(async function (config) {
+			const component = await import(`../lib/widgets/${config.widget}/Widget.svelte`)
+
+			return {
+				...config,
+				component: component.default
+			};
+		})
+	);
 </script>
 
 <nav class="nav-bar">
@@ -23,13 +33,15 @@
 </nav>
 
 <main class="dashboard-grid">
-	{#each widgetConfig as widget}
-		<WidgetContainer colStart={widget.placement[0]} colEnd={widget.placement[1]} rowStart={widget.placement[2]} rowEnd={widget.placement[3]}>
-			<PullRequestUser login={widget.args.login} />
-		</WidgetContainer>
-	{:else}
-		<p>Empty Config</p>
-	{/each}
+	{#await widgetList then widgets}
+		{#each widgets as widget}
+			<WidgetContainer colStart={widget.placement[0]} colEnd={widget.placement[1]} rowStart={widget.placement[2]} rowEnd={widget.placement[3]}>
+				<svelte:component this={widget.component} {...widget.args}></svelte:component>
+			</WidgetContainer>
+		{:else}
+			<p>Empty Config</p>
+		{/each}
+	{/await}
 </main>
 
 <style>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { makeRepoNameIso } from '$lib/gql/repoNameIso';
 	import { queryWithUtilization } from '$lib/queryWithUtilization';
+	import PullRequest from '$lib/components/PullRequests/PullRequest.svelte';
 	import { makeQuery, PullRequestAssignmentsQuery } from './makeQuery';
-	import AssignedPullRequest from './AssignedPullRequest.svelte';
 
 	export let login = "";
 	export let repos = [] as [string, string][];
@@ -47,7 +47,7 @@
 	</header>
 	<ul>
 		{#each assignedToMe as pr}
-			<li><AssignedPullRequest owner={pr.repository.owner.login} repo={pr.repository.name} prNumber={pr.number} /></li>
+			<li><PullRequest owner={pr.repository.owner.login} repo={pr.repository.name} number={pr.number} /></li>
 		{/each}
 	</ul>
 </div>

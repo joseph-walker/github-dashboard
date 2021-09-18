@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { gql, operationStore } from '@urql/svelte';
+	import { onMount, setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
-	import { remaining } from "$lib/queryWithUtilization";
+	import { queryWithUtilization, remaining } from "$lib/queryWithUtilization";
 
 	type WidgetConfig = {
 		widget: string,
@@ -15,6 +17,25 @@
 	onMount(function () {
 		widgetConfig = JSON.parse(localStorage.getItem("widget_config")) || [];
 	});
+
+	const me = writable<string | undefined>(undefined);
+	setContext("me", me);
+
+	const meQuery = operationStore(gql`
+		query WhoAmI {
+			viewer {
+				login
+			}
+		}
+	`);
+
+	queryWithUtilization(meQuery);
+
+	$: {
+		if ($meQuery.data) {
+			me.set($meQuery.data.viewer.login);
+		}
+	}
 
 	$: widgetList = Promise.all(
 		widgetConfig.map(async function (config) {

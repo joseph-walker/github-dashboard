@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { makeQuery } from './makeQuery';
 	import { queryWithUtilization } from '$lib/queryWithUtilization';
-	import PullRequest from '$lib/components/PullRequest.svelte';
+	import PullRequest from '$lib/components/PullRequests/PullRequest.svelte';
 
 	export let login: string;
 
@@ -21,7 +21,7 @@
 		</header>
 		<ul>
 			{#each $pullRequestUserQuery.data.user.pullRequests.nodes as pr}
-				<li><PullRequest {pr} /></li>
+				<li><PullRequest owner={pr.repository.owner.login} repo={pr.repository.name} number={pr.number} /></li>
 			{:else}
 				<li class="no-content">No open PRs</li>
 			{/each}

@@ -24,30 +24,11 @@ export function makeQuery(login: string, pageSize: number) {
 				) {
 					totalCount
 					nodes {
-						url
-						changedFiles
-						additions
-						deletions
-						title
+						number
 						repository {
 							name
-						}
-						comments(first: 5) {
-							totalCount
-							nodes {
-								author {
-									login
-								}
-							}
-						}
-						latestReviews(first: 5) {
-							totalCount
-							nodes {
-								author {
-									login
-								}
-								updatedAt
-								state
+							owner {
+								login
 							}
 						}
 					}

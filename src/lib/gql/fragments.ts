@@ -1,6 +1,6 @@
 import { gql } from "@urql/svelte";
 
-export const pullRequestFragment = gql`
+export const pullRequest = gql`
 	fragment pullRequest on PullRequest {
 		url
 		changedFiles

@@ -11,7 +11,8 @@
 </script>
 
 <script lang="ts">
-	import { initClient, defaultExchanges } from '@urql/svelte';
+	import { initClient, dedupExchange, fetchExchange } from '@urql/svelte';
+	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
 
 	import GithubAuth from "$lib/components/GithubAuth.svelte";
@@ -23,7 +24,12 @@
 	if (token) {
 		initClient({
 			url: 'https://api.github.com/graphql',
-			exchanges: [devtoolsExchange, ...defaultExchanges],
+			exchanges: [
+				devtoolsExchange,
+				dedupExchange,
+				cacheExchange({}),
+				fetchExchange
+			],
 			fetchOptions: () => {
 				return {
 					headers: { authorization: `Bearer ${token}` }

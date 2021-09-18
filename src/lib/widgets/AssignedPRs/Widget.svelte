@@ -4,8 +4,8 @@
 	import { makeQuery, PullRequestAssignmentsQuery } from './makeQuery';
 	import AssignedPullRequest from './AssignedPullRequest.svelte';
 
-	const login = "joseph-walker";
-	const repos = [["rentpath", "rent"], ["rentpath", "ag.js"]] as [string, string][];
+	export let login = "";
+	export let repos = [] as [string, string][];
 
 	const repoIso = makeRepoNameIso(repos.map(rs => rs[1]));
 	const assignedQuery = makeQuery(repos, repoIso);

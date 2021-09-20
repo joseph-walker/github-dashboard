@@ -31,15 +31,31 @@
 			<span class="additions">+{pr.additions}</span>
 			<span class="deletions">-{pr.deletions}</span>
 		</p>
-		<section class="comments">
-			<p class="summary-line">
-				<img class="comments icon" src="/chatbubble-outline.svg" alt="files" />
-				<b>{pr.comments.totalCount}</b>&nbsp;Comment(s)
-				{#if pr.comments.totalCount > 0}
+		{#if pr.comments.totalCount > 0}
+			<section class="comments">
+				<p class="summary-line">
+					<img class="comments icon" src="/chatbubble-outline.svg" alt="files" />
+					<b>{pr.comments.totalCount}</b>&nbsp;Comment(s)
 					<button class="inline-action">Show</button>
-				{/if}
-			</p>
-		</section>
+				</p>
+			</section>
+		{/if}
+		{#if pr.labels.totalCount > 0}
+			<section class="labels">
+				<p class="summary-line">
+					<img class="reviews icon" src="/pricetag-outline.svg" alt="files" />
+					<b>{pr.labels.totalCount}</b>&nbsp;Labels(s)
+				</p>
+				<ul class="labels">
+					{#each pr.labels.nodes as label}
+						<div class="label">
+							<em class="flag" style={`background: #${label.color};`}></em>
+							{label.name}
+						</div>
+					{/each}
+				</ul>
+			</section>
+		{/if}
 		<section class="reviews">
 			<p class="summary-line">
 				<img class="reviews icon" src="/chatbubbles-outline.svg" alt="files" />
@@ -84,6 +100,32 @@
 	.reviews {
 		display: flex;
 		align-items: flex-start;
+	}
+
+	.labels {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.label {
+		display: flex;
+		align-items: center;
+		background: #f9f9f9;
+		font-size: 0.8rem;
+		border: 1px solid var(--border-color);
+		border-radius: 4px;
+		height: var(--summary-line-height);
+		padding: 0 6px;
+	}
+
+	.flag {
+		width: 10px;
+		height: 10px;
+		border-radius: 100%;
+		display: block;
+		margin-right: 6px;
+		border: 1px solid var(--border-color);
 	}
 
 	.reviews .summary-line {

@@ -17,6 +17,13 @@ export function makeQuery(owner: string, repo: string, number: number) {
 					additions
 					deletions
 					title
+					labels(first: 10) {
+						totalCount
+						nodes {
+							color
+							name
+						}
+					}
 					repository {
 						name
 					}

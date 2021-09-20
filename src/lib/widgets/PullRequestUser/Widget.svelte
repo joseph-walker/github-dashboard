@@ -71,11 +71,11 @@
 	ul {
 		flex: 1;
 		list-style: none;
-		padding: 8px;
+		padding: 10px;
 	}
 
 	ul li {
-		margin-bottom: 8px;
+		margin-bottom: 10px;
 	}
 
 	ul li:last-of-type {

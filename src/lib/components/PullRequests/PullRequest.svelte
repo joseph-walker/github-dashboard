@@ -51,13 +51,15 @@
 						<li class:me={review.author.login === $me}>
 							<a href={review.url} target="_blank" rel="noopener noreferrer">
 								{#if review.state === "APPROVED"}
-									<img class="icon" src="/checkmark-circle-outline.svg" alt="approved" />
+									<img class="icon approved" src="/checkmark-circle-outline.svg" alt="approved" />
 								{:else if review.state === "COMMENTED"}
-									<img class="icon" src="/alert-circle-outline.svg" alt="commented" />
+									<img class="icon commented" src="/alert-circle-outline.svg" alt="commented" />
 								{:else}
-									<img class="icon" src="/close-circle-outline.svg" alt="not-approved" />
+									<img class="icon not-approved" src="/close-circle-outline.svg" alt="not-approved" />
 								{/if}
-								{review.author.login}
+								<em>
+									{review.author.login}
+								</em>
 							</a>
 						</li>
 					{/each}
@@ -135,9 +137,12 @@
 	}
 
 	.reviewers .icon {
-		height: 1.1rem;
+		height: 1.3rem;
+		padding: 2px;
 		margin: 0;
-		margin-right: 4px;
+		filter: invert(100%);
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
 	}
 
 	.reviewers li a {
@@ -145,19 +150,30 @@
 		align-items: center;
 		background: #f9f9f9;
 		font-size: 0.8rem;
-		padding: 2px 6px;
-		border-radius: 4px;
 		cursor: pointer;
 		border: 1px solid var(--border-color);
+		border-radius: 4px;
+	}
+
+	.reviewers li a em {
+		border-left: 1px solid var(--border-color);
+		padding: 0 6px;
+	}
+
+	.icon.approved {
+		background: #ef537b;
+	}
+
+	.icon.commented {
+		background: #0060bc;
+	}
+
+	.icon.not-approved {
+		background: #11adac;
 	}
 
 	.reviewers li.me a {
-		background: #2e86de;
-		border-color: #387dc3;
-    	color: white;
-	}
-
-	.reviewers li.me .icon {
-		filter: invert(100%);
+		font-weight: var(--weight-bold);
+		color: #2e86de;
 	}
 </style>

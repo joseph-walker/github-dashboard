@@ -4,7 +4,7 @@ export type RepoNameIso = {
 }
 
 export function escapeRepositoryName(repositoryName: string) {
-	return repositoryName.replace(/\W/ig, "");
+	return `_${repositoryName.replace(/\W/ig, "")}`;
 }
 
 export function makeRepoNameIso(repos: string[]): RepoNameIso {

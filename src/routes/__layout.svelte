@@ -92,5 +92,6 @@
 		--font-color-light: #999;
 		--weight-normal: 400;
 		--weight-bold: 700;
+		--summary-line-height: 21px;
 	}
 </style>

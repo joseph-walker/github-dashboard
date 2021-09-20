@@ -81,6 +81,15 @@
 		border-radius: 4px;
 	}
 
+	.reviews {
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.reviews .summary-line {
+		margin-right: 8px;
+	}
+
 	h3 {
 		font-weight: var(--weight-bold);
 	}
@@ -98,6 +107,7 @@
 	.summary-line {
 		display: flex;
 		align-items: center;
+		height: var(--summary-line-height);
 	}
 
 	.icon {
@@ -133,11 +143,10 @@
 		align-items: center;
 		justify-content: flex-start;
 		gap: 8px;
-		margin-top: 6px;
 	}
 
 	.reviewers .icon {
-		height: 1.3rem;
+		height: 100%;
 		padding: 2px;
 		margin: 0;
 		filter: invert(100%);
@@ -153,6 +162,7 @@
 		cursor: pointer;
 		border: 1px solid var(--border-color);
 		border-radius: 4px;
+		height: var(--summary-line-height);
 	}
 
 	.reviewers li a em {

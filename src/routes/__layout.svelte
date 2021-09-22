@@ -81,6 +81,10 @@
 		cursor: pointer;
 	}
 
+	:global(a:visited) {
+		color: inherit;
+	}
+
 	:global(b) {
 		font-weight: var(--weight-bold);
 	}

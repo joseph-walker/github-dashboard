@@ -13,8 +13,8 @@
 <style>
 	.summary-line {
 		display: flex;
-		align-items: center;
-		height: var(--summary-line-height);
+		align-items: flex-start;
+		min-height: var(--summary-line-height);
 	}
 
 	.icon {

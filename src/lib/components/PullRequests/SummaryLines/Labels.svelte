@@ -22,6 +22,7 @@
 	.labels {
 		display: flex;
 		align-items: flex-start;
+		flex-wrap: wrap;
 		gap: 8px;
 	}
 

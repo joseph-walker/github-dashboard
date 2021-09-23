@@ -109,7 +109,7 @@
 		cursor: pointer;
 		background: #2e86de;
 		color: white;
-		border-radius: 8px;
+		border-radius: 4px;
 	}
 
 	.resources {

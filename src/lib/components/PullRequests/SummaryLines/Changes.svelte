@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Option } from "fp-ts/Option";
+	import type { Option } from "fp-ts/lib/Option.js";
 
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
 	import SummaryLine from "./SummaryLine.svelte";

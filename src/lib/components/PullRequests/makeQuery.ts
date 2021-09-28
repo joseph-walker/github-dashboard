@@ -1,7 +1,6 @@
 import { gql, operationStore } from '@urql/svelte';
 
 import type { PullRequestQuery, PullRequestQueryVariables } from '$lib/generated/graphql';
-import { makePaginator } from '$lib/gql/makePaginator';
 
 export function makeQuery(owner: string, repo: string, number: number) {
 	const pullRequestQuery = operationStore<PullRequestQuery, PullRequestQueryVariables>(gql`

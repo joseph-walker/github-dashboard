@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Option } from "fp-ts/Option";
-	import { identity } from "fp-ts/function";
-	import { map, match } from "fp-ts/Option";
+	import type { Option } from "fp-ts/lib/Option.js";
+	import { identity } from "fp-ts/lib/function.js";
+	import { map, match } from "fp-ts/lib/Option.js";
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";

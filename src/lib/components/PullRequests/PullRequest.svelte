@@ -1,13 +1,18 @@
 <script lang="ts">
-	import { getContext } from "svelte";
 	import type { Writable } from "svelte/store";
+	import { getContext } from "svelte";
+	import { map, some, none } from "fp-ts/Option";
 
+	import type { PullRequestQuery } from "$lib/generated/graphql";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { makeQuery } from "./makeQuery";
 
 	import Changes from "./SummaryLines/Changes.svelte";
 	import Labels from "./SummaryLines/Labels.svelte";
 	import Reviews from "./SummaryLines/Reviews.svelte";
+	import LineSkeleton from "../Skeletons/LineSkeleton.svelte";
+
+	type PR = PullRequestQuery["repository"]["pullRequest"];
 
 	export let owner: string;
 	export let repo: string;
@@ -18,33 +23,47 @@
 
 	queryWithUtilization(pullRequestQuery);
 
+	const title = map((pr: PR) => {
+		return {
+			url: pr.url,
+			title: pr.title,
+			repo: pr.repository.name
+		};
+	});
+
+	const changedFiles = map((pr: PR) => pr.changedFiles);
+	const additions = map((pr: PR) => pr.additions);
+	const deletions = map((pr: PR) => pr.deletions);
+	const labels = map((pr: PR) => pr.labels.nodes);
+	const latestReviews = map((pr: PR) => pr.latestReviews.nodes);
+
 	$: pr = $pullRequestQuery.data
-		? $pullRequestQuery.data.repository.pullRequest
-		: undefined;
+		? some($pullRequestQuery.data.repository.pullRequest)
+		: none;
 </script>
 
-{#if pr}
-	<div class="pr-card">
-		<h3>
-			<a href={pr.url} target="_blank" rel="noopener noreferrer">{pr.title}</a>
-			<span class="repo-name">{pr.repository.name}</span>
-		</h3>
+<div class="pr-card">
+	<h3>
+		<LineSkeleton await={title(pr)} let:ready={ready} width={32}>
+			<a href={ready.url} target="_blank" rel="noopener noreferrer">{ready.title}</a>
+			<span class="repo-name">
+				{ready.repo}
+			</span>
+		</LineSkeleton>
+	</h3>
 
-		<Changes
-			changedFiles={pr.changedFiles}
-			additions={pr.additions}
-			deletions={pr.deletions} />
+	<Changes
+		changedFiles={changedFiles(pr)}
+		additions={additions(pr)}
+		deletions={deletions(pr)} />
 
-		<Labels
-			labels={pr.labels.nodes} />
+	<Labels
+		labels={labels(pr)} />
 
-		<Reviews
-			reviews={pr.latestReviews.nodes}
-			me={$me} />
-	</div>
-{:else}
-	...
-{/if}
+	<Reviews
+		reviews={latestReviews(pr)}
+		me={$me} />
+</div>
 
 <style>
 	.pr-card {

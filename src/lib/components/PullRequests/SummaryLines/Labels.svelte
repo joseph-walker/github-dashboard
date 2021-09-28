@@ -1,19 +1,34 @@
 <script lang="ts">
-	import type { PullRequestQuery } from "$lib/generated/graphql";
+	import type { Option } from "fp-ts/Option";
+	import { identity } from "fp-ts/function";
+	import { map, match } from "fp-ts/Option";
 
+	import type { PullRequestQuery } from "$lib/generated/graphql";
+	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
 	import SummaryLine from "./SummaryLine.svelte";
 
-	export let labels: PullRequestQuery["repository"]["pullRequest"]["labels"]["nodes"][number][];
+	type Label = PullRequestQuery["repository"]["pullRequest"]["labels"]["nodes"][number];
+
+	export let labels: Option<Label[]>;
+
+	const numLabels = map((labels: Label[]) => labels.length);
+
+	$: labelsReady = match(
+		() => [],
+		identity
+	)(labels) as Label[];
 </script>
 
 <SummaryLine icon="/document-outline.svg">
-	<b>{labels.length}</b>&nbsp;Label(s)
+	<LineSkeleton await={numLabels(labels)} let:ready={numLabels} width={28}>
+		<b>{numLabels}</b>&nbsp;Label(s)
+	</LineSkeleton>
 	<ul class="labels" slot="meta">
-		{#each labels as label}
-			<div class="label">
+		{#each labelsReady as label}
+			<li class="label">
 				<em class="flag" style={`background: #${label.color};`}></em>
 				{label.name}
-			</div>
+			</li>
 		{/each}
 	</ul>
 </SummaryLine>

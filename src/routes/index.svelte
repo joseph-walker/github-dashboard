@@ -50,7 +50,7 @@
 </script>
 
 <nav class="nav-bar">
-	<h1><img class="logo" src="/logo-github.svg" alt="Github logo" />Github Dashboard</h1>
+	<h1><img class="logo" src="/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
 	<div class="resources">
 		<p>Rate Limit:</p>
 		<em>{$remaining} / 5000</em>
@@ -92,13 +92,17 @@
 
 	h1 {
 		font-weight: var(--weight-bold);
-		font-size: 1.3rem;
+		font-size: 1.4rem;
 		display: flex;
 		align-items: center;
 	}
 
+	h1 em {
+		color: #10ac84;
+	}
+
 	.logo {
-		height: 1.3rem;
+		height: 2rem;
 		margin-right: 4px;
 		margin-bottom: 2px;
 	}

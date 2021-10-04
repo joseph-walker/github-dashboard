@@ -5,7 +5,7 @@
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
-	import SummaryLine from "./SummaryLine.svelte";
+	import SummaryLine from "../../SummaryLine.svelte";
 
 	type Label = PullRequestQuery["repository"]["pullRequest"]["labels"]["nodes"][number];
 

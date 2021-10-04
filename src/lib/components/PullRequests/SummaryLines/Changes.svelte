@@ -2,7 +2,7 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
-	import SummaryLine from "./SummaryLine.svelte";
+	import SummaryLine from "../../SummaryLine.svelte";
 
 	export let changedFiles: Option<number>;
 	export let additions: Option<number>;

@@ -90,7 +90,7 @@
 		background: #11adac;
 	}
 
-	.reviewers li.me a {
+	.me a {
 		font-weight: var(--weight-bold);
 		color: #2e86de;
 	}

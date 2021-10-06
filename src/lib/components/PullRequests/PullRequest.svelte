@@ -31,6 +31,7 @@
 		};
 	});
 
+	const prUpdatedAt = map((pr: PR) => new Date(pr.updatedAt));
 	const changedFiles = map((pr: PR) => pr.changedFiles);
 	const additions = map((pr: PR) => pr.additions);
 	const deletions = map((pr: PR) => pr.deletions);
@@ -44,10 +45,10 @@
 
 <div class="pr-card">
 	<h3>
-		<LineSkeleton await={title(pr)} let:ready={ready} width={32}>
-			<a href={ready.url} target="_blank" rel="noopener noreferrer">{ready.title}</a>
+		<LineSkeleton await={title(pr)} let:ready={pr} width={32}>
+			<a href={pr.url} target="_blank" rel="noopener noreferrer">{pr.title}</a>
 			<span class="repo-name">
-				{ready.repo}
+				{pr.repo}
 			</span>
 		</LineSkeleton>
 	</h3>
@@ -61,6 +62,7 @@
 		labels={labels(pr)} />
 
 	<Reviews
+		prUpdatedAt={prUpdatedAt(pr)}
 		reviews={latestReviews(pr)}
 		me={$me} />
 </div>

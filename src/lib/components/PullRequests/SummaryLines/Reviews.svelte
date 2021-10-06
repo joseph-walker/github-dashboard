@@ -11,6 +11,7 @@
 
 	export let me: string;
 	export let reviews: Option<Review[]>;
+	export let prUpdatedAt: Option<Date>;
 
 	const numReviews = map((reviews: Review[]) => reviews.length);
 
@@ -18,6 +19,17 @@
 		() => [],
 		identity
 	)(reviews) as Review[];
+
+	$: isStale = match(
+		() => function (_: Review) {
+			return false;
+		},
+		prUpdatedAt => function (review: Review) {
+			const reviewUpdatedAt = new Date(review.updatedAt);
+
+			return reviewUpdatedAt < prUpdatedAt;
+		}
+	)(prUpdatedAt);
 </script>
 
 <SummaryLine icon="/chatbubbles-outline.svg">
@@ -29,14 +41,17 @@
 			<li class:me={review.author.login === me}>
 				<a href={review.url} target="_blank" rel="noopener noreferrer">
 					{#if review.state === "APPROVED"}
-						<img class="icon approved" src="/checkmark-circle-outline.svg" alt="approved" />
+						<img class="icon approved" src="/checkmark.svg" alt="approved" />
 					{:else if review.state === "COMMENTED"}
-						<img class="icon commented" src="/alert-circle-outline.svg" alt="commented" />
+						<img class="icon commented" src="/alert.svg" alt="commented" />
 					{:else}
-						<img class="icon not-approved" src="/close-circle-outline.svg" alt="not-approved" />
+						<img class="icon not-approved" src="/close.svg" alt="not-approved" />
 					{/if}
 					<em>
 						{review.author.login}
+						{#if isStale(review)}
+							<img class="stale" src="/hourglass.svg" alt="stale" />
+						{/if}
 					</em>
 				</a>
 			</li>
@@ -60,6 +75,18 @@
 		filter: invert(100%);
 		border-top-left-radius: 4px;
 		border-bottom-left-radius: 4px;
+	}
+
+	.stale {
+		height: 11px;
+		margin-left: 4px;
+		filter: invert(30%);
+	}
+
+	em {
+		text-decoration: strikethrough;
+		display: flex;
+		align-items: center;
 	}
 
 	.reviews li a {

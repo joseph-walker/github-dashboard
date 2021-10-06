@@ -16,6 +16,7 @@ export function makeQuery(owner: string, repo: string, number: number) {
 					additions
 					deletions
 					title
+					updatedAt
 					labels(first: 10) {
 						totalCount
 						nodes {
@@ -34,6 +35,7 @@ export function makeQuery(owner: string, repo: string, number: number) {
 						nodes {
 							url
 							state
+							updatedAt
 							author {
 								login
 							}

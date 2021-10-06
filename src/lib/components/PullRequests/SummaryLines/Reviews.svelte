@@ -11,7 +11,6 @@
 
 	export let me: string;
 	export let reviews: Option<Review[]>;
-	export let prUpdatedAt: Option<Date>;
 
 	const numReviews = map((reviews: Review[]) => reviews.length);
 
@@ -19,17 +18,6 @@
 		() => [],
 		identity
 	)(reviews) as Review[];
-
-	$: isStale = match(
-		() => function (_: Review) {
-			return false;
-		},
-		prUpdatedAt => function (review: Review) {
-			const reviewUpdatedAt = new Date(review.updatedAt);
-
-			return reviewUpdatedAt < prUpdatedAt;
-		}
-	)(prUpdatedAt);
 </script>
 
 <SummaryLine icon="/chatbubbles-outline.svg">
@@ -49,9 +37,6 @@
 					{/if}
 					<em>
 						{review.author.login}
-						{#if isStale(review)}
-							<img class="stale" src="/hourglass.svg" alt="stale" />
-						{/if}
 					</em>
 				</a>
 			</li>
@@ -75,18 +60,6 @@
 		filter: invert(100%);
 		border-top-left-radius: 4px;
 		border-bottom-left-radius: 4px;
-	}
-
-	.stale {
-		height: 11px;
-		margin-left: 4px;
-		filter: invert(30%);
-	}
-
-	em {
-		text-decoration: strikethrough;
-		display: flex;
-		align-items: center;
 	}
 
 	.reviews li a {

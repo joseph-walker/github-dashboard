@@ -31,7 +31,6 @@
 		};
 	});
 
-	const prUpdatedAt = map((pr: PR) => new Date(pr.updatedAt));
 	const changedFiles = map((pr: PR) => pr.changedFiles);
 	const additions = map((pr: PR) => pr.additions);
 	const deletions = map((pr: PR) => pr.deletions);
@@ -62,7 +61,6 @@
 		labels={labels(pr)} />
 
 	<Reviews
-		prUpdatedAt={prUpdatedAt(pr)}
 		reviews={latestReviews(pr)}
 		me={$me} />
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Writable } from "svelte/store";
-	import { getContext } from "svelte";
+	import { getContext, onDestroy } from "svelte";
 	import { map, some, none } from "fp-ts/lib/Option.js";
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
@@ -14,6 +14,10 @@
 
 	type PR = PullRequestQuery["repository"]["pullRequest"];
 
+	let fetching = false;
+
+	export let onFetchStart = () => {};
+	export let onFetchEnd = () => {};
 	export let owner: string;
 	export let repo: string;
 	export let number: number;
@@ -40,6 +44,25 @@
 	$: pr = $pullRequestQuery.data
 		? some($pullRequestQuery.data.repository.pullRequest)
 		: none;
+
+	$: {
+		// When fetching state changes, call either onFetchStart() or onFetchEnd()
+		if (fetching !== $pullRequestQuery.fetching) {
+			fetching = $pullRequestQuery.fetching;
+			fetching
+				? onFetchStart()
+				: onFetchEnd();
+		}
+	}
+
+	onDestroy(function () {
+		// If the component is destroyed while it is still fetching,
+		// be sure to clean up and call unFetchEnd() before it disappears
+		if (fetching === true) {
+			fetching = false;
+			onFetchEnd();
+		}
+	});
 </script>
 
 <div class="pr-card">

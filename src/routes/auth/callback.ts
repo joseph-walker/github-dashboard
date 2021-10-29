@@ -28,7 +28,7 @@ export const get: RequestHandler = async function get(request) {
 	return {
 		status: 303,
 		headers: {
-			"location": "/"
+			"location": "/app/home"
 		}
 	};
 }

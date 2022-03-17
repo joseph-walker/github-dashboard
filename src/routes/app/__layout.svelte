@@ -2,9 +2,18 @@
 	import type { Load } from "@sveltejs/kit";
 
 	export const load: Load = async function load(request) {
+		// @ts-ignore
+		if (!request.session?.accessToken) {
+			return {
+				status: 301,
+				redirect: "/"
+			}
+		}
+
 		return {
 			props: {
-				token: request.session.accessToken
+				// @ts-ignore
+				token: request.session?.accessToken
 			}
 		};
 	}
@@ -17,18 +26,11 @@
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
 
-	import { AuthenticationError } from "$lib/AuthenticationError";
 	import GithubAuth from "$lib/components/GithubAuth.svelte";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import NavBar from "$lib/components/NavBar.svelte";
 
 	export let token: string;
-
-	let authenticated = false;
-
-	if (!token) {
-		throw new AuthenticationError();
-	}
 
 	initClient({
 		url: 'https://api.github.com/graphql',
@@ -44,8 +46,6 @@
 			};
 		}
 	});
-
-	authenticated = true;
 
 	const me = writable<string | undefined>(undefined);
 	setContext("me", me);
@@ -67,9 +67,5 @@
 	}
 </script>
 
-{#if authenticated}
-	<NavBar />
-	<slot></slot>
-{:else}
-	<GithubAuth />
-{/if}
+<NavBar />
+<slot></slot>

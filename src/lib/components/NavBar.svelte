@@ -6,8 +6,8 @@
 <nav class="nav-bar">
 	<h1><img class="logo" src="/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
 	<ul class="tabs">
-		<li><a class:active={$page.path === "/app"} href="/app">Search</a></li>
-		<li><a class:active={$page.path === "/app/home"} href="/app/home">Home</a></li>
+		<li><a class:active={$page.url.pathname === "/app"} href="/app">Search</a></li>
+		<li><a class:active={$page.url.pathname === "/app/home"} href="/app/home">Home</a></li>
 	</ul>
 	<div class="resources">
 		<p>Rate Limit:</p>

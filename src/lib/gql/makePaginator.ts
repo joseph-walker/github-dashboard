@@ -33,8 +33,12 @@ export function makePaginator<T extends object> (
 	const cursors: Pick<PageInfo, "startCursor" | "endCursor"> = {};
 
 	query.subscribe(function (next) {
-		if (!next.fetching && !next.error) {
+		if (!next.fetching && !next.error && next.data) {
 			const nextPageInfo = pageInfoLens(next.data);
+
+			if (!nextPageInfo) {
+				return;
+			}
 
 			cursors.startCursor = nextPageInfo.startCursor;
 			cursors.endCursor = nextPageInfo.endCursor;

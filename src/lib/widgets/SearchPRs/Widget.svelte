@@ -22,6 +22,13 @@
 
 	queryWithUtilization(query);
 
+	$: {
+		$query.variables.searchQuery = searchQuery;
+    	$query.reexecute();
+	}
+
+	// The fetching set keeps track of which child widgets are currently load
+	// If it contains _any_ entries, then the spinner on this component will spin
 	let fetchingSet: Set<string> = new Set([]);
 	const key = (pr: PR) => `${pr.repository.owner.login}/${pr.repository.name}/${pr.number}`;
 

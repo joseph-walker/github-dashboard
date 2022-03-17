@@ -1,12 +1,13 @@
 <script lang="ts">
+	import { page } from "$app/stores";
 	import { remaining } from "$lib/queryWithUtilization";
 </script>
 
 <nav class="nav-bar">
 	<h1><img class="logo" src="/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
 	<ul class="tabs">
-		<li><a href="/app">Search</a></li>
-		<li><a class="active" href="/app/home">Home</a></li>
+		<li><a class:active={$page.path === "/app"} href="/app">Search</a></li>
+		<li><a class:active={$page.path === "/app/home"} href="/app/home">Home</a></li>
 	</ul>
 	<div class="resources">
 		<p>Rate Limit:</p>

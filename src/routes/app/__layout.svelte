@@ -17,6 +17,7 @@
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
 
+	import { AuthenticationError } from "$lib/AuthenticationError";
 	import GithubAuth from "$lib/components/GithubAuth.svelte";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import NavBar from "$lib/components/NavBar.svelte";
@@ -25,24 +26,26 @@
 
 	let authenticated = false;
 
-	if (token) {
-		initClient({
-			url: 'https://api.github.com/graphql',
-			exchanges: [
-				devtoolsExchange,
-				dedupExchange,
-				cacheExchange({}),
-				fetchExchange
-			],
-			fetchOptions: () => {
-				return {
-					headers: { authorization: `Bearer ${token}` }
-				};
-			}
-		});
-
-		authenticated = true;
+	if (!token) {
+		throw new AuthenticationError();
 	}
+
+	initClient({
+		url: 'https://api.github.com/graphql',
+		exchanges: [
+			devtoolsExchange,
+			dedupExchange,
+			cacheExchange({}),
+			fetchExchange
+		],
+		fetchOptions: () => {
+			return {
+				headers: { authorization: `Bearer ${token}` }
+			};
+		}
+	});
+
+	authenticated = true;
 
 	const me = writable<string | undefined>(undefined);
 	setContext("me", me);

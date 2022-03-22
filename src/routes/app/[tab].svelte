@@ -1,22 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
+	import { page } from "$app/stores";
 	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
-
-	type WidgetConfig = {
-		widget: string,
-		args: Record<string, string>,
-		placement: [number, number, number, number]
-	}[];
-
-	let widgetConfig: WidgetConfig = [];
-
-	onMount(function () {
-		widgetConfig = JSON.parse(localStorage.getItem("widget_config")) || [];
-	});
+	import { configuration } from "$lib/stores/configuration";
 
 	$: widgetList = Promise.all(
-		widgetConfig.map(async function (config) {
+		($configuration[$page.params["tab"]]?.widgets ?? []).map(async function (config) {
 			const component = await import(`../../lib/widgets/${config.widget}/Widget.svelte`)
 
 			return {

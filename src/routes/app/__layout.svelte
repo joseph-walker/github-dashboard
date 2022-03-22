@@ -20,14 +20,15 @@
 </script>
 
 <script lang="ts">
-	import { setContext } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { onMount } from 'svelte';
 	import { gql, operationStore, initClient, dedupExchange, fetchExchange } from '@urql/svelte';
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
 
-	import GithubAuth from "$lib/components/GithubAuth.svelte";
+	import { configuration, type WidgetConfig } from "$lib/stores/configuration";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
+	import { me } from "$lib/stores/me";
+
 	import NavBar from "$lib/components/NavBar.svelte";
 
 	export let token: string;
@@ -47,8 +48,9 @@
 		}
 	});
 
-	const me = writable<string | undefined>(undefined);
-	setContext("me", me);
+	onMount(function () {
+		configuration.set(JSON.parse(localStorage.getItem("widget_config")) || {} as WidgetConfig);
+	});
 
 	const meQuery = operationStore(gql`
 		query WhoAmI {
@@ -62,7 +64,7 @@
 
 	$: {
 		if ($meQuery.data) {
-			me.set($meQuery.data.viewer.login);
+			$me = $meQuery.data.viewer.login;
 		}
 	}
 </script>

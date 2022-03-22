@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SearchPRs from "$lib/widgets/SearchPRs/Widget.svelte";
 
-	let searchString: string = "is:open is:pr author:joseph-walker archived:false";
+	let searchString: string = "";
 	let searchQuery: string = "";
 
 	function runSearch() {

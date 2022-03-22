@@ -1,13 +1,22 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { remaining } from "$lib/queryWithUtilization";
+	import { configuration } from "$lib/stores/configuration";
+
+	$: tabs = Object
+		.entries($configuration)
+		.map(function ([slug, tab]) {
+			return [slug, tab.tabName];
+		});
 </script>
 
 <nav class="nav-bar">
 	<h1><img class="logo" src="/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
 	<ul class="tabs">
 		<li><a class:active={$page.url.pathname === "/app"} href="/app">Search</a></li>
-		<li><a class:active={$page.url.pathname === "/app/home"} href="/app/home">Home</a></li>
+		{#each tabs as tab}
+			<li><a class:active={$page.url.pathname === `/app/${tab[0]}`} href={`/app/${tab[0]}`}>{tab[1]}</a></li>
+		{/each}
 	</ul>
 	<div class="resources">
 		<p>Rate Limit:</p>

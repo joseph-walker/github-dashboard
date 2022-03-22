@@ -19,11 +19,11 @@
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
+	import { me } from "$lib/stores/me";
 	import SummaryLine from "../../SummaryLine.svelte";
 
 	type Review = PullRequestQuery["repository"]["pullRequest"]["latestReviews"]["nodes"][number];
 
-	export let me: string;
 	export let reviews: Option<Review[]>;
 
 	function formatDistanceShort(now: Date, updatedAtRaw: any) {
@@ -64,7 +64,7 @@
 	</LineSkeleton>
 	<ul class="reviews" slot="meta">
 		{#each reviewsReady as review}
-			<li class:me={review.author.login === me}>
+			<li class:me={review.author.login === $me}>
 				<a href={review.url} target="_blank" rel="noopener noreferrer">
 					{#if review.state === "APPROVED"}
 						<img class="icon approved" src="/checkmark.svg" alt="approved" />

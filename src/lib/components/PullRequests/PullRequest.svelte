@@ -22,7 +22,6 @@
 	export let repo: string;
 	export let number: number;
 
-	const me = getContext<Writable<string>>("me");
 	const pullRequestQuery = makeQuery(owner, repo, number);
 
 	queryWithUtilization(pullRequestQuery);
@@ -84,8 +83,7 @@
 		labels={labels(pr)} />
 
 	<Reviews
-		reviews={latestReviews(pr)}
-		me={$me} />
+		reviews={latestReviews(pr)} />
 </div>
 
 <style>

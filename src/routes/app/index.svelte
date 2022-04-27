@@ -18,7 +18,7 @@
 			<button>Search</button>
 		</form>
 
-		<SearchPRs {searchQuery} title="Search Results" />
+		<SearchPRs {searchQuery} title="Search Results" withConfigurator={false} />
 	</section>
 	<aside class="docs-column">
 		<Widget>
@@ -62,6 +62,7 @@
 		flex: 1;
 		background: white;
 		border-radius: 4px;
+		width: 100%;
 		border: 1px solid var(--border-color);
 	}
 

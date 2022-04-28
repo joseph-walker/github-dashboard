@@ -20,7 +20,7 @@
 			<Widget>
 				<h2 slot="header"><b>{title}</b></h2>
 				<button class="close" slot="meta" on:click={close}>
-					<img src="/static/close-circle-outline.svg" alt="close" />
+					<img src="/close-circle-outline.svg" alt="close" />
 				</button>
 				<slot></slot>
 			</Widget>

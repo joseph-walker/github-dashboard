@@ -76,7 +76,7 @@
 		<Spinner {isLoading} />
 		{#if (withConfigurator && configLens)}
 			<button class="open-configurator" on:click={configWidget}>
-				<img class="icon" src="/static/hammer-outline.svg" alt="summary-icon" />
+				<img class="icon" src="/hammer-outline.svg" alt="summary-icon" />
 			</button>
 		{/if}
 	</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Optional } from "monocle-ts";
 
-	import { fold } from 'fp-ts/Option';
+	import { fold } from 'fp-ts/lib/Option.js';
 
 	import { configuration, type WidgetConfig } from "$lib/stores/configuration";
 

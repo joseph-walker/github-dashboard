@@ -12,3 +12,10 @@ export type WidgetConfig = {
 };
 
 export const configuration = writable<WidgetConfig>({} as WidgetConfig);
+
+configuration.subscribe(function (nextConfig) {
+	// TODO: Revisit this
+	if (window && Object.keys(nextConfig).length) {
+		window.localStorage.setItem("widget_config", JSON.stringify(nextConfig));
+	}
+});

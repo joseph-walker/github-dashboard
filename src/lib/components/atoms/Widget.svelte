@@ -27,7 +27,7 @@
 		align-items: center;
 		font-size: 1rem;
 		border-bottom: 1px solid var(--border-color);
-		padding: 10px 14px;
+		padding: 10px var(--gutter-common);
 	}
 
 	.meta {

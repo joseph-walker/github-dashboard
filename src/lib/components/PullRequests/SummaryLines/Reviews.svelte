@@ -20,7 +20,7 @@
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
 	import { me } from "$lib/stores/me";
-	import SummaryLine from "../../SummaryLine.svelte";
+	import SummaryLine from "../../molecules/SummaryLine.svelte";
 
 	type Review = PullRequestQuery["repository"]["pullRequest"]["latestReviews"]["nodes"][number];
 

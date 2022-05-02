@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { Writable } from "svelte/store";
-	import { getContext, onDestroy } from "svelte";
+	import { onDestroy } from "svelte";
 	import { map, some, none } from "fp-ts/lib/Option.js";
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";

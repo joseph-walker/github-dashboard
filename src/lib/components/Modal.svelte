@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Widget from "./Widget.svelte";
+	import Widget from "./atoms/Widget.svelte";
 
 	export let title: string = "Modal!";
 

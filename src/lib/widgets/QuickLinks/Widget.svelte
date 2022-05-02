@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Widget from '$lib/components/Widget.svelte';
+	import Widget from '$lib/components/atoms/Widget.svelte';
 </script>
 
 <Widget>

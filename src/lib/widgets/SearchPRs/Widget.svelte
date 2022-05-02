@@ -7,9 +7,9 @@
 
 	import { queryWithUtilization } from '$lib/queryWithUtilization';
 	import PullRequest from '$lib/components/PullRequests/PullRequest.svelte';
-	import Widget from '$lib/components/Widget.svelte';
-	import PaginationControls from '$lib/components/PaginationControls.svelte';
-	import Spinner from "$lib/components/Spinner.svelte";
+	import Widget from '$lib/components/atoms/Widget.svelte';
+	import PaginationControls from '$lib/components/molecules/PaginationControls.svelte';
+	import Spinner from "$lib/components/atoms/Spinner.svelte";
 	import Modal from "$lib/components/Modal.svelte";
 
 	import Configurator from "./Configurator.svelte";

@@ -1,0 +1,51 @@
+@namespace svg "http://www.w3.org/2000/svg";
+
+:not(svg|*) {
+	all: unset;
+	display: revert;
+	box-sizing: border-box;
+}
+
+:root {
+	/** Colors */
+	--body-bg: #f7f7f7;
+	--border-color: #ebebeb;
+	--primary-blue: #2e86de;
+
+	/** Fonts */
+	--font-color: #333;
+	--font-color-light: #999;
+	--weight-normal: 400;
+	--weight-bold: 700;
+
+	/** Measures */
+	--summary-line-height: 21px;
+	--gutter-common: 16px;
+}
+
+html {
+	font-size: 14px;
+}
+
+body {
+	font-weight: 400;
+	background: var(--body-bg);
+	color: var(--font-color);
+	font-family: 'Nunito', serif;
+}
+
+html, body, #svelte {
+	height: 100%;
+}
+
+a {
+	cursor: pointer;
+}
+
+a:visited {
+	color: inherit;
+}
+
+b {
+	font-weight: var(--weight-bold);
+}

@@ -15,13 +15,13 @@
 		<Text>Lorem ipsum dolor sit amet</Text>
 
 		<p>Bold font:</p>
-		<Text role="bold">Lorem ipsum dolor sit amet</Text>
+		<Text bold>Lorem ipsum dolor sit amet</Text>
 
 		<p>Colored font:</p>
 		<Text --color="green">Lorem ipsum dolor sit amet</Text>
 
-		<p>Colored boled font:</p>
-		<Text role="bold" --color="green">Lorem ipsum dolor sit amet</Text>
+		<p>Colored bold font:</p>
+		<Text bold --color="green">Lorem ipsum dolor sit amet</Text>
 	</WidgetBackgroundDecorator>
 </Story>
 

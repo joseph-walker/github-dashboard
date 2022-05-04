@@ -18,7 +18,7 @@
 	import { intervalToDuration } from "date-fns"
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
-	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
+	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import { me } from "$lib/stores/me";
 	import SummaryLine from "../../molecules/SummaryLine.svelte";
 

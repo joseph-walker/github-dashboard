@@ -7,18 +7,13 @@
 }
 
 :root {
-	/** Colors */
 	--body-bg: #f7f7f7;
 	--border-color: #ebebeb;
 	--primary-blue: #2e86de;
-
-	/** Fonts */
 	--font-color: #333;
 	--font-color-light: #999;
 	--weight-normal: 400;
 	--weight-bold: 700;
-
-	/** Measures */
 	--summary-line-height: 21px;
 	--gutter-common: 16px;
 }

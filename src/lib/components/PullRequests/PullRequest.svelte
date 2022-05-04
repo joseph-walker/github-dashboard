@@ -9,7 +9,7 @@
 	import Changes from "./SummaryLines/Changes.svelte";
 	import Labels from "./SummaryLines/Labels.svelte";
 	import Reviews from "./SummaryLines/Reviews.svelte";
-	import LineSkeleton from "../Skeletons/LineSkeleton.svelte";
+	import LineSkeleton from "../atoms/LineSkeleton.svelte";
 
 	type PR = PullRequestQuery["repository"]["pullRequest"];
 

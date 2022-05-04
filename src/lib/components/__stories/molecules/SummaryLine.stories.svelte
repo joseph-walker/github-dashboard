@@ -22,12 +22,12 @@
 		<hr />
 		<SummaryLine icon="/pricetag-outline.svg">
 			<Text>
-				I am a <Text role="bold">summary line</Text>
+				I am a <Text role="emphasis" bold>summary line</Text>
 			</Text>
 		</SummaryLine>
 		<SummaryLine icon="/document-outline.svg">
 			<Text>
-				I am a <Text role="bold">summary line</Text>
+				I am a <Text role="emphasis" bold>summary line</Text>
 			</Text>
 			<Text slot="meta" --color="#ccc">with metadata</Text>
 		</SummaryLine>

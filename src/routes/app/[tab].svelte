@@ -5,7 +5,7 @@
 	import { indexReadonlyArray } from 'monocle-ts/lib/Index/ReadonlyArray';
 
 	import { page } from "$app/stores";
-	import WidgetContainer from "$lib/components/WidgetContainer.svelte";
+	import WidgetContainer from "$lib/components/atoms/WidgetContainer.svelte";
 	import { configuration } from "$lib/stores/configuration";
 
 	type Tab = WidgetConfig[string];

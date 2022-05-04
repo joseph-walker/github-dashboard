@@ -1,15 +1,16 @@
 <script lang="ts">
 	type Role
 		= "body"
-		| "bold"
+		| "emphasis"
 		| "heading";
 
 	export let role: Role = "body";
+	export let bold: boolean = false;
 
 	function getTagForRole(r: Role) {
 		switch (r) {
 			case "body": return "p";
-			case "bold": return "b";
+			case "emphasis": return "b";
 			case "heading": return "h1";
 			default: {
 				const unknownRole: never = r;
@@ -19,20 +20,17 @@
 	}
 </script>
 
-<svelte:element this={getTagForRole(role)}>
+<svelte:element class:bold this={getTagForRole(role)}>
 	<slot></slot>
 </svelte:element>
 
 <style>
 	* {
 		color: var(--color, --font-color);
-	}
-
-	p {
 		font-weight: var(--weight-normal);
 	}
 
-	b {
+	.bold {
 		font-weight: var(--weight-bold);
 	}
 </style>

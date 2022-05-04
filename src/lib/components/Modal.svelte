@@ -1,4 +1,6 @@
 <script lang="ts">
+	// TODO: Delete this garbage and build a proper config page
+
 	import Widget from "./atoms/Widget.svelte";
 
 	export let title: string = "Modal!";

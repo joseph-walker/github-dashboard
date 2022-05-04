@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Option } from "fp-ts/lib/Option.js";
 
-	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
+	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import SummaryLine from "../../molecules/SummaryLine.svelte";
 
 	export let changedFiles: Option<number>;

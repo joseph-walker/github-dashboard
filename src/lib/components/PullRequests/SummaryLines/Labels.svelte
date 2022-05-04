@@ -4,7 +4,7 @@
 	import { map, match } from "fp-ts/lib/Option.js";
 
 	import type { PullRequestQuery } from "$lib/generated/graphql";
-	import LineSkeleton from "$lib/components/Skeletons/LineSkeleton.svelte";
+	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import SummaryLine from "../../molecules/SummaryLine.svelte";
 
 	type Label = PullRequestQuery["repository"]["pullRequest"]["labels"]["nodes"][number];

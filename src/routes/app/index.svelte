@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SearchPRs from "$lib/widgets/SearchPRs/Widget.svelte";
-	import SearchGuide from "$lib/components/SearchGuide.svelte";
+	import SearchGuide from "$lib/components/molecules/SearchGuide.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
 
 	let searchString: string = "";

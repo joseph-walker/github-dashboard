@@ -20,12 +20,12 @@
 			<li>Some optional metadata</li>
 		</ol>
 		<hr />
-		<SummaryLine icon="/pricetag-outline.svg">
+		<SummaryLine icon="/icons/pricetag-outline.svg">
 			<Text>
 				I am a <Text role="emphasis" bold>summary line</Text>
 			</Text>
 		</SummaryLine>
-		<SummaryLine icon="/document-outline.svg">
+		<SummaryLine icon="/icons/document-outline.svg">
 			<Text>
 				I am a <Text role="emphasis" bold>summary line</Text>
 			</Text>

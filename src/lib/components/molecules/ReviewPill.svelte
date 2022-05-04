@@ -47,11 +47,11 @@
 
 <a class:me={isMe} href={url} target="_blank" rel="noopener noreferrer">
 	{#if state === "APPROVED"}
-		<img class="icon approved" src="/checkmark.svg" alt="approved" />
+		<img class="icon approved" src="/icons/checkmark.svg" alt="approved" />
 	{:else if state === "COMMENTED"}
-		<img class="icon commented" src="/alert.svg" alt="commented" />
+		<img class="icon commented" src="/icons/alert.svg" alt="commented" />
 	{:else}
-		<img class="icon not-approved" src="/close.svg" alt="not-approved" />
+		<img class="icon not-approved" src="/icons/close.svg" alt="not-approved" />
 	{/if}
 	<em>
 		{author}<span class="time">&nbsp;-&nbsp;{formatDistanceShort($now, updatedAt)}</span>

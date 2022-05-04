@@ -7,23 +7,71 @@
 }
 
 :root {
-	--body-bg: #f7f7f7;
-	--border-color: #ebebeb;
-	--primary-blue: #2e86de;
-	--font-color: #333;
-	--font-color-light: #999;
+	/* Canadian Palette: https://flatuicolors.com/palette/ca */
+	--white: #fff;
+	--neutral-light-gray: #f7f7f7;
+	--neutral-gray: #ebebeb;
+	--neutral-dark-gray: #999;
+	--neutral-rich-black: #333;
+	--true-black: #000;
+	--light-pink: #ff9ff3;
+	--pink: #f368e0;
+	--light-yellow: #feca57;
+	--yellow: #ff9f43;
+	--light-red: #ff6b6b;
+	--red: #ee5253;
+	--light-cyan: #48dbfb;
+	--cyan: #0abde3;
+	--light-green: #1dd1a1;
+	--green: #10ac84;
+	--light-emerald: #00d2d3;
+	--emerald: #01a3a4;
+	--light-blue: #54a0ff;
+	--blue: #2e86de;
+	--light-indigo: #5f27cd;
+	--indigo: #341f97;
+	--light-gray: #c8d6e5;
+	--gray: #8395a7;
+	--light-slate: #576574;
+	--slate: #222f3e;
+
+	/* Semantic color assignments */
+	--button-color-primary: var(--blue);
+	--button-text-primary: var(--white);
+	--button-color-secondary: var(--green);
+	--button-text-secondary: var(--white);
+	--button-color-disabled: var(--neutral-gray);
+	--button-text-disabled: var(--neutral-dark-gray);
+	--body-bg: var(--neutral-light-gray);
+	--border-color: var(--neutral-gray);
+	--font-color: var(--neutral-rich-black);
+	--font-color-light: var(--neutral-dark-gray);
+
+	/* Font characteristics */
+	--root-font-size: 14px;
 	--weight-normal: 400;
 	--weight-bold: 700;
+
+	/* Gutters */
+	--base-grid: 8px;
+	--grid-4s: calc(var(--base-grid) / 4);
+	--grid-2s: calc(var(--base-grid) / 2);
+	--grid-1x: var(--base-grid);
+	--grid-2x: calc(var(--base-grid) * 2);
+	--grid-4x: calc(var(--base-grid) * 4);
+	--grid-8x: calc(var(--base-grid) * 8);
+
+	/* Semantic spacing assignments  */
 	--summary-line-height: 21px;
-	--gutter-common: 16px;
+	--global-gutter: var(--grid-2x);
 }
 
 html {
-	font-size: 14px;
+	font-size: var(--root-font-size);
 }
 
 body {
-	font-weight: 400;
+	font-weight: var(--weight-normal);
 	background: var(--body-bg);
 	color: var(--font-color);
 	font-family: 'Nunito', serif;

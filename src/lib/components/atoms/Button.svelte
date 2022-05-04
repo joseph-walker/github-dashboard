@@ -9,16 +9,16 @@
 <style>
 	button {
 		font-size: 0.9rem;
-		padding: 8px var(--gutter-common);
+		padding: 8px var(--global-gutter);
 		border-radius: 4px;
-		background: var(--primary-blue);
-		color: white;
+		background: var(--button-color-primary);
+		color: var(--button-text-primary);
 		cursor: pointer;
 	}
 
 	button:disabled {
 		cursor: initial;
-		background: #f9f9f9;
-		color: #d0d0d0;
+		background: var(--button-color-disabled);
+		color: var(--button-text-disabled);
 	}
 </style>

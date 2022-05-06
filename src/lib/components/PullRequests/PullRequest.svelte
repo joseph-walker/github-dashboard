@@ -90,7 +90,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		box-shadow: var(--border-color) 1px 1px 0px;
+		box-shadow: var(--global-border-color) 1px 1px 0px;
 		padding: 6px;
 		border-radius: 4px;
 	}

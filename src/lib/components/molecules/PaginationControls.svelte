@@ -17,7 +17,7 @@
 	.pagination-controls {
 		width: auto;
 		display: flex;
-		gap: 8px;
+		gap: var(--grid-1x);
 		justify-content: flex-end;
 	}
 </style>

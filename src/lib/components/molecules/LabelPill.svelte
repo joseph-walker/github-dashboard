@@ -13,21 +13,21 @@
 	.label {
 		display: inline-flex;
 		align-items: center;
-		background: #f9f9f9;
+		background: var(--pill-background);
 		font-size: 0.8rem;
-		border: 1px solid var(--border-color);
-		border-radius: 4px;
+		border: 1px solid var(--pill-border);
+		border-radius: var(--pill-roundness);
 		height: var(--summary-line-height);
-		padding: 0 6px;
+		padding: 0 var(--grid-1x);
 	}
 
 	.flag {
 		background-color: var(--flag-color);
-		width: 10px;
-		height: 10px;
+		width: var(--off-grid);
+		height: var(--off-grid);
 		border-radius: 100%;
 		display: block;
-		margin-right: 6px;
-		border: 1px solid var(--border-color);
+		margin-right: var(--grid-1x);
+		border: 1px solid var(--pill-border);
 	}
 </style>

@@ -3,12 +3,7 @@
 
 	import Text from "$lib/components/atoms/Text.svelte";
 	import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
-
-	function evaluateCSSVariable(variableName) {
-		return getComputedStyle(document.documentElement)
-			.getPropertyValue(variableName)
-			.trim();
-	}
+	import { evaluateCSSVariable } from "$lib/components/__storybook/evalueCSSVariable";
 </script>
 
 <Meta title="Tokens / Fonts" />

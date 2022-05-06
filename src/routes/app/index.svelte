@@ -63,7 +63,7 @@
 		background: white;
 		border-radius: 4px;
 		width: 100%;
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--global-border-color);
 	}
 
 	button {

@@ -106,13 +106,13 @@
 		background: #f9f9f9;
 		font-size: 0.8rem;
 		cursor: pointer;
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--global-border-color);
 		border-radius: 4px;
 		height: var(--summary-line-height);
 	}
 
 	.reviews li a em {
-		border-left: 1px solid var(--border-color);
+		border-left: 1px solid var(--global-border-color);
 		padding: 0 6px;
 		display: flex;
 		align-items: center;

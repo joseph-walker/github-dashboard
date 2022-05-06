@@ -56,7 +56,7 @@
 		flex: 1;
 		background: white;
 		border-radius: 4px;
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--global-border-color);
 		margin-bottom: 16px;
 	}
 

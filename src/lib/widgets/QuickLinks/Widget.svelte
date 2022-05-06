@@ -57,7 +57,7 @@
 		grid-template-areas:
 			"i t"
 			"i o";
-		box-shadow: var(--border-color) 1px 1px 0px;
+		box-shadow: var(--global-border-color) 1px 1px 0px;
 		padding: 6px;
 		border-radius: 4px;
 	}

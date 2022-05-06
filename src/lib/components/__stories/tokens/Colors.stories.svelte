@@ -2,6 +2,7 @@
 	import { Meta, Story } from "@storybook/addon-svelte-csf";
 
 	import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
+	import { evaluateCSSVariable } from "$lib/components/__storybook/evalueCSSVariable";
 
 	const colorTokens = [
 		"--neutral-light-gray",
@@ -29,12 +30,6 @@
 		"--light-slate",
 		"--slate",
 	];
-
-	function evaluateCSSVariable(variableName) {
-		return getComputedStyle(document.documentElement)
-			.getPropertyValue(variableName)
-			.trim();
-	}
 </script>
 
 <Meta title="Tokens / Colors" />

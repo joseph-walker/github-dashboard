@@ -34,7 +34,7 @@
 		align-items: center;
 		height: 48px;
 		background: white;
-		border-bottom: 1px solid var(--border-color);
+		border-bottom: 1px solid var(--global-border-color);
 		padding: 0 16px;
 	}
 
@@ -111,7 +111,7 @@
 		position: relative;
 		width: 100px;
 		height: 8px;
-		background: var(--border-color);
+		background: var(--global-border-color);
 		margin-left: 8px;
 		border-radius: 4px;
 	}

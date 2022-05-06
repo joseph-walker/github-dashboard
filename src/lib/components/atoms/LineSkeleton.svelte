@@ -6,7 +6,6 @@
 
 	const placeholder = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-	export let color = "var(--border-color)";
 	export let width = 10;
 
 	const skeletonText = placeholder.slice(0, width);
@@ -22,12 +21,13 @@
 {#if ready !== undefined}
 	<slot {ready}></slot>
 {:else}
-	<span style={`background: ${color};`}>{skeletonText}</span>
+	<span>{skeletonText}</span>
 {/if}
 
 <style>
 	span {
 		color: transparent;
-		border-radius: 4px;
+		background: var(--skeleton-color, var(--global-border-color));
+		border-radius: var(--pill-roundness);
 	}
 </style>

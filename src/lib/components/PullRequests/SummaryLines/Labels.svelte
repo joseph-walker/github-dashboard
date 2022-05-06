@@ -46,7 +46,7 @@
 		align-items: center;
 		background: #f9f9f9;
 		font-size: 0.8rem;
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--global-border-color);
 		border-radius: 4px;
 		height: var(--summary-line-height);
 		padding: 0 6px;
@@ -58,6 +58,6 @@
 		border-radius: 100%;
 		display: block;
 		margin-right: 6px;
-		border: 1px solid var(--border-color);
+		border: 1px solid var(--global-border-color);
 	}
 </style>

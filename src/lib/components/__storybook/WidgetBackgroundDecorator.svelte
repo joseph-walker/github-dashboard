@@ -1,13 +1,17 @@
-<div>
-	<slot></slot>
-</div>
+<script>
+	import Widget from "$lib/components/atoms/Widget.svelte";
+	import Text from "$lib/components/atoms/Text.svelte";
+</script>
+
+<Widget>
+	<Text slot="header" role="heading" bold>Example Widget</Text>
+	<section>
+		<slot></slot>
+	</section>
+</Widget>
 
 <style>
-	div {
-		/* TODO: This bg should probably be a variable - both here and in the Widget component */
-		background: white;
-		border-radius: 4px;
-		border: 1px solid var(--border-color);
+	section {
 		padding: 16px;
 	}
 </style>

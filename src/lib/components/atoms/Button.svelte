@@ -9,8 +9,8 @@
 <style>
 	button {
 		font-size: 0.9rem;
-		padding: 8px var(--global-gutter);
-		border-radius: 4px;
+		padding: var(--grid-1x) var(--grid-2x);
+		border-radius: var(--button-roundness);
 		background: var(--button-color-primary);
 		color: var(--button-text-primary);
 		cursor: pointer;

@@ -15,13 +15,38 @@
 
 <Template let:args>
 	<WidgetBackgroundDecorator>
-		<LineSkeleton
-			await={args.isAwaiting ? unresolvedOption : resolvedOption}
-			width={args.width || 40}
-			let:ready={demoText}>
-				<p>{demoText}</p>
-		</LineSkeleton>
+		<p>Note that Line Skeletons display as inline. If the content has a different display mode, odd layout shifting may occur.</p>
+		<p>As a result, this should only be used for inline content.</p>
+		<ul>
+			<li>
+				<LineSkeleton
+					await={args.isAwaiting ? unresolvedOption : resolvedOption}
+					width={args.width || 40}
+					let:ready={demoText}>
+						<span>{demoText}</span>
+				</LineSkeleton>
+			</li>
+			<li>
+				<LineSkeleton
+					await={args.isAwaiting ? unresolvedOption : resolvedOption}
+					width={10}
+					--skeleton-color="var(--green)"
+					let:ready={demoText}>
+						<span>Skeletons can also have colors</span>
+				</LineSkeleton>
+			</li>
+		</ul>
 	</WidgetBackgroundDecorator>
 </Template>
 
 <Story name="Line Skeleton" args={{ isAwaiting: true, width: 40 }} />
+
+<style>
+	ul {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		margin-top: 16px;
+	}
+</style>

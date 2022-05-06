@@ -16,8 +16,8 @@
 	.widget {
 		height: 100%; /* 100% of grid row - makes all widgets on a row the same height */
 		background: white;
-		border-radius: 4px;
-		border: 1px solid var(--border-color);
+		border-radius: var(--widget-roundness);
+		box-shadow: var(--widget-box-shadow);
 		display: flex;
 		flex-direction: column;
 	}
@@ -26,8 +26,8 @@
 		display: flex;
 		align-items: center;
 		font-size: 1rem;
-		border-bottom: 1px solid var(--border-color);
-		padding: 10px var(--global-gutter);
+		border-bottom: 1px solid var(--global-border-color);
+		padding: var(--widget-title-bar-spacing) var(--global-gutter);
 	}
 
 	.meta {

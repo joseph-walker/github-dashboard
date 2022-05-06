@@ -43,9 +43,18 @@
 	--button-color-disabled: var(--neutral-gray);
 	--button-text-disabled: var(--neutral-dark-gray);
 	--body-bg: var(--neutral-light-gray);
-	--border-color: var(--neutral-gray);
+	--global-border-color: var(--neutral-gray);
 	--font-color: var(--neutral-rich-black);
 	--font-color-light: var(--neutral-dark-gray);
+	--loading-spinner-active-color: var(--blue);
+	--loading-spinner-passive-color: var(--global-border-color);
+	--pill-background: var(--neutral-light-gray);
+	--pill-border: var(--global-border-color);
+	--review-status-approved: #ef537b; /* Inverted --green */
+	--review-status-commented: #0060bc; /* Inverted --yellow */
+	--review-status-declined: #11adac; /* Inverted --red */
+	--review-pill-callout-me: var(--blue);
+	--widget-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 
 	/* Font characteristics */
 	--root-font-size: 14px;
@@ -54,16 +63,24 @@
 
 	/* Gutters */
 	--base-grid: 8px;
+	--off-grid: 10px;
+	--off-grid-2x: 20px;
 	--grid-4s: calc(var(--base-grid) / 4);
 	--grid-2s: calc(var(--base-grid) / 2);
 	--grid-1x: var(--base-grid);
 	--grid-2x: calc(var(--base-grid) * 2);
 	--grid-4x: calc(var(--base-grid) * 4);
 	--grid-8x: calc(var(--base-grid) * 8);
+	--slightly-rounded: 4px;
 
 	/* Semantic spacing assignments  */
-	--summary-line-height: 21px;
+	--summary-line-height: var(--off-grid-2x);
+	--button-roundness: var(--slightly-rounded);
+	--pill-roundness: var(--slightly-rounded);
+	--widget-roundness: var(--slightly-rounded);
+	--widget-title-bar-spacing: 12px;
 	--global-gutter: var(--grid-2x);
+	--loading-spinner-thiccness: 3px;
 }
 
 html {

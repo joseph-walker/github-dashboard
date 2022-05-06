@@ -55,6 +55,8 @@
 	--review-status-declined: #11adac; /* Inverted --red */
 	--review-pill-callout-me: var(--blue);
 	--widget-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+	--navbar-brand-color: var(--green);
+	--healthbar-color-high: var(--light-green);
 
 	/* Font characteristics */
 	--root-font-size: 14px;
@@ -69,7 +71,9 @@
 	--grid-2s: calc(var(--base-grid) / 2);
 	--grid-1x: var(--base-grid);
 	--grid-2x: calc(var(--base-grid) * 2);
+	--grid-3x: calc(var(--base-grid) * 3);
 	--grid-4x: calc(var(--base-grid) * 4);
+	--grid-6x: calc(var(--base-grid) * 6);
 	--grid-8x: calc(var(--base-grid) * 8);
 	--slightly-rounded: 4px;
 
@@ -81,6 +85,10 @@
 	--widget-title-bar-spacing: 12px;
 	--global-gutter: var(--grid-2x);
 	--loading-spinner-thiccness: 3px;
+	--navbar-height: var(--grid-6x);
+	--navbar-active-tab-indicator-height: 2px;
+	--healthbar-roundness: var(--slightly-rounded);
+	--healthbar-thiccness: var(--grid-1x);
 }
 
 html {

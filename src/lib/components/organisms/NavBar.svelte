@@ -5,6 +5,7 @@
 	import { getContext } from "svelte";
 	import { page } from "$app/stores";
 
+	import Button from "$lib/components/atoms/Button.svelte";
 	import { __configuration, __remaining } from "$lib/stores/keys";
 
 	const configuration: Writable<WidgetConfig> = getContext(__configuration);
@@ -32,17 +33,17 @@
 			<div class="hp" style={`width: ${((Number($remaining) || 2500) / 5000) * 100}px`}></div>
 		</div>
 	</div>
-	<a class="logout" href="/auth/logout">Log Out</a>
+	<Button role="link" href="/auth/logout">Log Out</Button>
 </nav>
 
 <style>
 	.nav-bar {
 		display: flex;
 		align-items: center;
-		height: 48px;
+		height: var(--navbar-height);
 		background: white;
 		border-bottom: 1px solid var(--global-border-color);
-		padding: 0 16px;
+		padding: 0 var(--global-gutter);
 	}
 
 	h1 {
@@ -53,46 +54,36 @@
 	}
 
 	h1 em {
-		color: #10ac84;
+		color: var(--navbar-brand-color);
 	}
 
 	.logo {
 		height: 2rem;
-		margin-right: 4px;
-		margin-bottom: 2px;
-	}
-
-	.logout {
-		font-size: 0.9rem;
-		padding: 8px 16px;
-		cursor: pointer;
-		background: #2e86de;
-		color: white;
-		border-radius: 4px;
+		margin-right: var(--grid-2s);
 	}
 
 	.tabs {
-		margin-left: 24px;
+		margin-left: var(--grid-3x);
 		list-style: none;
 		display: flex;
 		align-items: center;
-		height: 48px;
+		height: var(--navbar-height);
 	}
 
 	.tabs a {
 		position: relative;
-		line-height: 48px;
+		line-height: var(--navbar-height);
 		display: block;
 		font-weight: bold;
-		padding: 0 8px;
+		padding: 0 var(--grid-1x);
 	}
 
 	.tabs a.active:after {
 		content: "";
 		display: block;
 		width: 100%;
-		height: 2px;
-		background: #10ac84;
+		height: var(--navbar-active-tab-indicator-height);
+		background: var(--navbar-brand-color);
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -103,11 +94,11 @@
 		font-size: 0.8rem;
 		display: flex;
 		align-items: center;
-		margin-right: 16px;
+		margin-right: var(--grid-2x);
 	}
 
 	.resources p {
-		margin-right: 4px;
+		margin-right: var(--grid-2s);
 	}
 
 	.resources em {
@@ -117,19 +108,18 @@
 	.hp-bar {
 		position: relative;
 		width: 100px;
-		height: 8px;
+		height: var(--healthbar-thiccness);
 		background: var(--global-border-color);
-		margin-left: 8px;
-		border-radius: 4px;
+		margin-left: var(--grid-1x);
+		border-radius: var(--healthbar-roundness);
 	}
 
 	.hp-bar .hp {
-		background-color: #1dd1a1;
-		height: 8px;
+		background-color: var(--healthbar-color-high);
+		height: var(--healthbar-thiccness);
 		position: absolute;
 		top: 0;
 		left: 0;
-		border-radius: 4px;
-		width: 32px;
+		border-radius: var(--healthbar-roundness);
 	}
 </style>

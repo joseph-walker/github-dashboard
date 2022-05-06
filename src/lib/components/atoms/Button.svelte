@@ -1,12 +1,21 @@
 <script lang="ts">
+	export let role: "button" | "link" = "button";
 	export let disabled: boolean = false;
+	export let href: string = "";
 </script>
 
-<button on:click {disabled}>
-	<slot></slot>
-</button>
+{#if role === "button"}
+	<button on:click {disabled}>
+		<slot></slot>
+	</button>
+{:else if role === "link"}
+	<a {href}>
+		<slot></slot>
+	</a>
+{/if}
 
 <style>
+	a,
 	button {
 		font-size: 0.9rem;
 		padding: var(--grid-1x) var(--grid-2x);

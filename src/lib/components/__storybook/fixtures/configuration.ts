@@ -9,4 +9,4 @@ const storybookConfig: WidgetConfig = {
 	}
 }
 
-export const configuration = writable<WidgetConfig>(storybookConfig as WidgetConfig);
+export const configuration = writable<WidgetConfig>(storybookConfig);

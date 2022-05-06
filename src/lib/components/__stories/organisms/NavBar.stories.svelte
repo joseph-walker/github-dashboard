@@ -7,7 +7,6 @@
 
 <Meta
 	title="Organisms / Nav Bar"
-	parameters={{ layout: 'fullscreen' }}
 	component={NavBar} />
 
 <Story name="Nav Bar">

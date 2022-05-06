@@ -1,3 +1,3 @@
 import { readable } from 'svelte/store';
 
-export const remaining = readable<string | number>(3000);
+export const remaining = readable<string | number>(1337);

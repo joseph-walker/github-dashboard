@@ -1,7 +1,14 @@
 <script lang="ts">
+	import type { Writable, Readable } from "svelte/store";
+	import type { WidgetConfig } from "$lib/stores/configuration";
+
+	import { getContext } from "svelte";
 	import { page } from "$app/stores";
-	import { remaining } from "$lib/queryWithUtilization";
-	import { configuration } from "$lib/stores/configuration";
+
+	import { __configuration, __remaining } from "$lib/stores/keys";
+
+	const configuration: Writable<WidgetConfig> = getContext(__configuration);
+	const remaining: Readable<string | number> = getContext(__remaining);
 
 	$: tabs = Object
 		.entries($configuration)
@@ -11,7 +18,7 @@
 </script>
 
 <nav class="nav-bar">
-	<h1><img class="logo" src="/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
+	<h1><img class="logo" src="/icons/dragon.svg" alt="Logo" /><em>Hoard</em>Board</h1>
 	<ul class="tabs">
 		<li><a class:active={$page.url.pathname === "/app"} href="/app">Search</a></li>
 		{#each tabs as tab}

@@ -29,7 +29,7 @@
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { me } from "$lib/stores/me";
 
-	import NavBar from "$lib/components/NavBar.svelte";
+	import NavBar from "$lib/components/organisms/NavBar.svelte";
 
 	export let token: string;
 

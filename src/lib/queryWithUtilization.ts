@@ -1,9 +1,8 @@
-import { writable, derived } from 'svelte/store';
 import { query as baseQuery } from "@urql/svelte";
 
-export const DEFAULT_RATE_LIMIT_MAX = 5000;
+import { _remaining } from '$lib/stores/remaining';
 
-const _remaining = writable<string | number>("?");
+export const DEFAULT_RATE_LIMIT_MAX = 5000;
 
 export const queryWithUtilization: typeof baseQuery = (store) => {
 	store.subscribe(function(next) {
@@ -16,5 +15,3 @@ export const queryWithUtilization: typeof baseQuery = (store) => {
 
 	return baseQuery(store);
 }
-
-export const remaining = derived(_remaining, _ => _);

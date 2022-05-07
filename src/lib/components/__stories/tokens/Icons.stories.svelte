@@ -1,7 +1,6 @@
 <script>
 	import { Meta, Story } from "@storybook/addon-svelte-csf";
 
-	import Text from "$lib/components/atoms/Text.svelte";
 	import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
 
 	// @ts-ignore

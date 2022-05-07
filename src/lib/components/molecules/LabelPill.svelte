@@ -1,12 +1,10 @@
 <script lang="ts">
-	import Text from "../atoms/Text.svelte";
-
 	export let name: string;
 </script>
 
 <div class="label">
 	<em class="flag"></em>
-	<Text>{name}</Text>
+	<p>{name}</p>
 </div>
 
 <style>

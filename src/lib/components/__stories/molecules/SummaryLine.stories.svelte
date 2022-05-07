@@ -1,7 +1,6 @@
 <script>
 	import { Meta, Story } from "@storybook/addon-svelte-csf";
 
-	import Text from "../../atoms/Text.svelte";
 	import SummaryLine from "../../molecules/SummaryLine.svelte";
 	import WidgetBackgroundDecorator from "../../__storybook/WidgetBackgroundDecorator.svelte";
 
@@ -21,15 +20,11 @@
 		</ol>
 		<hr />
 		<SummaryLine icon="/icons/pricetag-outline.svg">
-			<Text>
-				I am a <Text role="emphasis" bold>summary line</Text>
-			</Text>
+			I am a&nbsp;<b>summary line</b>
 		</SummaryLine>
 		<SummaryLine icon="/icons/document-outline.svg">
-			<Text>
-				I am a <Text role="emphasis" bold>summary line</Text>
-			</Text>
-			<Text slot="meta" --color="#ccc">with metadata</Text>
+			I am a&nbsp;<b>summary line</b>
+			<p class="meta" slot="meta">with metadata</p>
 		</SummaryLine>
 	</WidgetBackgroundDecorator>
 </Story>
@@ -37,6 +32,10 @@
 <style>
 	p {
 		margin-bottom: 16px;
+	}
+
+	.meta {
+		color: var(--gray);
 	}
 
 	ol {

@@ -1,7 +1,6 @@
 <script>
 	import { Meta, Story } from "@storybook/addon-svelte-csf";
 
-	import Text from "$lib/components/atoms/Text.svelte";
 	import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
 	import { evaluateCSSVariable } from "$lib/components/__storybook/evalueCSSVariable";
 </script>
@@ -13,15 +12,15 @@
 		<section>
 			<h1>Fonts</h1>
 			<p>There's only one font used (Nunito) and it's applied globally, but it's loaded in two weights.</p>
-			<p>The root font size is <Text role="emphasis" bold>{evaluateCSSVariable("--root-font-size")}</Text></p>
+			<p>The root font size is <b>{evaluateCSSVariable("--root-font-size")}</b></p>
 			<ul class="fonts">
 				<li>
 					<em>Nunito | Weight 400 | --weight-normal ({evaluateCSSVariable("--weight-normal")})</em>
-					<Text>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</Text>
+					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
 				</li>
 				<li>
 					<em>Nunito | Weight 700 | --weight-bold ({evaluateCSSVariable("--weight-bold")})</em>
-					<Text bold>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</Text>
+					<b>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</b>
 				</li>
 			</ul>
 		</section>

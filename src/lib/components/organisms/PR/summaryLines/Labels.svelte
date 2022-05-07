@@ -5,7 +5,6 @@
 	import { identity } from "fp-ts/lib/function.js";
 	import { map, match } from "fp-ts/lib/Option.js";
 
-	import Text from "$lib/components/atoms/Text.svelte";
 	import LabelPill from "$lib/components/molecules/LabelPill.svelte";
 	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import SummaryLine from "$lib/components/molecules/SummaryLine.svelte";
@@ -24,9 +23,7 @@
 
 <SummaryLine icon="/icons/document-outline.svg">
 	<LineSkeleton await={numLabels(labels)} let:ready={numLabels} width={28}>
-		<Text>
-			<Text role="emphasis" bold>{numLabels}</Text>&nbsp;Label(s)
-		</Text>
+		<b>{numLabels}</b>&nbsp;Label(s)
 	</LineSkeleton>
 	<ul class="labels" slot="meta">
 		{#each labelsReady as label}

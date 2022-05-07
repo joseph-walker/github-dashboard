@@ -1,16 +1,19 @@
 <script>
 	import Widget from "$lib/components/atoms/Widget.svelte";
-	import Text from "$lib/components/atoms/Text.svelte";
 </script>
 
 <Widget>
-	<Text slot="header" role="heading" bold>Example Widget</Text>
+	<h2 slot="header">Example Widget</h2>
 	<section>
 		<slot></slot>
 	</section>
 </Widget>
 
 <style>
+	h2 {
+		font-weight: var(--weight-bold);
+	}
+
 	section {
 		padding: 16px;
 	}

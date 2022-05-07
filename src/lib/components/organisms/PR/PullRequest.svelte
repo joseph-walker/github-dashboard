@@ -6,10 +6,10 @@
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { makeQuery } from "./makeQuery";
 
-	import Changes from "./SummaryLines/Changes.svelte";
-	import Labels from "./SummaryLines/Labels.svelte";
-	import Reviews from "./SummaryLines/Reviews.svelte";
-	import LineSkeleton from "../atoms/LineSkeleton.svelte";
+	import Changes from "./summaryLines/Changes.svelte";
+	import Labels from "./summaryLines/Labels.svelte";
+	import Reviews from "./summaryLines/Reviews.svelte";
+	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 
 	type PR = PullRequestQuery["repository"]["pullRequest"];
 
@@ -89,10 +89,7 @@
 	.pr-card {
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
-		box-shadow: var(--global-border-color) 1px 1px 0px;
-		padding: 6px;
-		border-radius: 4px;
+		gap: var(--grid-1x);
 	}
 
 	h3 {
@@ -100,7 +97,7 @@
 	}
 
 	h3 .repo-name {
-		margin-left: 8px;
+		margin-left: var(--grid-1x);
 		color: var(--font-color-light);
 		font-weight: var(--weight-normal);
 	}

@@ -22,6 +22,9 @@ module.exports = {
 			new webpack.DefinePlugin({
 				ICONS_FROM_WEBPACK_INTROSPECTION: JSON.stringify(
 					fs.readdirSync(path.join(__dirname, "../static/icons"))
+				),
+				GITHUB_AUTH_TOKEN_FOR_STORYBOOK: JSON.stringify(
+					process.env.GITHUB_AUTH_TOKEN_FOR_STORYBOOK
 				)
 			})
 		);

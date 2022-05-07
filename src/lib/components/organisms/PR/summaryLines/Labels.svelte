@@ -1,11 +1,14 @@
 <script lang="ts">
 	import type { Option } from "fp-ts/lib/Option.js";
+	import type { PullRequestQuery } from "$lib/generated/graphql";
+
 	import { identity } from "fp-ts/lib/function.js";
 	import { map, match } from "fp-ts/lib/Option.js";
 
-	import type { PullRequestQuery } from "$lib/generated/graphql";
+	import Text from "$lib/components/atoms/Text.svelte";
+	import LabelPill from "$lib/components/molecules/LabelPill.svelte";
 	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
-	import SummaryLine from "../../molecules/SummaryLine.svelte";
+	import SummaryLine from "$lib/components/molecules/SummaryLine.svelte";
 
 	type Label = PullRequestQuery["repository"]["pullRequest"]["labels"]["nodes"][number];
 
@@ -19,15 +22,16 @@
 	)(labels) as Label[];
 </script>
 
-<SummaryLine icon="/document-outline.svg">
+<SummaryLine icon="/icons/document-outline.svg">
 	<LineSkeleton await={numLabels(labels)} let:ready={numLabels} width={28}>
-		<b>{numLabels}</b>&nbsp;Label(s)
+		<Text>
+			<Text role="emphasis" bold>{numLabels}</Text>&nbsp;Label(s)
+		</Text>
 	</LineSkeleton>
 	<ul class="labels" slot="meta">
 		{#each labelsReady as label}
-			<li class="label">
-				<em class="flag" style={`background: #${label.color};`}></em>
-				{label.name}
+			<li>
+				<LabelPill name={label.name} --flag-color={`#${label.color}`} />
 			</li>
 		{/each}
 	</ul>
@@ -35,29 +39,10 @@
 
 <style>
 	.labels {
+		list-style: none;
 		display: flex;
 		align-items: flex-start;
 		flex-wrap: wrap;
-		gap: 8px;
-	}
-
-	.label {
-		display: flex;
-		align-items: center;
-		background: #f9f9f9;
-		font-size: 0.8rem;
-		border: 1px solid var(--global-border-color);
-		border-radius: 4px;
-		height: var(--summary-line-height);
-		padding: 0 6px;
-	}
-
-	.flag {
-		width: 10px;
-		height: 10px;
-		border-radius: 100%;
-		display: block;
-		margin-right: 6px;
-		border: 1px solid var(--global-border-color);
+		gap: var(--grid-1x);
 	}
 </style>

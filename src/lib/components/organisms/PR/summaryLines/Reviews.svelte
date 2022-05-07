@@ -13,14 +13,15 @@
 
 <script lang="ts">
 	import type { Option } from "fp-ts/lib/Option.js";
+	import type { PullRequestQuery } from "$lib/generated/graphql";
+
 	import { identity } from "fp-ts/lib/function.js";
 	import { map, match } from "fp-ts/lib/Option.js";
 	import { intervalToDuration } from "date-fns"
 
-	import type { PullRequestQuery } from "$lib/generated/graphql";
-	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import { me } from "$lib/stores/me";
-	import SummaryLine from "../../molecules/SummaryLine.svelte";
+	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
+	import SummaryLine from "$lib/components//molecules/SummaryLine.svelte";
 
 	type Review = PullRequestQuery["repository"]["pullRequest"]["latestReviews"]["nodes"][number];
 
@@ -58,7 +59,7 @@
 	)(reviews) as Review[];
 </script>
 
-<SummaryLine icon="/chatbubbles-outline.svg">
+<SummaryLine icon="/icons/chatbubbles-outline.svg">
 	<LineSkeleton await={numReviews(reviews)} let:ready={numReviews} width={42}>
 		<b>{numReviews}</b>&nbsp;Review(s)
 	</LineSkeleton>

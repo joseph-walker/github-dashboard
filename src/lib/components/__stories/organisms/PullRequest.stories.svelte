@@ -1,5 +1,5 @@
 <script>
-	import { Meta, Story } from "@storybook/addon-svelte-csf";
+	import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
 
 	import PullRequest from "$lib/components/organisms/PR/PullRequest.svelte";
 	import ApplicationContextDecorator from "$lib/components/__storybook/ApplicationContextDecorator.svelte";
@@ -8,12 +8,33 @@
 
 <Meta
 	title="Organisms / Pull Request"
-	component={PullRequest} />
+	component={PullRequest}
+	argTypes={{
+		owner: { control: 'text' },
+		repo: { control: 'text' },
+		number: { control: 'number' }
+	}} />
 
-<Story name="Pull Request">
+<Template let:args>
 	<ApplicationContextDecorator>
 		<WidgetBackgroundDecorator>
-			<PullRequest owner="joseph-walker" repo="github-dashboard" number={1} />
+			<PullRequest {...args} />
 		</WidgetBackgroundDecorator>
 	</ApplicationContextDecorator>
-</Story>
+</Template>
+
+<Story
+	name="Happy Path"
+	args={{
+		owner: 'joseph-walker',
+		repo: 'github-dashboard',
+		number: 1
+	}} />
+
+<Story
+	name="Error State"
+	args={{
+		owner: 'some-guy',
+		repo: 'random-garbage',
+		number: 69
+	}} />

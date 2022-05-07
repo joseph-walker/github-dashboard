@@ -59,6 +59,7 @@
 	--healthbar-color-high: var(--light-green);
 	--pr-diff-additions: var(--green);
 	--pr-diff-deletions: var(--red);
+	--pr-error-overlay-background: rgba(255, 255, 255, 0.8);
 
 	/* Font characteristics */
 	--root-font-size: 14px;

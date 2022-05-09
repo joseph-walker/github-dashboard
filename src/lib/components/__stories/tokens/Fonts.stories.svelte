@@ -29,7 +29,6 @@
 
 <style>
 	ul {
-		list-style: none;
 		margin-top: 16px;
 	}
 

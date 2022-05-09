@@ -39,7 +39,6 @@
 <style>
 	ul {
 		flex: 1;
-		list-style: none;
 		padding: 8px;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);

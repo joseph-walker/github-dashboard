@@ -13,7 +13,8 @@
 	<WidgetBackgroundDecorator>
 		<section>
 			<h1>Icons</h1>
-			<p>These are used as the src attribute of image tags</p>
+			<p>A subset of the <a href="https://ionic.io/ionicons">Ionicons</a>.</p>
+			<p>These are used as the src attribute of image tags - no fancy Icon component.</p>
 			<ul class="icons">
 				{#each iconTokens as icon}
 					<li>
@@ -27,8 +28,11 @@
 </Story>
 
 <style>
+	a {
+		color: var(--blue);
+	}
+
 	ul {
-		list-style: none;
 		margin-top: 16px;
 	}
 

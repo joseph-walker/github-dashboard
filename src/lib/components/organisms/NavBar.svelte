@@ -41,7 +41,6 @@
 		display: flex;
 		align-items: center;
 		height: var(--navbar-height);
-		background: white;
 		border-bottom: 1px solid var(--global-border-color);
 		padding: 0 var(--global-gutter);
 	}
@@ -64,7 +63,6 @@
 
 	.tabs {
 		margin-left: var(--grid-3x);
-		list-style: none;
 		display: flex;
 		align-items: center;
 		height: var(--navbar-height);

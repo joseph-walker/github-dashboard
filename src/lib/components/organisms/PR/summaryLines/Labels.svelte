@@ -21,7 +21,7 @@
 	)(labels) as Label[];
 </script>
 
-<SummaryLine icon="/icons/document-outline.svg">
+<SummaryLine icon="/icons/pricetag-outline.svg">
 	<LineSkeleton await={numLabels(labels)} let:ready={numLabels} width={28}>
 		<b>{numLabels}</b>&nbsp;Label(s)
 	</LineSkeleton>
@@ -36,7 +36,6 @@
 
 <style>
 	.labels {
-		list-style: none;
 		display: flex;
 		align-items: flex-start;
 		flex-wrap: wrap;

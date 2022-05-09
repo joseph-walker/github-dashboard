@@ -3,7 +3,7 @@
 </script>
 
 <Widget>
-	<h2 slot="header">Example Widget</h2>
+	<h2 slot="header">Storybook</h2>
 	<section>
 		<slot></slot>
 	</section>

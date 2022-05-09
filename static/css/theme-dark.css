@@ -36,26 +36,26 @@
 	--slate: #222f3e;
 
 	/* Semantic color assignments */
-	--button-color-primary: var(--blue);
-	--button-text-primary: var(--white);
+	--button-color-primary: #6161ff;
+	--button-text-primary: #fafbfb;
 	--button-color-secondary: var(--green);
 	--button-text-secondary: var(--white);
 	--button-color-disabled: var(--neutral-gray);
 	--button-text-disabled: var(--neutral-dark-gray);
-	--body-bg: var(--neutral-light-gray);
-	--global-border-color: var(--neutral-gray);
-	--font-color: var(--neutral-rich-black);
+	--body-bg: #282637;
+	--global-border-color: #27262c;
+	--font-color: #fafbfb;
 	--font-color-light: var(--neutral-dark-gray);
 	--loading-spinner-active-color: var(--blue);
 	--loading-spinner-passive-color: var(--global-border-color);
-	--pill-background: var(--neutral-light-gray);
+	--pill-background: #282637;
 	--pill-border: var(--global-border-color);
 	--review-status-approved: #ef537b; /* Inverted --green */
 	--review-status-commented: #0060bc; /* Inverted --yellow */
 	--review-status-declined: #11adac; /* Inverted --red */
 	--review-pill-callout-me: var(--blue);
-	--widget-background: var(--white);
-	--widget-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+	--widget-background: #1a1927;
+	--widget-box-shadow: 5px 5px 20px rgb(26 25 39 / 37%);
 	--navbar-brand-color: var(--green);
 	--healthbar-color-high: var(--light-green);
 	--pr-diff-additions: var(--green);
@@ -79,7 +79,7 @@
 	--grid-4x: calc(var(--base-grid) * 4);
 	--grid-6x: calc(var(--base-grid) * 6);
 	--grid-8x: calc(var(--base-grid) * 8);
-	--slightly-rounded: 4px;
+	--slightly-rounded: 16px;
 
 	/* Semantic spacing assignments  */
 	--summary-line-height: var(--off-grid-2x);
@@ -114,7 +114,6 @@ ul, ol {
 	list-style: none;
 }
 
-
 a {
 	cursor: pointer;
 }
@@ -125,4 +124,8 @@ a:visited {
 
 b {
 	font-weight: var(--weight-bold);
+}
+
+img[src*="icons"] {
+	filter: invert(1);
 }

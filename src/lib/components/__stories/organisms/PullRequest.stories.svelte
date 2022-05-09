@@ -26,9 +26,9 @@
 <Story
 	name="Happy Path"
 	args={{
-		owner: 'joseph-walker',
-		repo: 'github-dashboard',
-		number: 1
+		owner: 'sveltejs',
+		repo: 'svelte',
+		number: 6750
 	}} />
 
 <Story

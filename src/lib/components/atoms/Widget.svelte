@@ -15,7 +15,7 @@
 <style>
 	.widget {
 		height: 100%; /* 100% of grid row - makes all widgets on a row the same height */
-		background: white;
+		background: var(--widget-background);
 		border-radius: var(--widget-roundness);
 		box-shadow: var(--widget-box-shadow);
 		display: flex;

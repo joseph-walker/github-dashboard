@@ -49,4 +49,8 @@
 		justify-content: flex-start;
 		gap: var(--grid-1x);
 	}
+
+	.reviews li {
+		display: contents;
+	}
 </style>

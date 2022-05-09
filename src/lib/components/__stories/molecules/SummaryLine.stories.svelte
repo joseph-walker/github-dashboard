@@ -12,7 +12,7 @@
 
 <Story name="Summary Line">
 	<WidgetBackgroundDecorator>
-		<p>Summary lines are groups of:</p>
+		<p class="story">Summary lines are groups of:</p>
 		<ol>
 			<li>One icon</li>
 			<li>Some text</li>
@@ -26,11 +26,17 @@
 			I am a&nbsp;<b>summary line</b>
 			<p class="meta" slot="meta">with metadata</p>
 		</SummaryLine>
+		<div class="teeny">
+			<SummaryLine icon="/icons/grid-outline.svg">
+				I am a&nbsp;<b>long summary line</b>
+				<p class="meta" slot="meta">Long meta lines will wrap. Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio doloremque quos fugiat nesciunt voluptatibus corporis porro commodi consequatur nam id iure, neque ipsa, quis possimus velit debitis autem asperiores repellat?</p>
+			</SummaryLine>
+		</div>
 	</WidgetBackgroundDecorator>
 </Story>
 
 <style>
-	p {
+	p.story {
 		margin-bottom: 16px;
 	}
 
@@ -47,5 +53,11 @@
 	hr {
 		border-bottom: 1px solid #EEE;
 		margin: 16px 0;
+	}
+
+	.teeny {
+		max-width: 500px;
+		border-right: 1px solid var(--global-border-color);
+		padding-right: var(--grid-2x);
 	}
 </style>

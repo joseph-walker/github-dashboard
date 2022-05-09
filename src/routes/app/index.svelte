@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SearchPRs from "$lib/widgets/SearchPRs/Widget.svelte";
+	import SearchPRs from "$lib/components/widgets/SearchPRs/Widget.svelte";
 	import SearchGuide from "$lib/components/molecules/SearchGuide.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
 
@@ -18,7 +18,7 @@
 			<button>Search</button>
 		</form>
 
-		<SearchPRs {searchQuery} title="Search Results" withConfigurator={false} />
+		<SearchPRs {searchQuery} title="Search Results" />
 	</section>
 	<aside class="docs-column">
 		<Widget>

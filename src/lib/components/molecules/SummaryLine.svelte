@@ -4,7 +4,7 @@
 
 <section class="summary-line">
 	<img class="icon" src={icon} alt="summary-icon" />
-	<slot></slot>
+	<span class="content"><slot></slot></span>
 	<div class="meta">
 		<slot name="meta"></slot>
 	</div>
@@ -18,6 +18,7 @@
 	}
 
 	.icon {
+		flex-shrink: 0;;
 		height: 1.2rem;
 		margin-right: 4px;
 
@@ -26,7 +27,12 @@
 		margin-left: -2px;
 	}
 
+	.content {
+		flex-shrink: 0;
+	}
+
 	.meta {
+		flex-grow: 0;
 		margin-left: 8px;
 	}
 </style>

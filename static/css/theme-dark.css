@@ -57,6 +57,7 @@
 	--widget-background: #1a1927;
 	--widget-box-shadow: 5px 5px 20px rgb(26 25 39 / 37%);
 	--navbar-brand-color: var(--green);
+	--navbar-background: black;
 	--healthbar-color-high: var(--light-green);
 	--pr-diff-additions: var(--green);
 	--pr-diff-deletions: var(--red);

@@ -20,7 +20,7 @@
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 	import { gql, operationStore, initClient, dedupExchange, fetchExchange } from '@urql/svelte';
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
@@ -28,10 +28,15 @@
 	import { configuration, type WidgetConfig } from "$lib/stores/configuration";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { me } from "$lib/stores/me";
+	import { remaining } from "$lib/stores/remaining";
+	import { __configuration, __remaining } from "$lib/stores/keys";
 
 	import NavBar from "$lib/components/organisms/NavBar.svelte";
 
 	export let token: string;
+
+	setContext(__configuration, configuration);
+	setContext(__remaining, remaining);
 
 	initClient({
 		url: 'https://api.github.com/graphql',

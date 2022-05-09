@@ -41,4 +41,8 @@
 		flex-wrap: wrap;
 		gap: var(--grid-1x);
 	}
+
+	.labels li {
+		display: contents;
+	}
 </style>

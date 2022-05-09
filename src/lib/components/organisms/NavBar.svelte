@@ -41,8 +41,11 @@
 		display: flex;
 		align-items: center;
 		height: var(--navbar-height);
+		background: var(--navbar-background);
 		border-bottom: 1px solid var(--global-border-color);
 		padding: 0 var(--global-gutter);
+		background-attachment: fixed;
+		background-size: cover;
 	}
 
 	h1 {
@@ -59,6 +62,7 @@
 	.logo {
 		height: 2rem;
 		margin-right: var(--grid-2s);
+		filter: invert(0); /* Don't invert colors when switched to dark mode */
 	}
 
 	.tabs {

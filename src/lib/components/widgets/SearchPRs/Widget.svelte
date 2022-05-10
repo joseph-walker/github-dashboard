@@ -79,27 +79,27 @@
 		<span><b>{issueCount($query)}</b> Result(s)</span>
 		<Spinner {isLoading} />
 	</div>
-	<section>
-		{#if $query.data}
-			<ul>
-				{#each $query.data.search.nodes as pr (pr.id)}
-					<li>
-						<PullRequest
-							onFetchStart={addToFetchingSet(pr)}
-							onFetchEnd={removeFromFetchingSet(pr)}
-							owner={pr.repository.owner.login}
-							repo={pr.repository.name}
-							number={pr.number} />
-					</li>
-				{/each}
-			</ul>
-		{/if}
+	{#if $query.data}
+		<ul>
+			{#each $query.data.search.nodes as pr (pr.id)}
+				<li>
+					<PullRequest
+						onFetchStart={addToFetchingSet(pr)}
+						onFetchEnd={removeFromFetchingSet(pr)}
+						owner={pr.repository.owner.login}
+						repo={pr.repository.name}
+						number={pr.number} />
+				</li>
+			{/each}
+		</ul>
+	{/if}
+	<section class="pagination">
 		<PaginationControls {paginator} />
 	</section>
 </Widget>
 
 <style>
-	section {
+	.pagination {
 		padding: var(--global-gutter);
 	}
 
@@ -107,11 +107,16 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: var(--global-gutter);
 	}
 
 	ul li {
-		display: contents;
+		display: flex;
+		border-bottom: 1px solid var(--global-border-color);
+		padding: var(--global-gutter);
+	}
+
+	ul li:nth-child(2n) {
+		background: var(--search-prs-widget-zebra-stripe-background);
 	}
 
 	.meta {

@@ -9,6 +9,7 @@
 :root {
 	/* Canadian Palette: https://flatuicolors.com/palette/ca */
 	--white: #fff;
+	--off-white: #fafafb;
 	--neutral-light-gray: #f7f7f7;
 	--neutral-gray: #ebebeb;
 	--neutral-dark-gray: #999;
@@ -62,6 +63,7 @@
 	--pr-diff-additions: var(--green);
 	--pr-diff-deletions: var(--red);
 	--pr-error-overlay-background: rgba(255, 255, 255, 0.8);
+	--search-prs-widget-zebra-stripe-background: var(--off-white);
 
 	/* Font characteristics */
 	--root-font-size: 14px;

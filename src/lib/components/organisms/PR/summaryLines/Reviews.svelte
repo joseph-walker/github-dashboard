@@ -1,12 +1,13 @@
 <script lang="ts">
+	import type { Writable } from "svelte/store";
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 
+	import { getContext } from "svelte";
 	import { identity } from "fp-ts/lib/function.js";
 	import { map, match } from "fp-ts/lib/Option.js";
-	import { intervalToDuration } from "date-fns"
 
-	import { me } from "$lib/stores/me";
+	import { __me } from "$lib/stores/keys";
 	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
 	import SummaryLine from "$lib/components//molecules/SummaryLine.svelte";
 	import ReviewPill from "$lib/components/molecules/ReviewPill.svelte";
@@ -15,6 +16,7 @@
 
 	export let reviews: Option<Review[]>;
 
+	const me: Writable<string> = getContext(__me);
 	const numReviews = map((reviews: Review[]) => reviews.length);
 
 	$: reviewsReady = match(

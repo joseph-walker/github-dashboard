@@ -29,7 +29,7 @@
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { me } from "$lib/stores/me";
 	import { remaining } from "$lib/stores/remaining";
-	import { __configuration, __remaining } from "$lib/stores/keys";
+	import { __configuration, __me, __remaining } from "$lib/stores/keys";
 
 	import NavBar from "$lib/components/organisms/NavBar.svelte";
 
@@ -37,6 +37,7 @@
 
 	setContext(__configuration, configuration);
 	setContext(__remaining, remaining);
+	setContext(__me, me);
 
 	initClient({
 		url: 'https://api.github.com/graphql',

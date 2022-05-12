@@ -1,17 +1,35 @@
 <script lang="ts">
+	import type { HoardboardConfiguration, WidgetType } from "$lib/stores/configuration";
+	import type { Writable } from "svelte/store";
+
+	import { getContext } from "svelte";
+
 	import { page } from "$app/stores";
-	import { configuration } from "$lib/stores/configuration";
+	import { __configuration } from "$lib/stores/keys";
+	import { getWidgetsInTab } from "$lib/stores/configuration";
 	import WidgetContainer from "$lib/components/atoms/WidgetContainer.svelte";
 
+	// TODO: Maybe use a actual folder name for descriminant so this isn't necessary?
+	function getWidgetImportPath(widgetType: WidgetType) {
+		switch (widgetType) {
+			case "__PRSearchWidget": return 'SearchPRs';
+			default: {
+				const unknownWidgetType: never = widgetType;
+				throw new Error(`Unknown widget type ${unknownWidgetType}`);
+			}
+		}
+	}
+
+	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
+
+	$: widgetsForTab = getWidgetsInTab($page.params["tab"])($configuration);
+
 	$: widgetList = Promise.all(
-		($configuration[$page.params["tab"]]?.widgets ?? []).map(async function (config, i) {
-			const component = await import(`../../lib/components/widgets/${config.widget}/Widget.svelte`)
+		widgetsForTab.map(async function (config) {
+			const component = await import(`../../lib/components/widgets/${getWidgetImportPath(config.type)}/Widget.svelte`)
 
 			return {
 				...config,
-				args: {
-					...config.args
-				},
 				component: component.default
 			};
 		})
@@ -21,8 +39,12 @@
 <main class="dashboard-grid">
 	{#await widgetList then widgets}
 		{#each widgets as widget}
-			<WidgetContainer colStart={widget.placement[0]} colEnd={widget.placement[1]} rowStart={widget.placement[2]} rowEnd={widget.placement[3]}>
-				<svelte:component this={widget.component} {...widget.args}></svelte:component>
+			<WidgetContainer
+				colStart={widget.placement[0]}
+				colEnd={widget.placement[1]}
+				rowStart={widget.placement[2]}
+				rowEnd={widget.placement[3]}>
+					<svelte:component this={widget.component} title={widget.title} {...widget.args}></svelte:component>
 			</WidgetContainer>
 		{:else}
 			<p>Empty Config</p>

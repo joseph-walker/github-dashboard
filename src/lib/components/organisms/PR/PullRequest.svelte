@@ -13,6 +13,7 @@
 	import Labels from "./summaryLines/Labels.svelte";
 	import Reviews from "./summaryLines/Reviews.svelte";
 	import LineSkeleton from "$lib/components/atoms/LineSkeleton.svelte";
+	import ErrorOverlay from "$lib/components/atoms/ErrorOverlay.svelte";
 
 	type PR = PullRequestQuery["repository"]["pullRequest"];
 
@@ -111,11 +112,7 @@
 		reviews={latestReviews(pr)} />
 
 	{#if error !== ""}
-		<div class="error-overlay">
-			<img src="/icons/bug-outline.svg" alt="error" />
-			<p>Uh oh, something went wrong.</p>
-			<code>{error}</code>
-		</div>
+		<ErrorOverlay --position="absolute" {error} />
 	{/if}
 </div>
 
@@ -135,33 +132,5 @@
 		margin-left: var(--grid-1x);
 		color: var(--font-color-light);
 		font-weight: var(--weight-normal);
-	}
-
-	.error-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background: var(--pr-error-overlay-background);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-		font-size: 0.8rem;
-		gap: var(--grid-1x);
-	}
-
-	.error-overlay img {
-		width: var(--grid-3x);
-		height: var(--grid-3x);
-	}
-
-	.error-overlay code {
-		font-family: monospace;
-		background: var(--body-bg);
-		border: 1px dashed var(--global-border-color);
-		border-radius: var(--widget-roundness);
-		padding: var(--grid-2x);
 	}
 </style>

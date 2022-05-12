@@ -3,18 +3,20 @@
 </script>
 
 <div class="widget">
-	<header>
-		<slot name="header"></slot>
-		<div class="meta">
-			<slot name="meta"></slot>
-		</div>
-	</header>
+	{#if $$slots.header || $$slots.meta}
+		<header>
+			<slot name="header"></slot>
+			<div class="meta">
+				<slot name="meta"></slot>
+			</div>
+		</header>
+	{/if}
 	<slot></slot>
 </div>
 
 <style>
 	.widget {
-		height: 100%; /* 100% of grid row - makes all widgets on a row the same height */
+		height: var(--height, 100%); /* 100% of grid row - makes all widgets on a row the same height */
 		background: var(--widget-background);
 		border-radius: var(--widget-roundness);
 		box-shadow: var(--widget-box-shadow);

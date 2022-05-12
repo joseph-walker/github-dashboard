@@ -19,7 +19,13 @@
 </Template>
 
 <Story
-	name="Search PRs"
+	name="Happy Path"
 	args={{
 		searchQuery: 'is:open is:pr author:Rich-Harris archived:false '
+	}} />
+
+<Story
+	name="Error State"
+	args={{
+		searchQuery: 'repo:joseph-walker/github-dashboard '
 	}} />

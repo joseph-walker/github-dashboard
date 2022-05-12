@@ -33,7 +33,7 @@
 <style>
 	.container {
 		display: flex;
-		max-width: 1200px;
+		max-width: var(--non-grid-max-width);
 		margin: auto;
 		margin-top: 32px;
 		gap: 16px;

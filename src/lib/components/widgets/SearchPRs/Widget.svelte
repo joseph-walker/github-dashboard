@@ -1,9 +1,13 @@
 <script lang="ts" context="module">
+	// TODO: Can some of this stuff be moved to a lib file for this widget?
+	// It's getting a bit cramped, and a lot of this stuff is point-free and could live somewhere else.
 	import type { U } from "ts-toolbelt";
 	import type { SearchPrQuery } from '$lib/generated/graphql';
 
+	import { MonoidAll } from 'fp-ts/boolean'
+	import { concatAll } from 'fp-ts/Monoid';
 	import { flow } from "fp-ts/lib/function.js";
-	import { fold } from "fp-ts/lib/Option.js";
+	import { fold as foldOption } from "fp-ts/lib/Option.js";
 	import { Optional } from "monocle-ts";
 
 	type SearchQuery = ReturnType<typeof import("./makeQuery")["makeQuery"]>["query"];
@@ -17,20 +21,46 @@
 
 	const issueCount = flow(
 		issueCountOptional.getOption,
-		fold(
+		foldOption(
 			() => "?",
 			(issueCount) => `${issueCount}`
 		)
 	);
+
+	const getPrs = foldOption(
+		() => [] as PR[],
+		(prs: PR[]) => prs
+	)
+
+	// TODO: Is this the best way to determine if something is a PR?
+	// Maybe URQL can pass through the __typename property
+	const isPr = (pr: any): boolean => {
+		return (
+			'id' in pr &&
+			'number' in pr &&
+			'owner' in pr.repository
+		 );
+	}
+
+	const searchNodesIncludesOnlyPRs = function (prList: any[]): prList is PR[] {
+		return concatAll(MonoidAll)(prList.map(isPr));
+	}
 </script>
 
 <script lang="ts">
+	import type { Option } from "fp-ts/lib/Option.js";
+	import type { Either } from "fp-ts/lib/Either.js";
+
+	import { some, none, chain } from "fp-ts/lib/Option.js";
+	import { left, right, fold as foldEither } from "fp-ts/lib/Either.js";
+
 	import { queryWithUtilization } from '$lib/queryWithUtilization';
 
 	import PullRequest from '$lib/components/organisms/PR/PullRequest.svelte';
 	import Widget from '$lib/components/atoms/Widget.svelte';
 	import PaginationControls from '$lib/components/molecules/PaginationControls.svelte';
 	import Spinner from "$lib/components/atoms/Spinner.svelte";
+	import ErrorOverlay from "$lib/components/atoms/ErrorOverlay.svelte";
 
 	import { makeQuery } from './makeQuery';
 
@@ -48,7 +78,42 @@
     	$query.reexecute();
 	}
 
-	/** Local Logic */
+	let error: string = "";
+	let prs: Option<PR[]>;
+
+	const impurelySquashError = foldEither(
+		(left: string) => {
+			error = left;
+			return none;
+		},
+		(right: PR[]) => {
+			error = "";
+			return some(right);
+		}
+	);
+
+	$: {
+		let queryResult: Option<Either<string, PR[]>>;
+
+		if ($query.fetching) {
+			queryResult = none;
+		} else if ($query.error) {
+			queryResult = some(
+				left($query.error.message)
+			);
+		} else if (!searchNodesIncludesOnlyPRs($query.data.search.nodes)) {
+			queryResult = some(
+				left("There were github issue tickets in these search results. Did you include an 'is:pr' search term in your search query?")
+			);
+		} else {
+			queryResult = some(
+				right($query.data.search.nodes)
+			);
+		}
+
+		prs = chain(impurelySquashError)(queryResult);
+	}
+
 	// The fetching set keeps track of which child widgets are currently load
 	// If it contains _any_ entries, then the spinner on this component will spin
 	let fetchingSet: Set<string> = new Set([]);
@@ -79,9 +144,13 @@
 		<span><b>{issueCount($query)}</b> Result(s)</span>
 		<Spinner {isLoading} />
 	</div>
-	{#if $query.data}
+	{#if error !== ""}
+		<section>
+			<ErrorOverlay {error} />
+		</section>
+	{:else if $query.data}
 		<ul>
-			{#each $query.data.search.nodes as pr (pr.id)}
+			{#each getPrs(prs) as pr (pr.id)}
 				<li>
 					<PullRequest
 						onFetchStart={addToFetchingSet(pr)}
@@ -93,13 +162,13 @@
 			{/each}
 		</ul>
 	{/if}
-	<section class="pagination">
+	<section>
 		<PaginationControls {paginator} />
 	</section>
 </Widget>
 
 <style>
-	.pagination {
+	section {
 		padding: var(--global-gutter);
 	}
 
@@ -110,7 +179,7 @@
 	}
 
 	ul li {
-		display: flex;
+		display: block;
 		border-bottom: 1px solid var(--global-border-color);
 		padding: var(--global-gutter);
 	}

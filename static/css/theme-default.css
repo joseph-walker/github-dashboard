@@ -96,6 +96,7 @@
 	--navbar-active-tab-indicator-height: 2px;
 	--healthbar-roundness: var(--slightly-rounded);
 	--healthbar-thiccness: var(--grid-1x);
+	--non-grid-max-width: 1200px;
 }
 
 html {

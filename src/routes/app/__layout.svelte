@@ -25,7 +25,7 @@
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
 
-	import { configuration, type WidgetConfig } from "$lib/stores/configuration";
+	import { configuration, type HoardboardConfiguration } from "$lib/stores/configuration";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { me } from "$lib/stores/me";
 	import { remaining } from "$lib/stores/remaining";
@@ -55,7 +55,11 @@
 	});
 
 	onMount(function () {
-		configuration.set(JSON.parse(localStorage.getItem("widget_config")) || {} as WidgetConfig);
+		const localConfig = localStorage.getItem("widget_config");
+
+		if (localConfig) {
+			configuration.set(JSON.parse(localConfig) as HoardboardConfiguration);
+		}
 	});
 
 	const meQuery = operationStore(gql`

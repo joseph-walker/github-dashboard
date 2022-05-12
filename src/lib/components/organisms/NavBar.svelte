@@ -1,21 +1,18 @@
 <script lang="ts">
 	import type { Writable, Readable } from "svelte/store";
-	import type { WidgetConfig } from "$lib/stores/configuration";
+	import type { HoardboardConfiguration } from "$lib/stores/configuration";
 
 	import { getContext } from "svelte";
 	import { page } from "$app/stores";
 
 	import Button from "$lib/components/atoms/Button.svelte";
+	import { getTabsAndSlugs } from "$lib/stores/configuration";
 	import { __configuration, __remaining } from "$lib/stores/keys";
 
-	const configuration: Writable<WidgetConfig> = getContext(__configuration);
+	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 	const remaining: Readable<string | number> = getContext(__remaining);
 
-	$: tabs = Object
-		.entries($configuration)
-		.map(function ([slug, tab]) {
-			return [slug, tab.tabName];
-		});
+	$: tabs = getTabsAndSlugs($configuration);
 </script>
 
 <nav class="nav-bar">
@@ -23,8 +20,13 @@
 	<ul class="tabs">
 		<li><a class:active={$page.url.pathname === "/app"} href="/app">Search</a></li>
 		{#each tabs as tab}
-			<li><a class:active={$page.url.pathname === `/app/${tab[0]}`} href={`/app/${tab[0]}`}>{tab[1]}</a></li>
+			<li><a class:active={$page.url.pathname === `/app/${tab.slug}`} href={`/app/${tab.slug}`}>{tab.tab}</a></li>
 		{/each}
+		<li class="config-link">
+			<a class:active={$page.url.pathname === "/app/configuration"} href="/app/configuration">
+				<img src="/icons/cog-outline.svg" alt="Configuration" />
+			</a>
+		</li>
 	</ul>
 	<div class="resources">
 		<p>Rate Limit:</p>
@@ -66,7 +68,8 @@
 	}
 
 	.tabs {
-		margin-left: var(--grid-3x);
+		margin: 0 var(--grid-1x) 0 var(--grid-2x);
+		flex: 1;
 		display: flex;
 		align-items: center;
 		height: var(--navbar-height);
@@ -89,6 +92,28 @@
 		position: absolute;
 		bottom: 0;
 		left: 0;
+	}
+
+	.config-link {
+		display: contents;
+	}
+
+	.config-link a {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		height: 100%;
+	}
+
+	.config-link img {
+		width: 20px;
+		animation: spin 30s linear infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
 	}
 
 	.resources {

@@ -12,18 +12,18 @@
 	component={Spinner} />
 
 <Story name="Flat">
-	<TreeView {leaves}>
+	<TreeView {leaves} --line-color="var(--green)">
 		<div class="storybook-leaf" slot="root">Tree View</div>
 		<div class="storybook-leaf" slot="leaf" let:leaf>{leaf}</div>
 	</TreeView>
 </Story>
 
 <Story name="Nested">
-	<TreeView {leaves}>
+	<TreeView {leaves} --line-color="var(--yellow)">
 		<div class="storybook-leaf" slot="root">Tree View</div>
 		<svelte:fragment slot="leaf" let:leaf={branch}>
 			{#if branch === "foo"}
-				<TreeView slot="leaf" {leaves}>
+				<TreeView slot="leaf" {leaves} --line-color="var(--light-red)">
 					<div class="storybook-leaf" slot="root">Recursive Tree View</div>
 					<div class="storybook-leaf" slot="leaf" let:leaf>{leaf}</div>
 				</TreeView>
@@ -39,11 +39,11 @@
 		<div class="storybook-leaf" slot="root">Tree View</div>
 		<svelte:fragment slot="leaf" let:leaf={branch}>
 			{#if branch === "foo"}
-				<TreeView slot="leaf" {leaves}>
+				<TreeView slot="leaf" {leaves} --line-color="var(--cyan)">
 					<div class="storybook-leaf" slot="root">Recursive Tree View</div>
 					<svelte:fragment slot="leaf" let:leaf={branch}>
 						{#if branch === "foo"}
-							<TreeView slot="leaf" {leaves}>
+							<TreeView slot="leaf" {leaves} --line-color="var(--light-green)">
 								<div class="storybook-leaf" slot="root">Very Recursive Tree View</div>
 								<div class="storybook-leaf" slot="leaf" let:leaf>{leaf}</div>
 							</TreeView>

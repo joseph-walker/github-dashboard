@@ -12,7 +12,11 @@
 		}
 
 		// If the child is a treeview, then we contain a subtree at this leaf
-		return element.children[0].classList.contains("treeview");
+		// Because we allow --variables to be passed in, we technically need to check 2 layers of children
+		// This is horrible, don't @ me
+		// TODO: Make this less horrible
+		return element.children[0].classList.contains("treeview")
+			|| element.children[0].children[0]?.classList.contains("treeview");
 	});
 </script>
 
@@ -32,11 +36,11 @@
 </div>
 
 <style>
-	:root {
+	.treeview {
 		/* TODO: Move these to the theme file */
 		/* Should be even numbers as these values will be divided by 2 */
 		--tree-line-width: 2px;
-		--tree-line-color: var(--light-blue);
+		--tree-line-color: var(--line-color, var(--light-blue));
 		--tree-child-inset: 32px;
 		--tree-top-line-offset: 16px;
 		--connection-dot-diameter: 6px;
@@ -62,7 +66,7 @@
 		position: absolute;
 		width: var(--connection-dot-diameter);
 		height: var(--connection-dot-diameter);
-		background: var(--blue);
+		background: var(--tree-line-color);
 		border: var(--connection-dot-border-size) solid var(--body-bg);
 		border-radius: 100%;
 	}
@@ -114,10 +118,10 @@
 	.treeview li:last-child:after {
 		content: "";
 		position: absolute;
-		height: calc(100% - var(--tree-top-line-offset) + var(--tree-line-width));
+		height: calc(100% - var(--tree-top-line-offset) + var(--tree-line-width) - var(--tree-line-width) * 2);
 		background: var(--body-bg);
-		left: calc(var(--tree-child-inset) * -1);
-		width: var(--tree-child-inset);
+		left: calc(var(--tree-child-inset) / -2 - 1px);
+		width: var(--tree-line-width);
 		top: calc(var(--tree-top-line-offset) + var(--tree-line-width));
 	}
 </style>

@@ -5,8 +5,9 @@
 
 	import { getContext } from "svelte";
 
+	import TreeView from "$lib/components/atoms/TreeView.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
-	import { allTabsLens } from "$lib/stores/configuration";
+	import { allTabsLens, tabToSlug } from "$lib/stores/configuration";
 	import { __configuration, __me } from "$lib/stores/keys";
 
 	const me: Writable<string> = getContext(__me);
@@ -16,34 +17,34 @@
 </script>
 
 <main>
-	<div class="treeview">
-		<div class="root card">
-			<em>My HoardBoard</em>
-			<super class="root">Root</super>
-		</div>
-		<ul>
-			{#each tabs as tab}
-				<li>
-					<div class="treeview">
-						<div class="root card">
-							<em>{tab.name}</em>
+	<div class="configuration-view">
+		<TreeView leaves={tabs}>
+			<div class="config-leaf" slot="root">
+				<b>My Hoardboard</b>
+				<super class="root">Root</super>
+			</div>
+			<svelte:fragment slot="leaf" let:leaf={tab}>
+				{#if tab.widgets?.length}
+					<TreeView leaves={tab.widgets} --line-color="var(--green)">
+						<div class="config-leaf" slot="root">
+							<b>{tab.name}</b>
+							<p>/app/{tabToSlug(tab.name)}</p>
 							<super class="tab">Tab</super>
 						</div>
-						<ul>
-							{#each tab.widgets as widget}
-								<li>
-									<div class="card">
-										<em>{widget.title}</em>
-										<p>{widget.args.searchQuery}</p>
-										<super class={widget.type}>{widget.type}</super>
-									</div>
-								</li>
-							{/each}
-						</ul>
+						<div class="config-leaf" slot="leaf" let:leaf={widget}>
+							<b>{widget.title}</b>
+							<p>{widget.args.searchQuery}}</p>
+							<super class={`widget ${widget.type}`}>{widget.type}</super>
+						</div>
+					</TreeView>
+				{:else}
+					<div class="config-leaf">
+						<b>{tab.name}</b>
+						<super class="tab">Tab</super>
 					</div>
-				</li>
-			{/each}
-		</ul>
+				{/if}
+			</svelte:fragment>
+		</TreeView>
 	</div>
 	<div class="configurator">
 		<Widget --height="auto">
@@ -74,7 +75,7 @@
 	}
 
 	.configurator,
-	main > .treeview {
+	.configuration-view {
 		flex: 1;
 	}
 
@@ -99,24 +100,16 @@
 		margin-bottom: 8px;
 	}
 
-	.card {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-		position: relative;
-		padding: 16px;
-		background: white;
-		border-radius: var(--slightly-rounded);
-		box-shadow: var(--widget-box-shadow);
-		overflow: hidden;
+	.config-leaf {
+		padding: var(--global-gutter);
 	}
 
-	.card p {
+	.config-leaf b {
+		display: block;
+		margin-bottom: 2px;
+	}
+	.config-leaf p {
 		font-size: 0.8rem;
-	}
-
-	.card em {
-		font-weight: bold;
 	}
 
 	super {
@@ -124,86 +117,22 @@
 		position: absolute;
 		top: 4px;
 		right: 4px;
-		color: white;
-		padding: 2px 12px;
+		padding: 2px 8px;
 		border-radius: var(--slightly-rounded);
 	}
 
 	super.root {
-		background: var(--neutral-dark-gray);
+		background: var(--light-slate);
+		color: var(--white);
 	}
 
 	super.tab {
 		background: var(--blue);
+		color: var(--white);
 	}
 
 	super.__PRSearchWidget {
 		background: var(--green);
-	}
-
-	.root + ul .root:after,
-	.card:before {
-		z-index: 1;
-		content: "";
-		position: absolute;
-		width: var(--connection-dot-diameter);
-		height: var(--connection-dot-diameter);
-		background: var(--blue);
-		border: var(--connection-dot-border-size) solid var(--body-bg);
-		border-radius: 100%;
-	}
-
-	.root:before {
-		bottom: calc(var(--connection-dot-diameter) * -1);
-		left: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
-	}
-
-	.root + ul .root:after {
-		top: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
-		left: calc(var(--connection-dot-diameter) * -1);
-	}
-
-	.treeview ul .card:not(.root):before {
-		top: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
-		left: calc(var(--connection-dot-diameter) * -1);
-	}
-
-	.treeview ul {
-		--margin-offset: calc(var(--tree-line-width) / 2);
-		--margin: calc(var(--tree-child-inset) / 2 - var(--margin-offset));
-
-		margin-left: var(--margin);
-		padding-left: var(--margin);
-		border-left: var(--tree-line-width) solid var(--tree-line-color);
-		padding-top: var(--card-spacing);
-	}
-
-	.treeview li {
-		position: relative;
-		margin-bottom: var(--card-spacing);
-	}
-
-	.treeview li:before {
-		content: "";
-		position: absolute;
-		width: calc(var(--tree-child-inset) / 2);
-		height: var(--tree-line-width);
-		background: var(--tree-line-color);
-		left: calc(var(--tree-child-inset) / -2);
-		top: var(--tree-top-line-offset);
-	}
-
-	.treeview li:last-child {
-		margin-bottom: 0;
-	}
-
-	.treeview li:last-child:after {
-		content: "";
-		position: absolute;
-		height: calc(100% - var(--tree-top-line-offset) + var(--tree-line-width));
-		background: var(--body-bg);
-		left: calc(var(--tree-child-inset) * -1);
-		width: var(--tree-child-inset);
-		top: calc(var(--tree-top-line-offset) + var(--tree-line-width));
+		color: var(--white);
 	}
 </style>

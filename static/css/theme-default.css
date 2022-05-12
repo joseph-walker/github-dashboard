@@ -111,13 +111,12 @@ body {
 }
 
 html, body, #svelte {
-	height: 100%;
+	min-height: 100%;
 }
 
 ul, ol {
 	list-style: none;
 }
-
 
 a {
 	cursor: pointer;

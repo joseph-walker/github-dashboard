@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let leaves: any[];
+	export let leaves: ReadonlyArray<any>;
 
 	let refs = [];
 

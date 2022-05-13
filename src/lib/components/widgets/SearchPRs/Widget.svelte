@@ -4,8 +4,8 @@
 	import type { U } from "ts-toolbelt";
 	import type { SearchPrQuery } from '$lib/generated/graphql';
 
-	import { MonoidAll } from 'fp-ts/boolean'
-	import { concatAll } from 'fp-ts/Monoid';
+	import { MonoidAll } from 'fp-ts/lib/boolean.js'
+	import { concatAll } from 'fp-ts/lib/Monoid.js';
 	import { flow } from "fp-ts/lib/function.js";
 	import { fold as foldOption } from "fp-ts/lib/Option.js";
 	import { Optional } from "monocle-ts";

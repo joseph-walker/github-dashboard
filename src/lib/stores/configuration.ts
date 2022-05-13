@@ -2,11 +2,11 @@ import type { Eq } from 'fp-ts/Eq';
 
 import { writable } from 'svelte/store';
 import { fromTraversable, Lens, Optional, Prism } from "monocle-ts";
-import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray";
-import { Traversable as readonlyArrayTraversableInstance, uniq, map } from "fp-ts/ReadonlyArray";
-import { Eq as stringEq, replace, toLowerCase, trim } from "fp-ts/string";
-import { flow } from "fp-ts/function";
-import { getOrElse } from 'fp-ts/Option';
+import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray.js";
+import { Traversable as readonlyArrayTraversableInstance, uniq, map } from "fp-ts/lib/ReadonlyArray.js";
+import { Eq as stringEq, replace, toLowerCase, trim } from "fp-ts/lib/string.js";
+import { flow } from "fp-ts/lib/function.js";
+import { getOrElse } from 'fp-ts/lib/Option.js';
 
 type Placement = [number, number, number, number];
 

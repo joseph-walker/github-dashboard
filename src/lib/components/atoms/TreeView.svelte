@@ -36,9 +36,10 @@
 </div>
 
 <style>
+	/* Set up the CSS variables for controlling the treeview appearance */
+	/* TODO: Move these to the theme file */
+	/* Should be even numbers as these values will be divided by 2 */
 	.treeview {
-		/* TODO: Move these to the theme file */
-		/* Should be even numbers as these values will be divided by 2 */
 		--tree-line-width: 2px;
 		--tree-line-color: var(--line-color, var(--light-blue));
 		--tree-child-inset: 32px;
@@ -48,18 +49,22 @@
 		--card-spacing: 16px;
 	}
 
+	/* Not everything with a dot will be a leaf - both need to be positioned */
 	.with-dot,
 	.leaf {
 		position: relative;
 	}
 
+	/* Leaves should look like widgets */
 	.leaf {
 		background-color: var(--widget-background);
-		border-radius: var(--slightly-rounded);
+		border-radius: var(--widget-roundness);
 		box-shadow: var(--widget-box-shadow);
 	}
 
-	.root + ul .root:after,
+	/* with-dots AND root elements of subtree should have dots */
+	/* This rule does not position the dot - only draws it */
+	:global(.treeview .root + ul .root:after),
 	.with-dot:before {
 		z-index: 1;
 		content: "";
@@ -71,21 +76,22 @@
 		border-radius: 100%;
 	}
 
+	/* Root elements should position their dot at the bottom */
+	/* This is a :before element, not an :after */
+	/* Roots don't have :before selectors and rely on also having with-dot classes */
 	.root:before {
 		bottom: calc(var(--connection-dot-diameter) * -1);
 		left: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
 	}
 
-	.root + ul .root:after {
-		top: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
-		left: calc(var(--connection-dot-diameter) * -1);
-	}
-
+	/* with-dots AND root elements of subtree should position their dot to the left */
+	:global(.treeview .root + ul .root:after),
 	.treeview ul .with-dot:not(.root):before {
 		top: calc(var(--connection-dot-border-size) + var(--connection-dot-diameter));
 		left: calc(var(--connection-dot-diameter) * -1);
 	}
 
+	/* The list child of a treeview draws the vertical line as a border */
 	.treeview ul {
 		--margin-offset: calc(var(--tree-line-width) / 2);
 		--margin: calc(var(--tree-child-inset) / 2 - var(--margin-offset));
@@ -101,6 +107,7 @@
 		margin-bottom: var(--card-spacing);
 	}
 
+	/* List elements draw their horizontal line connecting to the vertical line */
 	.treeview li:before {
 		content: "";
 		position: absolute;
@@ -111,10 +118,14 @@
 		top: var(--tree-top-line-offset);
 	}
 
+	/* Remove the margin from the last child */
 	.treeview li:last-child {
 		margin-bottom: 0;
 	}
 
+	/* The last child of a tree view list draws an additional rectangle over the top of the left treeview border */
+	/* This gives the illusion that the line stops; it doesn't. It's just covered up by another element that happens */
+	/* to match the background color of whatever the treeview is drawn on */
 	.treeview li:last-child:after {
 		content: "";
 		position: absolute;

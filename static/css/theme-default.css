@@ -64,6 +64,8 @@
 	--pr-diff-deletions: var(--red);
 	--pr-error-overlay-background: rgba(255, 255, 255, 0.8);
 	--search-prs-widget-zebra-stripe-background: var(--off-white);
+	--input-background: var(--widget-background);
+	--input-focus-color: var(--green);
 
 	/* Font characteristics */
 	--root-font-size: 14px;

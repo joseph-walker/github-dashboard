@@ -4,7 +4,9 @@
 
 <div class="error-overlay">
 	<img src="/icons/bug-outline.svg" alt="error" />
-	<p>Uh oh, something went wrong.</p>
+	<p>
+		<slot>Uh oh, something went wrong.</slot>
+	</p>
 	<code>{error}</code>
 </div>
 

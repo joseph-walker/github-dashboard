@@ -5,10 +5,19 @@
 
 	import { getContext } from "svelte";
 
-	import TreeView from "$lib/components/atoms/TreeView.svelte";
-	import Widget from "$lib/components/atoms/Widget.svelte";
-	import { allTabsLens, tabToSlug } from "$lib/stores/configuration";
 	import { __configuration, __me } from "$lib/stores/keys";
+	import { allTabsLens, tabToSlug, tabAtIndexOptional, widgetAtIndexInTabOptional } from "$lib/stores/configuration";
+	import TreeView from "$lib/components/atoms/TreeView.svelte";
+	import PRSearchConfigurator from "$lib/components/widgets/SearchPRs/Configurator.svelte";
+
+	// TODO: There's a super edge-case here where the configuration won't load on the first ticket
+	// The configuration is booted with an empty state, because local-storage can't be read until the application
+	// mounts (i.e. not on the server).
+	// This is manifested as a flash on page load; it's obnoxious in general, but here causes an actual issue.
+	// When the component mounts, if first tick hasn't happened yet the Optionals will read the empty configuration
+	// and default to their empty-string values.
+	const tabFocus = tabAtIndexOptional(0);
+	const widgetFocus = widgetAtIndexInTabOptional(0)(tabFocus);
 
 	const me: Writable<string> = getContext(__me);
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
@@ -33,7 +42,7 @@
 						</div>
 						<div class="config-leaf" slot="leaf" let:leaf={widget}>
 							<b>{widget.title}</b>
-							<p>{widget.args.searchQuery}}</p>
+							<p>{widget.args.searchQuery}</p>
 							<super class={`widget ${widget.type}`}>{widget.type}</super>
 						</div>
 					</TreeView>
@@ -47,12 +56,11 @@
 		</TreeView>
 	</div>
 	<div class="configurator">
-		<Widget --height="auto">
-			<div class="no-selection">
-				<img src="/icons/arrow-undo-outline.svg" alt="Select a node" />
-				<p>Click on a node from your configuration to edit its settings.</p>
-			</div>
-		</Widget>
+		<!-- <div class="no-selection">
+			<img src="/icons/arrow-undo-outline.svg" alt="Select a node" />
+			<p>Click on a node from your configuration to edit its settings.</p>
+		</div> -->
+		<PRSearchConfigurator focus={widgetFocus} />
 	</div>
 </main>
 
@@ -60,18 +68,8 @@
 	main {
 		display: flex;
 		max-width: var(--non-grid-max-width);
-		margin: 16px auto;
-		gap: 32px;
-
-		/* TODO: Move these to the theme file */
-		/* Should be even numbers as these values will be divided by 2 */
-		--tree-line-width: 2px;
-		--tree-line-color: var(--light-blue);
-		--tree-child-inset: 32px;
-		--tree-top-line-offset: 16px;
-		--connection-dot-diameter: 6px;
-		--connection-dot-border-size: 4px;
-		--card-spacing: 16px;
+		margin: var(--global-gutter) auto;
+		gap: var(--global-gutter);
 	}
 
 	.configurator,
@@ -102,6 +100,11 @@
 
 	.config-leaf {
 		padding: var(--global-gutter);
+    	border-radius: var(--slightly-rounded);
+	}
+
+	.config-leaf.selected {
+		box-shadow: var(--green) 0px 0px 0px 1px, inset var(--green) 0px 0px 0px 2px;
 	}
 
 	.config-leaf b {
@@ -115,8 +118,8 @@
 	super {
 		font-size: 0.7rem;
 		position: absolute;
-		top: 4px;
-		right: 4px;
+		top: var(--grid-1x);
+		right: var(--grid-1x);
 		padding: 2px 8px;
 		border-radius: var(--slightly-rounded);
 	}

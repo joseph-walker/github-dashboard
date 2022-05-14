@@ -25,10 +25,10 @@
 		<slot name="root"></slot>
 	</div>
 	<ul>
-		{#each leaves as leaf,i}
+		{#each leaves as leaf,idx}
 			<li>
-				<div class="with-dot" class:leaf={!containsSubtree[i]} bind:this={refs[i]}>
-					<slot name="leaf" {leaf}></slot>
+				<div class="with-dot" class:leaf={!containsSubtree[idx]} bind:this={refs[idx]}>
+					<slot name="leaf" {leaf} {idx}></slot>
 				</div>
 			</li>
 		{/each}

@@ -168,20 +168,22 @@
 </Widget>
 
 <style>
-	section {
-		padding: var(--global-gutter);
-	}
-
 	ul {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+		margin-bottom: var(--global-gutter);
 	}
 
 	ul li {
 		display: block;
 		border-bottom: 1px solid var(--global-border-color);
 		padding: var(--global-gutter);
+		margin: 0 calc(var(--global-gutter) * -1);
+	}
+
+	ul li:first-child {
+		padding-top: 0;
 	}
 
 	ul li:nth-child(2n) {

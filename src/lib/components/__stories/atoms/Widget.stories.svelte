@@ -11,7 +11,6 @@
 <Story name="Widget without Meta">
 	<Widget>
 		<h2 slot="header"><b>Title</b></h2>
-		<p>Widgets don't add padding to their content - the content needs to pad itself.</p>
 		<p>The titles, however, do add padding.</p>
 		<p>Use <code>var(--global-gutter)</code> to conform with the global padding.</p>
 	</Widget>
@@ -38,9 +37,5 @@
 		background: #EFEFEF;
 		font-family: monospace;
 		padding: 2px 4px;
-	}
-
-	p {
-		margin: var(--global-gutter);
 	}
 </style>

@@ -5,6 +5,7 @@
 	import SearchPRsConfigurator from "$lib/components/widgets/SearchPRs/Configurator.svelte";
 	import ApplicationContextDecorator from "$lib/components/__storybook/ApplicationContextDecorator.svelte";
 	import ConfigurationReflector from "$lib/components/__storybook/ConfigurationReflector.svelte";
+import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
 
 	const tabFocus = tabAtIndexOptional(0);
 	const widgetFocus = widgetAtIndexInTabOptional(0)(tabFocus);
@@ -16,7 +17,9 @@
 
 <Story name="Configurator">
 	<ApplicationContextDecorator>
-		<SearchPRsConfigurator focus={widgetFocus} />
+		<WidgetBackgroundDecorator>
+			<SearchPRsConfigurator focus={widgetFocus} />
+		</WidgetBackgroundDecorator>
 		<ConfigurationReflector />
 	</ApplicationContextDecorator>
 </Story>

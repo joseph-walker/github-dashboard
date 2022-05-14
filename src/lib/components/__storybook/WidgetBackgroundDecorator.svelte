@@ -13,8 +13,4 @@
 	h2 {
 		font-weight: var(--weight-bold);
 	}
-
-	section {
-		padding: 16px;
-	}
 </style>

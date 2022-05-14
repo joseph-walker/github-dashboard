@@ -22,6 +22,7 @@
 		box-shadow: var(--widget-box-shadow);
 		display: flex;
 		flex-direction: column;
+		padding: var(--global-gutter);
 	}
 
 	header {
@@ -29,6 +30,8 @@
 		align-items: center;
 		font-size: 1rem;
 		border-bottom: 1px solid var(--global-border-color);
+		margin: calc(var(--global-gutter) * -1);
+		margin-bottom: var(--global-gutter);
 		padding: var(--widget-title-bar-spacing) var(--global-gutter);
 	}
 

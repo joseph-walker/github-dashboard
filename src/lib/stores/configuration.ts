@@ -55,8 +55,8 @@ export const searchQueryArgLens = prSearchArgsLens
 // Traversals
 const widgetsTraversal = fromTraversable(readonlyArrayTraversableInstance)<WidgetUnion>();
 const tabsTraversal = fromTraversable(readonlyArrayTraversableInstance)<Tab>();
-const widgetAt = indexReadonlyArray<WidgetUnion>();
-const tabAt = indexReadonlyArray<Tab>();
+export const widgetAt = indexReadonlyArray<WidgetUnion>();
+export const tabAt = indexReadonlyArray<Tab>();
 
 // Prisms
 const prSearchPrism = Prism.fromPredicate<WidgetUnion, PRSearchWidget>(

@@ -6,23 +6,44 @@
 	import { getContext } from "svelte";
 
 	import { __configuration, __me } from "$lib/stores/keys";
-	import { allTabsLens, tabToSlug, tabAtIndexOptional, widgetAtIndexInTabOptional } from "$lib/stores/configuration";
+	import { allTabsLens, tabToSlug, tabAtIndexOptional, widgetsLens, widgetAt } from "$lib/stores/configuration";
+	import Widget from "$lib/components/atoms/Widget.svelte";
+	import MessageOverlay from "$lib/components/atoms/MessageOverlay.svelte";
 	import TreeView from "$lib/components/atoms/TreeView.svelte";
 	import PRSearchConfigurator from "$lib/components/widgets/SearchPRs/Configurator.svelte";
 
-	// TODO: There's a super edge-case here where the configuration won't load on the first ticket
+	// TODO: There's a super edge-case here where the configuration won't load on the first tick
 	// The configuration is booted with an empty state, because local-storage can't be read until the application
 	// mounts (i.e. not on the server).
 	// This is manifested as a flash on page load; it's obnoxious in general, but here causes an actual issue.
 	// When the component mounts, if first tick hasn't happened yet the Optionals will read the empty configuration
 	// and default to their empty-string values.
-	const tabFocus = tabAtIndexOptional(0);
-	const widgetFocus = widgetAtIndexInTabOptional(0)(tabFocus);
 
 	const me: Writable<string> = getContext(__me);
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
+	let focus = null;
+	let focusedIdx: [number | number, number | null] = [null, null];
+
 	$: tabs = allTabsLens.get($configuration);
+
+	$: {
+		if (focusedIdx[0] !== null && focusedIdx[1] !== null) {
+			focus = tabAtIndexOptional(focusedIdx[0])
+				.composeLens(widgetsLens)
+				.composeOptional(widgetAt.index(focusedIdx[1]))
+		}
+	}
+
+	$: widgetInFocus = (tabIndex: number, widgetIndex: number) => {
+		return tabIndex === focusedIdx[0] && widgetIndex === focusedIdx[1];
+	}
+
+	function setFocus(nextFocus: [number | number, number | null]) {
+		return function () {
+			focusedIdx = nextFocus;
+		}
+	}
 </script>
 
 <main>
@@ -32,7 +53,7 @@
 				<b>My Hoardboard</b>
 				<super class="root">Root</super>
 			</div>
-			<svelte:fragment slot="leaf" let:leaf={tab}>
+			<svelte:fragment slot="leaf" let:leaf={tab} let:idx={tabIndex}>
 				{#if tab.widgets?.length}
 					<TreeView leaves={tab.widgets} --line-color="var(--green)">
 						<div class="config-leaf" slot="root">
@@ -40,10 +61,16 @@
 							<p>/app/{tabToSlug(tab.name)}</p>
 							<super class="tab">Tab</super>
 						</div>
-						<div class="config-leaf" slot="leaf" let:leaf={widget}>
-							<b>{widget.title}</b>
-							<p>{widget.args.searchQuery}</p>
-							<super class={`widget ${widget.type}`}>{widget.type}</super>
+						<div
+							class:selected={widgetInFocus(tabIndex, widgetIndex)}
+							class="config-leaf"
+							slot="leaf"
+							let:leaf={widget}
+							let:idx={widgetIndex}
+							on:click={setFocus([tabIndex, widgetIndex])}>
+								<b>{widget.title}</b>
+								<p>{widget.args.searchQuery}</p>
+								<super class={`widget ${widget.type}`}>{widget.type}</super>
 						</div>
 					</TreeView>
 				{:else}
@@ -56,11 +83,17 @@
 		</TreeView>
 	</div>
 	<div class="configurator">
-		<!-- <div class="no-selection">
-			<img src="/icons/arrow-undo-outline.svg" alt="Select a node" />
-			<p>Click on a node from your configuration to edit its settings.</p>
-		</div> -->
-		<PRSearchConfigurator focus={widgetFocus} />
+		<Widget --height="auto">
+			{#key focusedIdx}
+				{#if focus === null}
+					<div class="no-selection">
+						<MessageOverlay icon="/icons/arrow-undo-outline.svg" --position="absolute">Select a node from the left to configure it.</MessageOverlay>
+					</div>
+				{:else}
+					<PRSearchConfigurator {focus} />
+				{/if}
+			{/key}
+		</Widget>
 	</div>
 </main>
 
@@ -77,25 +110,13 @@
 		flex: 1;
 	}
 
+	.no-selection {
+		min-height: 128px;
+	}
+
 	:global(.configurator .widget) {
 		position: sticky;
 		top: 16px;
-	}
-
-	.no-selection {
-		display: grid;
-		place-items: center;
-		padding: 32px;
-		background: var(--neutral-light-gray);
-		margin: 32px;
-		border: 1px dashed var(--neutral-dark-gray);
-		color: #666;
-		border-radius: var(--slightly-rounded);
-	}
-
-	.no-selection img {
-		width: 24px;
-		margin-bottom: 8px;
 	}
 
 	.config-leaf {
@@ -111,6 +132,7 @@
 		display: block;
 		margin-bottom: 2px;
 	}
+
 	.config-leaf p {
 		font-size: 0.8rem;
 	}

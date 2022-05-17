@@ -85,6 +85,7 @@
 	--grid-6x: calc(var(--base-grid) * 6);
 	--grid-8x: calc(var(--base-grid) * 8);
 	--slightly-rounded: 4px;
+	--form-element-height: 38px;
 
 	/* Semantic spacing assignments  */
 	--summary-line-height: var(--off-grid-2x);

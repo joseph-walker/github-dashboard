@@ -2,6 +2,8 @@
 	import SearchPRs from "$lib/components/widgets/SearchPRs/Widget.svelte";
 	import SearchGuide from "$lib/components/molecules/SearchGuide.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
+	import Input from "$lib/components/atoms/Input.svelte";
+	import Button from "$lib/components/atoms/Button.svelte";
 
 	let searchString: string = "";
 	let searchQuery: string = "";
@@ -13,29 +15,28 @@
 
 <main class="container">
 	<section class="search-column">
-		<form method="GET" action="/app" on:submit|preventDefault={runSearch}>
-			<input type="text" bind:value={searchString} />
-			<button>Search</button>
-		</form>
-
+		<Widget class="search-container">
+			<form method="GET" action="/app" on:submit|preventDefault={runSearch}>
+				<Input bind:value={searchString}>Search Query</Input>
+				<Button type="submit">Search</Button>
+				<Button>Save Search</Button>
+			</form>
+		</Widget>
 		<SearchPRs {searchQuery} title="Search Results" />
 	</section>
 	<aside class="docs-column">
-		<Widget>
-			<h2 slot="header"><b>Search Guide</b></h2>
-			<div class="search-guide-wrapper">
-				<SearchGuide />
-			</div>
-		</Widget>
+		<SearchGuide />
 	</aside>
 </main>
 
 <style>
 	.container {
+		--height: auto;
+
 		display: flex;
 		max-width: var(--non-grid-max-width);
 		margin: auto;
-		margin-top: 32px;
+		margin: var(--global-gutter) auto;
 		gap: 16px;
 	}
 
@@ -47,31 +48,14 @@
 		flex: 2;
 	}
 
-	.search-guide-wrapper {
-		padding: 16px;
+	:global(.search-container) {
+		margin-bottom: var(--global-gutter);
 	}
 
 	form {
-		display: flex;
-		margin-bottom: 16px;
-	}
-
-	input[type="text"] {
-		padding: 8px;
-		margin-right: 8px;
-		flex: 1;
-		background: white;
-		border-radius: 4px;
-		width: 100%;
-		border: 1px solid var(--global-border-color);
-	}
-
-	button {
-		font-size: 0.9rem;
-		padding: 6px 16px;
-		border-radius: 4px;
-		background: #2e86de;
-		color: white;
-		cursor: pointer;
+		display: grid;
+		align-items: end;
+		grid-template-columns: 1fr auto auto;
+		gap: var(--grid-1x);
 	}
 </style>

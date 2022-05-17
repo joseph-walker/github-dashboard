@@ -18,7 +18,8 @@
 	}
 
 	input {
-		padding: var(--grid-1x);
+		height: var(--form-element-height);
+		padding: 0 var(--grid-1x);
 		background: var(--input-background);
 		border-radius: var(--widget-roundness);
 		width: 100%;

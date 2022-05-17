@@ -61,6 +61,7 @@
 	import PaginationControls from '$lib/components/molecules/PaginationControls.svelte';
 	import Spinner from "$lib/components/atoms/Spinner.svelte";
 	import ErrorOverlay from "$lib/components/atoms/ErrorOverlay.svelte";
+	import MessageOverlay from "$lib/components/atoms/MessageOverlay.svelte";
 
 	import { makeQuery } from './makeQuery';
 
@@ -159,6 +160,8 @@
 						repo={pr.repository.name}
 						number={pr.number} />
 				</li>
+			{:else}
+				<MessageOverlay>There doesn't seem to be anything here.</MessageOverlay>
 			{/each}
 		</ul>
 	{/if}
@@ -173,6 +176,7 @@
 		display: flex;
 		flex-direction: column;
 		margin-bottom: var(--global-gutter);
+		position: relative;
 	}
 
 	ul li {

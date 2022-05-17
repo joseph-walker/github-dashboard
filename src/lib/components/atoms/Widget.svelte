@@ -1,8 +1,10 @@
 <script lang="ts">
-	//
+	let className: string = undefined;
+
+	export { className as class };
 </script>
 
-<div class="widget">
+<div class={["widget", className].filter(c => c !== undefined).join(" ")}>
 	{#if $$slots.header || $$slots.meta}
 		<header>
 			<slot name="header"></slot>

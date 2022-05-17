@@ -2,10 +2,11 @@
 	export let role: "button" | "link" = "button";
 	export let disabled: boolean = false;
 	export let href: string = "";
+	export let type: string | undefined = undefined;
 </script>
 
 {#if role === "button"}
-	<button on:click {disabled}>
+	<button on:click {disabled} {type}>
 		<slot></slot>
 	</button>
 {:else if role === "link"}
@@ -18,7 +19,10 @@
 	a,
 	button {
 		font-size: 0.9rem;
-		padding: var(--grid-1x) var(--grid-2x);
+		padding: 0 var(--grid-2x);
+		height: var(--form-element-height);
+		display: grid;
+		place-items: center;
 		border-radius: var(--button-roundness);
 		background: var(--button-color-primary);
 		color: var(--button-text-primary);

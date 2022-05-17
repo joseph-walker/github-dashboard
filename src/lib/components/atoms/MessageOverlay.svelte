@@ -11,6 +11,7 @@
 
 <style>
 	.message-overlay {
+		height: 100%;
 		position: var(--position, static);
 		top: 0;
 		left: 0;

@@ -60,6 +60,10 @@
 		if (localConfig) {
 			configuration.set(JSON.parse(localConfig) as HoardboardConfiguration);
 		}
+
+		configuration.subscribe(function (nextConfig) {
+			window.localStorage.setItem("widget_config", JSON.stringify(nextConfig));
+		});
 	});
 
 	const meQuery = operationStore(gql`

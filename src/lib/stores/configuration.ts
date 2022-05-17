@@ -2,6 +2,7 @@ import type { Eq } from 'fp-ts/Eq';
 
 import { writable } from 'svelte/store';
 import { fromTraversable, Lens, Optional, Prism } from "monocle-ts";
+import { id } from "monocle-ts/lib/Lens.js";
 import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray.js";
 import { Traversable as readonlyArrayTraversableInstance, uniq, map } from "fp-ts/lib/ReadonlyArray.js";
 import { Eq as stringEq, replace, toLowerCase, trim } from "fp-ts/lib/string.js";
@@ -22,7 +23,7 @@ export type PRSearchWidget = BaseWidget<"__PRSearchWidget"> & {
     }
 }
 
-type WidgetUnion
+export type WidgetUnion
     = PRSearchWidget;
 
 export type WidgetType =
@@ -39,12 +40,15 @@ export type HoardboardConfiguration = {
 
 // Lenses
 // Generic Lenses
+const rootId = id<HoardboardConfiguration>();
+export const hoardboardRootConfigIdentityLens = new Lens(rootId.get, rootId.set);
 export const allTabsLens = Lens.fromProp<HoardboardConfiguration>()('tabs');
 export const widgetsLens = Lens.fromProp<Tab>()('widgets');
 export const tabNameLens = Lens.fromProp<Tab>()('name');
 export const titleLens = Lens.fromProp<WidgetUnion>()('title');
 export const placementLens = Lens.fromProp<WidgetUnion>()('placement');
 export const argsLens = Lens.fromProp<WidgetUnion>()('args');
+export const widgetTypeLens = Lens.fromProp<WidgetUnion>()('type');
 
 // Type-Specific Lenses: PRSearch
 const prSearchArgsLens = Lens.fromProp<PRSearchWidget>()('args');
@@ -122,10 +126,3 @@ const emptyConfiguration: HoardboardConfiguration = {
 };
 
 export const configuration = writable<HoardboardConfiguration>(emptyConfiguration);
-
-// TODO: This broke with new config format
-// configuration.subscribe(function (nextConfig) {
-// 	if (typeof window !== 'undefined' && Object.keys(nextConfig).length) {
-// 		window.localStorage.setItem("widget_config", JSON.stringify(nextConfig));
-// 	}
-// });

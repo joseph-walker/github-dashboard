@@ -8,17 +8,7 @@
 	import { __configuration } from "$lib/stores/keys";
 	import { getWidgetsInTab } from "$lib/stores/configuration";
 	import WidgetContainer from "$lib/components/atoms/WidgetContainer.svelte";
-
-	// TODO: Maybe use a actual folder name for descriminant so this isn't necessary?
-	function getWidgetImportPath(widgetType: WidgetType) {
-		switch (widgetType) {
-			case "__PRSearchWidget": return 'SearchPRs';
-			default: {
-				const unknownWidgetType: never = widgetType;
-				throw new Error(`Unknown widget type ${unknownWidgetType}`);
-			}
-		}
-	}
+	import { getWidgetImportPathSlug } from "$lib/getWidgetImportPathSlug";
 
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
@@ -26,7 +16,7 @@
 
 	$: widgetList = Promise.all(
 		widgetsForTab.map(async function (config) {
-			const component = await import(`../../lib/components/widgets/${getWidgetImportPath(config.type)}/Widget.svelte`)
+			const component = await import(`../../lib/components/widgets/${getWidgetImportPathSlug(config.type)}/Widget.svelte`);
 
 			return {
 				...config,

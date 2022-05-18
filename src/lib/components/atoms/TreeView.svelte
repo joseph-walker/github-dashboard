@@ -60,6 +60,9 @@
 		background-color: var(--widget-background);
 		border-radius: var(--widget-roundness);
 		box-shadow: var(--widget-box-shadow);
+
+		/* Theme Easing */
+		transition: background-color var(--theme-switch-easing);
 	}
 
 	/* with-dots AND root elements of subtree should have dots */
@@ -74,6 +77,9 @@
 		background: var(--tree-line-color);
 		border: var(--connection-dot-border-size) solid var(--body-bg);
 		border-radius: 100%;
+
+		/* Theme Easing */
+		transition: border-color var(--theme-switch-easing);
 	}
 
 	/* Root elements should position their dot at the bottom */
@@ -134,5 +140,8 @@
 		left: calc(var(--tree-child-inset) / -2 - 1px);
 		width: var(--tree-line-width);
 		top: calc(var(--tree-top-line-offset) + var(--tree-line-width));
+
+		/* Theme Easing - This one is needed to preserve the illusion of the hack */
+		transition: background var(--theme-switch-easing);
 	}
 </style>

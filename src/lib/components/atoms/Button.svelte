@@ -27,6 +27,10 @@
 		background: var(--button-color-primary);
 		color: var(--button-text-primary);
 		cursor: pointer;
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing),
+			color var(--theme-switch-easing);
 	}
 
 	button:disabled {

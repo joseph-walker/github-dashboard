@@ -14,6 +14,10 @@
 		border-top-color: var(--loading-spinner-active-color);
 		animation: spin 0.5s linear infinite;
 		animation-play-state: paused;
+
+		/* Theme Easing */
+		transition: border-top-color var(--theme-switch-easing),
+			border-color var(--theme-switch-easing);
 	}
 
 	.isLoading {

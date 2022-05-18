@@ -48,6 +48,10 @@
 		padding: 0 var(--global-gutter);
 		background-attachment: fixed;
 		background-size: cover;
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing),
+			border-color var(--theme-switch-easing);
 	}
 
 	h1 {
@@ -139,6 +143,9 @@
 		background: var(--global-border-color);
 		margin-left: var(--grid-1x);
 		border-radius: var(--healthbar-roundness);
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing);
 	}
 
 	.hp-bar .hp {

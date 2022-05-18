@@ -39,6 +39,9 @@
 		border-radius: var(--slightly-rounded);
 		max-width: 128px;
 		cursor: pointer;
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing);
 	}
 
 	.switch {

@@ -25,6 +25,9 @@
 		display: flex;
 		flex-direction: column;
 		padding: var(--global-gutter);
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing);
 	}
 
 	header {

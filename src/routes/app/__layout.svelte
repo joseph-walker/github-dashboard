@@ -24,8 +24,10 @@
 	import { gql, operationStore, initClient, dedupExchange, fetchExchange } from '@urql/svelte';
 	import { cacheExchange } from '@urql/exchange-graphcache';
 	import { devtoolsExchange } from '@urql/devtools';
+	import { flow } from "fp-ts/lib/function.js";
+	import { getOrElse } from "fp-ts/lib/Option.js";
 
-	import { configuration, type HoardboardConfiguration } from "$lib/stores/configuration";
+	import { configuration, themeLens, type HoardboardConfiguration } from "$lib/stores/configuration";
 	import { queryWithUtilization } from "$lib/queryWithUtilization";
 	import { me } from "$lib/stores/me";
 	import { remaining } from "$lib/stores/remaining";
@@ -81,7 +83,17 @@
 			$me = $meQuery.data.viewer.login;
 		}
 	}
+
+	$: theme = flow(
+		themeLens.get,
+		theme => `/css/theme-${theme}.css`
+	)($configuration);
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href={theme}>
+</svelte:head>
+
 <NavBar />
+
 <slot></slot>

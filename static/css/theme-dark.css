@@ -82,6 +82,7 @@
 	--grid-6x: calc(var(--base-grid) * 6);
 	--grid-8x: calc(var(--base-grid) * 8);
 	--slightly-rounded: 4px;
+	--form-element-height: 38px;
 
 	/* Semantic spacing assignments  */
 	--summary-line-height: var(--off-grid-2x);
@@ -95,6 +96,7 @@
 	--navbar-active-tab-indicator-height: 2px;
 	--healthbar-roundness: var(--slightly-rounded);
 	--healthbar-thiccness: var(--grid-1x);
+	--non-grid-max-width: 1200px;
 }
 
 html {

@@ -35,6 +35,7 @@ export type Tab = {
 }
 
 export type HoardboardConfiguration = {
+	theme: "light" | "dark";
     tabs: ReadonlyArray<Tab>;
 }
 
@@ -49,6 +50,7 @@ export const titleLens = Lens.fromProp<WidgetUnion>()('title');
 export const placementLens = Lens.fromProp<WidgetUnion>()('placement');
 export const argsLens = Lens.fromProp<WidgetUnion>()('args');
 export const widgetTypeLens = Lens.fromProp<WidgetUnion>()('type');
+export const themeLens = Lens.fromProp<HoardboardConfiguration>()('theme');
 
 // Type-Specific Lenses: PRSearch
 const prSearchArgsLens = Lens.fromProp<PRSearchWidget>()('args');
@@ -122,6 +124,7 @@ export const withDefaultEmptyString = (option: Optional<HoardboardConfiguration,
 );
 
 const emptyConfiguration: HoardboardConfiguration = {
+	theme: "light",
 	tabs: []
 };
 

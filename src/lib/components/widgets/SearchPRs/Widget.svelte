@@ -51,7 +51,9 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { Either } from "fp-ts/lib/Either.js";
 
-	import { some, none, chain } from "fp-ts/lib/Option.js";
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+	import { some, none, chain, isNone } from "fp-ts/lib/Option.js";
 	import { left, right, fold as foldEither } from "fp-ts/lib/Either.js";
 
 	import { queryWithUtilization } from '$lib/queryWithUtilization';
@@ -80,7 +82,7 @@
 	}
 
 	let error: string = "";
-	let prs: Option<PR[]>;
+	let prs: Option<PR[]> = none;
 
 	const impurelySquashError = foldEither(
 		(left: string) => {
@@ -96,7 +98,7 @@
 	$: {
 		let queryResult: Option<Either<string, PR[]>>;
 
-		if ($query.fetching) {
+		if ($query.fetching && isNone(prs)) {
 			queryResult = none;
 		} else if ($query.error) {
 			queryResult = some(
@@ -151,8 +153,8 @@
 		</section>
 	{:else if $query.data}
 		<ul>
-			{#each getPrs(prs) as pr (pr.id)}
-				<li>
+			{#each getPrs(prs) as pr, i (pr.id)}
+				<li in:fly={{ duration: 250, delay: i * 50, x: 25, easing: quintOut }}>
 					<PullRequest
 						onFetchStart={addToFetchingSet(pr)}
 						onFetchEnd={removeFromFetchingSet(pr)}

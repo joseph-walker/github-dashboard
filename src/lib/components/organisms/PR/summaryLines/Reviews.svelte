@@ -3,6 +3,8 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { PullRequestQuery } from "$lib/generated/graphql";
 
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 	import { getContext } from "svelte";
 	import { identity } from "fp-ts/lib/function.js";
 	import { map, match } from "fp-ts/lib/Option.js";
@@ -30,8 +32,8 @@
 		<b>{numReviews}</b>&nbsp;Review(s)
 	</LineSkeleton>
 	<ul class="reviews" slot="meta">
-		{#each reviewsReady as review}
-			<li>
+		{#each reviewsReady as review, i}
+			<li in:fly={{ duration: 250, delay: i * 50, x: 25, easing: quintOut }}>
 				<ReviewPill
 					isMe={review.author.login === $me}
 					author={review.author.login}
@@ -53,6 +55,6 @@
 	}
 
 	.reviews li {
-		display: contents;
+		display: block;
 	}
 </style>

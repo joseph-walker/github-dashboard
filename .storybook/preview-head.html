@@ -1,4 +1,51 @@
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 </style>
+<style>
+	@namespace svg "http://www.w3.org/2000/svg";
+
+	:not(svg|*) {
+		all: unset;
+		display: revert;
+		box-sizing: border-box;
+
+		/* Controls the gentle fade into a different theme */
+		--theme-switch-easing: 0.5s ease-in-out;
+	}
+
+	html {
+		font-size: var(--root-font-size);
+	}
+
+	body {
+		font-weight: var(--weight-normal);
+		background: var(--body-bg);
+		color: var(--font-color);
+		font-family: 'Nunito', serif;
+
+		/* Theme Easing */
+		transition: background var(--theme-switch-easing),
+			color var(--theme-switch-easing);
+	}
+
+	html, body, #svelte {
+		min-height: 100%;
+	}
+
+	ul, ol {
+		list-style: none;
+	}
+
+	a {
+		cursor: pointer;
+	}
+
+	a:visited {
+		color: inherit;
+	}
+
+	b {
+		font-weight: var(--weight-bold);
+	}
+</style>
 <link rel="stylesheet" href="/css/theme-light.css">

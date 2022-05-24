@@ -1,6 +1,5 @@
 import type { Eq } from 'fp-ts/Eq';
 
-import { writable } from 'svelte/store';
 import { fromTraversable, Lens, Optional, Prism } from "monocle-ts";
 import { id } from "monocle-ts/lib/Lens.js";
 import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray.js";
@@ -123,9 +122,8 @@ export const withDefaultEmptyString = (option: Optional<HoardboardConfiguration,
 	getOrElse(() => "")
 );
 
-const emptyConfiguration: HoardboardConfiguration = {
+export const emptyConfiguration: HoardboardConfiguration = {
 	theme: "light",
 	tabs: []
 };
 
-export const configuration = writable<HoardboardConfiguration>(emptyConfiguration);

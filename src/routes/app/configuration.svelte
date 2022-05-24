@@ -33,6 +33,7 @@
 
 	let configuratorMap: Record<ConfiguratorType, Promise<any>> = {} as Record<ConfiguratorType, Promise<any>>;
 
+	// TODO: Preload all these so the obnoxious flash goes away
 	function getConfiguratorForType(type: ConfiguratorType) {
 		if (!(type in configuratorMap)) {
 			switch(type) {
@@ -150,7 +151,7 @@
 							title={widget.title}
 							leafType={widget.type}
 							selected={nodeIsInFocus(tabIdx, widgetIdx)}
-							on:click={setFocus(tabIdx, widgetIdx)}>
+							on:click={setFocus(tabIdx, widgetIdx)}> <!-- TODO: WHY IS THIS A TYPE ERROR IT'S CORRECT -->
 								<span>{widget.args.searchQuery}</span>
 						</ConfigurationLeaf>
 					</TreeView>

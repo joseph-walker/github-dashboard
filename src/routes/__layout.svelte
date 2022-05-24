@@ -2,7 +2,7 @@
 
 <svelte:head>
 	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+		@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=block');
 	</style>
 </svelte:head>
 

@@ -16,11 +16,9 @@
 	}} />
 
 <Template let:args>
-	<ApplicationContextDecorator>
-		<WidgetBackgroundDecorator>
-			<PullRequest {...args} />
-		</WidgetBackgroundDecorator>
-	</ApplicationContextDecorator>
+	<WidgetBackgroundDecorator>
+		<PullRequest {...args} />
+	</WidgetBackgroundDecorator>
 </Template>
 
 <Story

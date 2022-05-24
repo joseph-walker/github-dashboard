@@ -3,6 +3,7 @@ import type { HoardboardConfiguration } from '$lib/stores/configuration';
 import { writable } from 'svelte/store';
 
 const storybookConfig: HoardboardConfiguration = {
+	theme: "light",
 	tabs: [
 		{
 			name: "Storybook",

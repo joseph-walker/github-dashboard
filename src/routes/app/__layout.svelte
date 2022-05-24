@@ -33,8 +33,7 @@
 	import { __configuration, __me, __remaining } from "$lib/stores/keys";
 
 	import NavBar from "$lib/components/organisms/NavBar.svelte";
-	import DarkTheme from "$lib/components/organisms/DarkTheme.svelte";
-	import LightTheme from "$lib/components/organisms/LightTheme.svelte";
+	import ThemeSwitcher from "$lib/components/organisms/ThemeController.svelte";
 
 	export let theme: HoardboardConfiguration["theme"];
 	export let token: string;
@@ -43,8 +42,6 @@
 		...emptyConfiguration,
 		theme
 	});
-
-	$: activeTheme = $configuration.theme;
 
 	setContext(__configuration, configuration);
 	setContext(__remaining, remaining);
@@ -66,8 +63,6 @@
 	});
 
 	onMount(function () {
-		let debounce: NodeJS.Timeout;
-
 		const localConfig = localStorage.getItem("widget_config");
 
 		if (localConfig) {
@@ -76,20 +71,7 @@
 
 		configuration.subscribe(function (nextConfig) {
 			window.localStorage.setItem("widget_config", JSON.stringify(nextConfig));
-
-			if (activeTheme != nextConfig.theme) {
-				if (debounce) clearTimeout(debounce);
-
-				debounce = setTimeout(function () {
-					fetch("/app/syncThemeToSession", {
-						method: "POST",
-						body: nextConfig.theme
-					});
-				}, 250);
-			}
 		});
-
-		return () => debounce && clearTimeout(debounce);
 	});
 
 	const meQuery = operationStore(gql`
@@ -109,12 +91,7 @@
 	}
 </script>
 
-{#if activeTheme === "light"}
-	<LightTheme />
-{:else}
-	<DarkTheme />
-{/if}
-
+<ThemeSwitcher />
 <NavBar />
 
 <slot></slot>

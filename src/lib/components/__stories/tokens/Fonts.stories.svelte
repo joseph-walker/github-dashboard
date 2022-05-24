@@ -2,7 +2,7 @@
 	import { Meta, Story } from "@storybook/addon-svelte-csf";
 
 	import WidgetBackgroundDecorator from "$lib/components/__storybook/WidgetBackgroundDecorator.svelte";
-	import { evaluateCSSVariable } from "$lib/components/__storybook/evalueCSSVariable";
+	import { evaluateCSSVariable } from "$lib/components/__storybook/evaluateCSSVariable";
 </script>
 
 <Meta title="Tokens / Fonts" />

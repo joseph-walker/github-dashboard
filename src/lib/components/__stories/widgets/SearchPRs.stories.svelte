@@ -13,9 +13,7 @@
 	}} />
 
 <Template let:args>
-	<ApplicationContextDecorator>
-		<SearchPRsWidget {...args} />
-	</ApplicationContextDecorator>
+	<SearchPRsWidget {...args} />
 </Template>
 
 <Story

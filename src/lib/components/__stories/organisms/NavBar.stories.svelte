@@ -10,7 +10,5 @@
 	component={NavBar} />
 
 <Story name="Nav Bar">
-	<ApplicationContextDecorator>
-		<NavBar />
-	</ApplicationContextDecorator>
+	<NavBar />
 </Story>

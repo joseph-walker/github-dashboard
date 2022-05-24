@@ -1,0 +1,12 @@
+[
+  {
+    "kind": 1,
+    "language": "markdown",
+    "value": "### MVP Project Issues\n\nIssues that should be completed before going live with MVP"
+  },
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "repo:joseph-walker/github-dashboard milestone:\"MVP\" is:open"
+  }
+]

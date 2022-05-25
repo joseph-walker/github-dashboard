@@ -48,5 +48,6 @@
 		grid-template-columns: repeat(6, 1fr);
 		gap: var(--global-gutter);
 		padding: var(--global-gutter);
+		overflow-x: hidden;
 	}
 </style>

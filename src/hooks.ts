@@ -1,8 +1,10 @@
+import type { GetSession } from "@sveltejs/kit";
+
 import { handleSession } from "svelte-kit-cookie-session";
 
 import { SESSION_SECRET } from "$lib/envServer";
 
-export async function getSession({ locals }) {
+export const getSession: GetSession = async function getSession({ locals }) {
 	return locals.session.data;
 }
 

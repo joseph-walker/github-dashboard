@@ -4,7 +4,8 @@
 	import Button from "$lib/components/atoms/Button.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
 
-	export let options: any[];
+	export let options: any[] | ReadonlyArray<any>;
+	export let align: "left" | "right" = "left";
 
 	const dispatch = createEventDispatcher();
 
@@ -30,7 +31,7 @@
 		</div>
 	</Button>
 	{#if isOpen}
-		<aside>
+		<aside class:left={align === "left"} class:right={align === "right"}>
 			<Widget>
 				<ul class="options">
 					{#each options as option}
@@ -67,6 +68,7 @@
     	height: var(--form-element-height);
 		padding: 0 var(--global-gutter);
 		cursor: pointer;
+		white-space: nowrap;
 	}
 
 	.options li:hover {
@@ -86,13 +88,19 @@
 	}
 
 	aside {
-		width: auto;
 		min-width: 100%;
-		max-width: var(--grid-8x);
+		max-width: 512px;
 		position: absolute;
 		top: calc(100% + var(--grid-1x));
-		left: 0;
 		z-index: 10;
+	}
+
+	aside.left {
+		left: 0;
+	}
+
+	aside.right {
+		right: 0;
 	}
 
 	img {

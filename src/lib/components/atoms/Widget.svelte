@@ -38,6 +38,9 @@
 		margin: calc(var(--global-gutter) * -1);
 		margin-bottom: var(--global-gutter);
 		padding: var(--widget-title-bar-spacing) var(--global-gutter);
+
+		/* Theme Easing */
+		transition: border-color var(--theme-switch-easing);
 	}
 
 	.meta {

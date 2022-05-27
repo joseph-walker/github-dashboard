@@ -30,6 +30,18 @@
 				{option}
 			</svelte:fragment>
 		</DropdownButton>
+		<DropdownButton {options} on:click-option={doOnClick} theme="secondary">
+			An Secondary Dropdown Button
+			<svelte:fragment slot="option" let:option>
+				{option}
+			</svelte:fragment>
+		</DropdownButton>
+		<DropdownButton {options} on:click-option={doOnClick} theme="danger">
+			An Danger Dropdown Button
+			<svelte:fragment slot="option" let:option>
+				{option}
+			</svelte:fragment>
+		</DropdownButton>
 		<ul>
 			{#each clicks as click}
 				<li>{click}</li>

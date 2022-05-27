@@ -6,6 +6,7 @@
 
 	export let options: any[] | ReadonlyArray<any>;
 	export let align: "left" | "right" = "left";
+	export let theme: "primary" | "secondary" | "danger" = "primary";
 
 	const dispatch = createEventDispatcher();
 
@@ -24,7 +25,7 @@
 </script>
 
 <div class="placement-wrapper">
-	<Button on:click={toggleOpen}>
+	<Button on:click={toggleOpen} {theme}>
 		<div class="container-for-arrow">
 			<slot></slot>
 			<img src="/icons/chevron-down-outline.svg" alt="Options" />

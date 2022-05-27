@@ -11,6 +11,17 @@
 
 <Story name="Button">
 	<WidgetBackgroundDecorator>
-		<Button>An Button</Button>
+		<div>
+			<Button>An Button</Button>
+			<Button theme="secondary">An Secondary Button</Button>
+			<Button theme="danger">An Danger Button</Button>
+		</div>
 	</WidgetBackgroundDecorator>
 </Story>
+
+<style>
+	div {
+		display: flex;
+		gap: 4px;
+	}
+</style>

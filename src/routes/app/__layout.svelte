@@ -2,8 +2,6 @@
 	import type { Load } from "@sveltejs/kit";
 
 	export const load: Load = async function load(request) {
-		console.log(request.session)
-
 		if (!request.session.accessToken) {
 			return {
 				status: 301,

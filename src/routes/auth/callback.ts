@@ -22,13 +22,14 @@ export const get: RequestHandler = async function get(request) {
 	const accessToken = parsed.access_token;
 
 	request.locals.session.data = {
+		...request.locals.session.data,
 		accessToken
 	};
 
 	return {
 		status: 303,
 		headers: {
-			"location": "/app/home"
+			"location": "/auth/welcome"
 		}
 	};
 }

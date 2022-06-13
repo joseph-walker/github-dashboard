@@ -12,7 +12,8 @@ export const get: RequestHandler = async function get(request) {
 	return {
 		status: 301,
 		headers: {
-			"location": "/"
+			"location": "/",
+			"cache-control": "no-store",
 		}
 	};
 }

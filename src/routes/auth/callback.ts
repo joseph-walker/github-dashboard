@@ -29,7 +29,8 @@ export const get: RequestHandler = async function get(request) {
 	return {
 		status: 303,
 		headers: {
-			"location": "/auth/welcome"
+			"location": "/auth/welcome",
+			"cache-control": "no-store",
 		}
 	};
 }

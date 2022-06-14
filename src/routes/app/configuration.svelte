@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts">
 	import type { Lens, Optional } from "monocle-ts";
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { Writable } from "svelte/store";
@@ -7,10 +7,9 @@
 
 	import { getContext } from "svelte";
 	import { flow } from "fp-ts/lib/function.js";
-	import { map, none, some, getOrElse, fold } from "fp-ts/lib/Option.js";
+	import { map, none, some, getOrElse } from "fp-ts/lib/Option.js";
 
 	import { __configuration, __me } from "$lib/stores/keys";
-	import { getWidgetImportPathSlug } from "$lib/getWidgetImportPathSlug";
 	import {
 		allTabsLens,
 		tabToSlug,
@@ -20,6 +19,14 @@
 		widgetTypeLens,
 		hoardboardRootConfigIdentityLens
 	} from "$lib/stores/configuration";
+	import RunOption from "$lib/components/atoms/RunOption.svelte";
+	import Widget from "$lib/components/atoms/Widget.svelte";
+	import MessageOverlay from "$lib/components/atoms/MessageOverlay.svelte";
+	import TreeView from "$lib/components/atoms/TreeView.svelte";
+	import ConfigurationLeaf from "$lib/components/molecules/ConfigurationLeaf.svelte";
+	import RootConfigurator from "$lib/components/widgets/RootConfigurator.svelte";
+	import TabConfigurator from "$lib/components/widgets/TabConfigurator.svelte";
+	import SearchPRsConfigurator from "$lib/components/widgets/SearchPRs/Configurator.svelte";
 
 	type ConfiguratorType
 		= "Root"
@@ -31,36 +38,20 @@
 		| Optional<HoardboardConfiguration, Tab>
 		| Lens<HoardboardConfiguration, HoardboardConfiguration>;
 
-	let configuratorMap: Record<ConfiguratorType, Promise<any>> = {} as Record<ConfiguratorType, Promise<any>>;
-
-	// TODO: Preload all these so the obnoxious flash goes away
 	function getConfiguratorForType(type: ConfiguratorType) {
-		if (!(type in configuratorMap)) {
-			switch(type) {
-				case "Root": {
-					configuratorMap[type] = import("../../lib/components/widgets/RootConfigurator.svelte");
-					break;
-				}
-				case "Tab": {
-					configuratorMap[type] = import("../../lib/components/widgets/TabConfigurator.svelte");
-					break;
-				}
-				default: {
-					configuratorMap[type] = import(`../../lib/components/widgets/${getWidgetImportPathSlug(type)}/Configurator.svelte`);
-					break;
-				}
+		switch(type) {
+			case "Root": {
+				return RootConfigurator;
+			}
+			case "Tab": {
+				return TabConfigurator;
+			}
+			default: {
+				// TODO: Expand this when new widget types are introduced
+				return SearchPRsConfigurator;
 			}
 		}
-
-		return configuratorMap[type];
 	}
-</script>
-
-<script lang="ts">
-	import Widget from "$lib/components/atoms/Widget.svelte";
-	import MessageOverlay from "$lib/components/atoms/MessageOverlay.svelte";
-	import TreeView from "$lib/components/atoms/TreeView.svelte";
-	import ConfigurationLeaf from "$lib/components/molecules/ConfigurationLeaf.svelte";
 
 	// TODO: There's a super edge-case here where the configuration won't load on the first tick
 	// The configuration is booted with an empty state, because local-storage can't be read until the application
@@ -73,7 +64,7 @@
 	let maybeFocusedIdx: Option<[number | number, number | null]> = none;
 
 	// Derived from maybeFocusedIdx - don't set them directly except in reactive statements
-	let configurator: Promise<any> = new Promise(() => {});
+	let configurator: Option<any> = none; // This is a Svelte component, which don't have well-defined compile time types
 	let focus: Focus = null;
 
 	$: tabs = allTabsLens.get($configuration);
@@ -98,21 +89,18 @@
 					(focus as Optional<HoardboardConfiguration, WidgetUnion>)
 						.composeLens(widgetTypeLens)
 						.getOption,
-					fold(
-						() => { throw new Error("Unedfined widget type"); },
-						getConfiguratorForType
-					)
+					map(getConfiguratorForType)
 				)($configuration);
 			} else if (focusedIdx[0] !== null && focusedIdx[1] === null) {
 				focus = tabAtIndexOptional(focusedIdx[0]);
 
-				configurator = getConfiguratorForType("Tab");
+				configurator = some(getConfiguratorForType("Tab"));
 			} else if (focusedIdx[0] === null && focusedIdx[1] === null) {
 				focus = hoardboardRootConfigIdentityLens;
 
-				configurator = getConfiguratorForType("Root");
+				configurator = some(getConfiguratorForType("Root"));
 			} else {
-				throw new Error("Undefined selection state.");
+				configurator = none;
 			}
 		}
 	}
@@ -162,13 +150,14 @@
 	<div class="configurator">
 		<Widget --height="auto">
 			{#key maybeFocusedIdx}
-				{#await configurator}
-					<div class="no-selection">
+				<RunOption option={configurator}>
+					<div slot="none" class="no-selection">
 						<MessageOverlay icon="/icons/arrow-undo-outline.svg" --position="absolute">Select a node from the left to configure it.</MessageOverlay>
 					</div>
-				{:then component}
-					<svelte:component {focus} this={component.default} />
-				{/await}
+					<svelte:fragment slot="some" let:some={component}>
+						<svelte:component {focus} this={component} />
+					</svelte:fragment>
+				</RunOption>
 			{/key}
 		</Widget>
 	</div>

@@ -6,7 +6,10 @@ import {
 	tabEq,
 	getTabs,
 	getTabsAndSlugs,
-	withDefaultEmptyString
+	withDefaultEmptyString,
+	oneColumnPlacementGenerator,
+	twoColumnPlacementGenerator,
+	threeColumnPlacementGenerator
 } from "../configuration";
 
 describe("tabToSlug Utility", function () {
@@ -47,5 +50,40 @@ describe("withDefaultEmptyString Utility", function () {
 
 		expect(withDefaultEmptyString(justFoo)(fixture)).toEqual("bar");
 		expect(withDefaultEmptyString(nothing)(fixture)).toEqual("");
+	});
+});
+
+describe("placement generators", function () {
+	describe("one column generator", function () {
+		it("generates one a column layout", function () {
+			const gen = oneColumnPlacementGenerator();
+
+			expect(gen.next().value).toEqual([1, 7, 1, 2]);
+			expect(gen.next().value).toEqual([1, 7, 2, 3]);
+			expect(gen.next().value).toEqual([1, 7, 3, 4]);
+		});
+	});
+
+	describe("two column generator", function () {
+		it("generates two a column layout", function () {
+			const gen = twoColumnPlacementGenerator();
+
+			expect(gen.next().value).toEqual([1, 4, 1, 2]);
+			expect(gen.next().value).toEqual([4, 7, 1, 2]);
+			expect(gen.next().value).toEqual([1, 4, 2, 3]);
+			expect(gen.next().value).toEqual([4, 7, 2, 3]);
+		});
+	});
+
+	describe("three column generator", function () {
+		it("generates three a column layout", function () {
+			const gen = threeColumnPlacementGenerator();
+
+			expect(gen.next().value).toEqual([1, 3, 1, 2]);
+			expect(gen.next().value).toEqual([3, 5, 1, 2]);
+			expect(gen.next().value).toEqual([5, 7, 1, 2]);
+			expect(gen.next().value).toEqual([1, 3, 2, 3]);
+			expect(gen.next().value).toEqual([3, 5, 2, 3]);
+		});
 	});
 });

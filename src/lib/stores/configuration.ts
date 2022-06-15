@@ -3,14 +3,15 @@ import type { Eq } from 'fp-ts/Eq';
 import { fromTraversable, Lens, Optional, Prism } from "monocle-ts";
 import { id } from "monocle-ts/lib/Lens.js";
 import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray.js";
-import { Traversable as readonlyArrayTraversableInstance, map, mapWithIndex, deleteAt } from "fp-ts/lib/ReadonlyArray.js";
+import { Traversable as readonlyArrayTraversableInstance, map, mapWithIndex, deleteAt, head } from "fp-ts/lib/ReadonlyArray.js";
 import { replace, toLowerCase, trim } from "fp-ts/lib/string.js";
 import { flow } from "fp-ts/lib/function.js";
 import { getOrElse } from 'fp-ts/lib/Option.js';
 import { max, concatAll } from "fp-ts/lib/Monoid.js";
 import { Bounded } from "fp-ts/lib/number.js";
 
-type Placement = [number, number, number, number];
+export type PlacementType = "1-col" | "2-col" | "3-col" | "custom";
+export type Placement = [number, number, number, number];
 
 type BaseWidget<T extends string> = {
     type: T;
@@ -33,6 +34,7 @@ export type WidgetType =
 export type Tab = {
 	name: string;
 	widgets: ReadonlyArray<WidgetUnion>;
+	placementType: PlacementType;
 }
 
 export type HoardboardConfiguration = {
@@ -52,6 +54,7 @@ export const placementLens = Lens.fromProp<WidgetUnion>()('placement');
 export const argsLens = Lens.fromProp<WidgetUnion>()('args');
 export const widgetTypeLens = Lens.fromProp<WidgetUnion>()('type');
 export const themeLens = Lens.fromProp<HoardboardConfiguration>()('theme');
+export const placementTypeLens = Lens.fromProp<Tab>()("placementType");
 
 // Type-Specific Lenses: PRSearch
 const prSearchArgsLens = Lens.fromProp<PRSearchWidget>()('args');
@@ -147,6 +150,22 @@ export const getWidgetsInTab = (tab: string) => tabByName(tab)
     .getAll;
 
 /**
+ * Given a tab name, return the placement type for it - used to determine
+ * how to lay out the widgets on this tab.
+ *
+ * @param tab
+ * @returns
+ */
+export const getPlacementTypeForTab = (tab: string): (configuration: HoardboardConfiguration) => PlacementType => flow(
+	tabByName(tab)
+		.composeLens(placementTypeLens)
+		.asFold()
+		.getAll,
+	head,
+	getOrElse(() => "custom" as PlacementType)
+);
+
+/**
  * Given a tab name and a new widget, insert the widget into it.
  *
  * @param tab
@@ -179,6 +198,7 @@ export const insertWidgetInNewTab = (tabName: string) => (newWidget: WidgetUnion
 	.modify(function (tabsList) {
 		return tabsList.concat({
 			name: tabName,
+			placementType: "1-col",
 			widgets: [newWidget]
 		});
 	});
@@ -262,6 +282,41 @@ export const removeTabLeaf = (tabIdx: number) => allTabsLens
 			getOrElse(() => [] as ReadonlyArray<Tab>)
 		)
 	);
+
+export function * oneColumnPlacementGenerator(): Generator<Placement> {
+	let row = 1;
+
+	while (true) {
+		yield [1, 7, row , ++row];
+	}
+}
+
+export function * twoColumnPlacementGenerator(): Generator<Placement> {
+	let col = 1;
+	let row = 1;
+
+	while (true) {
+		yield [1, col + 3, row , row + 1];
+		yield [col + 3, col + 6, row, row + 1];
+
+		col = 1;
+		row++;
+	}
+}
+
+export function * threeColumnPlacementGenerator(): Generator<Placement> {
+	let col = 1;
+	let row = 1;
+
+	while (true) {
+		yield [1, col + 2, row , row + 1];
+		yield [col + 2, col + 4, row, row + 1];
+		yield [col + 4, col + 6, row, row + 1];
+
+		col = 1;
+		row++;
+	}
+}
 
 export const emptyPlacement: Placement = [1, 7, 1, 2];
 

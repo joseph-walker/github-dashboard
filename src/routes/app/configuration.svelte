@@ -3,11 +3,11 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { Writable } from "svelte/store";
 
-	import type { HoardboardConfiguration, Tab, WidgetType, WidgetUnion } from "$lib/stores/configuration";
+	import { removeTabLeaf, removeWidgetLeaf, type HoardboardConfiguration, type Tab, type WidgetType, type WidgetUnion } from "$lib/stores/configuration";
 
 	import { getContext } from "svelte";
 	import { flow } from "fp-ts/lib/function.js";
-	import { map, none, some, getOrElse } from "fp-ts/lib/Option.js";
+	import { map, fold, none, some, getOrElse } from "fp-ts/lib/Option.js";
 
 	import { __configuration, __me } from "$lib/stores/keys";
 	import {
@@ -38,6 +38,8 @@
 		| Optional<HoardboardConfiguration, Tab>
 		| Lens<HoardboardConfiguration, HoardboardConfiguration>;
 
+	type Idx = [number | null, number | null];
+
 	function getConfiguratorForType(type: ConfiguratorType) {
 		switch(type) {
 			case "Root": {
@@ -61,10 +63,10 @@
 	// and default to their empty-string values.
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
-	let maybeFocusedIdx: Option<[number | number, number | null]> = none;
+	let maybeFocusedIdx: Option<Idx> = none;
 
 	// Derived from maybeFocusedIdx - don't set them directly except in reactive statements
-	let configurator: Option<any> = none; // This is a Svelte component, which don't have well-defined compile time types
+	let configurator: any = null; // This is a Svelte component, which don't have well-defined compile time types
 	let focus: Focus = null;
 
 	$: tabs = allTabsLens.get($configuration);
@@ -89,26 +91,44 @@
 					(focus as Optional<HoardboardConfiguration, WidgetUnion>)
 						.composeLens(widgetTypeLens)
 						.getOption,
-					map(getConfiguratorForType)
+					fold(
+						() => { throw new Error("Unkonwn widget type") },
+						getConfiguratorForType
+					)
 				)($configuration);
 			} else if (focusedIdx[0] !== null && focusedIdx[1] === null) {
 				focus = tabAtIndexOptional(focusedIdx[0]);
 
-				configurator = some(getConfiguratorForType("Tab"));
+				configurator = getConfiguratorForType("Tab");
 			} else if (focusedIdx[0] === null && focusedIdx[1] === null) {
 				focus = hoardboardRootConfigIdentityLens;
 
-				configurator = some(getConfiguratorForType("Root"));
+				configurator = getConfiguratorForType("Root");
 			} else {
-				configurator = none;
+				configurator = null;
 			}
 		}
 	}
 
-	function setFocus(nextTabFocus: number | null, nextWidgetFocus: number | null) {
+	function setFocus(nextTabFocus: Idx[0], nextWidgetFocus: Idx[1]) {
 		return function () {
 			maybeFocusedIdx = some([nextTabFocus, nextWidgetFocus]);
 		}
+	}
+
+	function makeDeleteLeaf(idx: Idx) {
+		return function () {
+			const tabIdx = idx[0];
+			const widgetIdx = idx[1];
+
+			if (tabIdx !== null && widgetIdx !== null) {
+				$configuration = removeWidgetLeaf(tabIdx)(widgetIdx)($configuration);
+			} else {
+				$configuration = removeTabLeaf(tabIdx)($configuration);
+			}
+
+			maybeFocusedIdx = none;
+		};
 	}
 </script>
 
@@ -143,22 +163,32 @@
 								<span>{widget.args.searchQuery}</span>
 						</ConfigurationLeaf>
 					</TreeView>
+				{:else}
+					<!-- TODO: Can this duplication be cut down somehow? -->
+					<ConfigurationLeaf
+						slot="leaf"
+						title={tab.name}
+						leafType="Tab"
+						selected={nodeIsInFocus(tabIdx, null)}
+						on:click={setFocus(tabIdx, null)}>
+							<span>/app/{tabToSlug(tab.name)}</span>
+					</ConfigurationLeaf>
 				{/if}
 			</svelte:fragment>
 		</TreeView>
 	</div>
 	<div class="configurator">
 		<Widget --height="auto">
-			{#key maybeFocusedIdx}
-				<RunOption option={configurator}>
-					<div slot="none" class="no-selection">
-						<MessageOverlay icon="/icons/arrow-undo-outline.svg" --position="absolute">Select a node from the left to configure it.</MessageOverlay>
-					</div>
-					<svelte:fragment slot="some" let:some={component}>
-						<svelte:component {focus} this={component} />
-					</svelte:fragment>
-				</RunOption>
-			{/key}
+			<RunOption option={maybeFocusedIdx}>
+				<div slot="none" class="no-selection">
+					<MessageOverlay icon="/icons/arrow-undo-outline.svg" --position="absolute">Select a node from the left to configure it.</MessageOverlay>
+				</div>
+				<svelte:fragment slot="some" let:some={focusedIdx}>
+					{#key maybeFocusedIdx}
+						<svelte:component {focus} this={configurator} on:delete={makeDeleteLeaf(focusedIdx)} />
+					{/key}
+				</svelte:fragment>
+			</RunOption>
 		</Widget>
 	</div>
 </main>

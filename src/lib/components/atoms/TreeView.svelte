@@ -7,7 +7,7 @@
 	// Unfortunately you can't do that with pure CSS, so we need some JS.
 	$: containsSubtree = refs.map(function(element) {
 		// If there isn't exactly 1 child, there's no way this can be a subtree
-		if (element.children.length !== 1) {
+		if (!element || element.children.length !== 1) {
 			return false;
 		}
 
@@ -25,7 +25,7 @@
 		<slot name="root"></slot>
 	</div>
 	<ul>
-		{#each leaves as leaf,idx}
+		{#each leaves as leaf, idx (leaf)}
 			<li>
 				<div class="with-dot" class:leaf={!containsSubtree[idx]} bind:this={refs[idx]}>
 					<slot name="leaf" {leaf} {idx}></slot>

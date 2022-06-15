@@ -5,7 +5,7 @@
 
 	import Button from "$lib/components/atoms/Button.svelte";
 
-	export let holdDuration: number = 2000;
+	export let holdDuration: number = 1000;
 	export let resetHoldDuration: number = 2000;
 	export let resetSpeed: number = 300;
 	export let theme: "primary" | "secondary" | "danger" = "primary";

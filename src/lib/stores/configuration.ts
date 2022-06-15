@@ -3,8 +3,8 @@ import type { Eq } from 'fp-ts/Eq';
 import { fromTraversable, Lens, Optional, Prism } from "monocle-ts";
 import { id } from "monocle-ts/lib/Lens.js";
 import { indexReadonlyArray } from "monocle-ts/lib/Index/ReadonlyArray.js";
-import { Traversable as readonlyArrayTraversableInstance, uniq, map, mapWithIndex } from "fp-ts/lib/ReadonlyArray.js";
-import { Eq as stringEq, replace, toLowerCase, trim } from "fp-ts/lib/string.js";
+import { Traversable as readonlyArrayTraversableInstance, map, mapWithIndex, deleteAt } from "fp-ts/lib/ReadonlyArray.js";
+import { replace, toLowerCase, trim } from "fp-ts/lib/string.js";
 import { flow } from "fp-ts/lib/function.js";
 import { getOrElse } from 'fp-ts/lib/Option.js';
 import { max, concatAll } from "fp-ts/lib/Monoid.js";
@@ -87,6 +87,9 @@ export const tabsLens = allTabsLens
 
 export const tabAtIndexOptional = (i: number) => allTabsLens
 	.composeOptional(tabAt.index(i));
+
+export const widgetsInTabAtIndexOptional = (i: number) => tabAtIndexOptional(i)
+	.composeLens(widgetsLens);
 
 export const widgetAtIndexInTabOptional = (i: number) => (tabLens: ReturnType<typeof tabAtIndexOptional>) => tabLens
 	.composeLens(widgetsLens)
@@ -231,6 +234,34 @@ export const getNextPlacementInTab = (idx: number) => flow(
         .getAll,
 	calculateNextPlacement
 );
+
+/**
+ * Given a specific tab index and a specific widget index, delete that widget.
+ *
+ * @param tabIdx
+ * @returns
+ */
+export const removeWidgetLeaf = (tabIdx: number) => (widgetIdx: number) => widgetsInTabAtIndexOptional(tabIdx)
+	.modify(
+		flow(
+			deleteAt(widgetIdx),
+			getOrElse(() => [] as ReadonlyArray<WidgetUnion>)
+		)
+	);
+
+/**
+ * Given a specific tab index, delete that tab.
+ *
+ * @param tabIdx
+ * @returns
+ */
+export const removeTabLeaf = (tabIdx: number) => allTabsLens
+	.modify(
+		flow(
+			deleteAt(tabIdx),
+			getOrElse(() => [] as ReadonlyArray<Tab>)
+		)
+	);
 
 export const emptyPlacement: Placement = [1, 7, 1, 2];
 

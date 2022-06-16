@@ -3,11 +3,11 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { Optional } from "monocle-ts";
 
-	import type { HoardboardConfiguration, Placement, PlacementType, Tab } from "$lib/stores/configuration";
+	import type { HoardboardConfiguration, PlacementType, Tab } from "$lib/stores/configuration";
 
 	import { createEventDispatcher, getContext } from "svelte";
 
-	import { tabNameLens, withDefaultEmptyString, placementTypeLens } from "$lib/stores/configuration";
+	import { tabNameLens, withDefaultEmptyString, placementTypeLens, tabNameIsTaken } from "$lib/stores/configuration";
 	import { __configuration } from "$lib/stores/keys";
 	import Input from "$lib/components/atoms/Input.svelte";
 	import HoldButton from "$lib/components/molecules/HoldButton.svelte";
@@ -22,13 +22,30 @@
 	const tabNameFocus = focus.composeLens(tabNameLens);
 	const placementTypeFocus = focus.composeLens(placementTypeLens);
 
+	let nameError: string = null;
 	let tabName: string = withDefaultEmptyString(tabNameFocus)($configuration);
+
+	// Not the prettiest error handling, but it works
+	let tabNameDirty = false;
+	let tabNameInitial = tabName;
 
 	let maybePlacementType: Option<PlacementType>;
 	$: maybePlacementType = placementTypeFocus.getOption($configuration);
 
 	$: {
-		configuration.update(tabNameFocus.set(tabName));
+		if (tabName === tabNameInitial) {
+			tabNameDirty = false;
+		}
+
+		if (tabNameDirty && tabNameIsTaken(tabName)($configuration)) {
+			nameError = `"${tabName}" is already in use`;
+		} else if (tabName === "") {
+			nameError = "Empty string is not a valid name";
+		} else {
+			nameError = null;
+			configuration.update(tabNameFocus.set(tabName));
+			tabNameDirty = true;
+		}
 	}
 
 	function setPlacementType(t: PlacementType) {
@@ -37,7 +54,7 @@
 </script>
 
 <section>
-	<Input bind:value={tabName}>Tab Name</Input>
+	<Input bind:value={tabName} error={nameError}>Tab Name</Input>
 
 	<!-- TODO: This should probably be a molecule/organism -->
 	<div class="layout-picker">

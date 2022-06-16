@@ -48,8 +48,4 @@
 		stroke-width: 1pt;
 		fill: var(--widget-background);
 	}
-
-	.text {
-		text-anchor: middle;
-	}
 </style>

@@ -11,9 +11,16 @@
 	title="Atoms / Input"
 	component={Input} />
 
-<Story name="Input">
+<Story name="Normal">
 	<WidgetBackgroundDecorator>
 		<Input bind:value>A Storybook Text Input</Input>
+		<p>Input reflection: {value}</p>
+	</WidgetBackgroundDecorator>
+</Story>
+
+<Story name="Error">
+	<WidgetBackgroundDecorator>
+		<Input bind:value error="Must be a 256 character string">A Storybook Text Input</Input>
 		<p>Input reflection: {value}</p>
 	</WidgetBackgroundDecorator>
 </Story>

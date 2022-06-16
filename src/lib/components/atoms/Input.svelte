@@ -1,11 +1,18 @@
 <script lang="ts">
 	export let value: string;
+	export let error: string = null;
 </script>
 
 <div class="field">
 	<!-- svelte-ignore a11y-label-has-associated-control -->
-	<label><slot></slot></label>
-	<input bind:value type="text" />
+	<label>
+		{#if error === null}
+			<slot></slot>
+		{:else}
+			{error}
+		{/if}
+	</label>
+	<input bind:value type="text" class:error />
 </div>
 
 <style>
@@ -30,5 +37,9 @@
 
 	input:focus {
 		box-shadow: var(--light-green) 0px 3px;
+	}
+
+	input.error {
+		box-shadow: var(--red) 0px 3px;
 	}
 </style>

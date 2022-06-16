@@ -9,7 +9,7 @@ import { flow } from "fp-ts/lib/function.js";
 import { getOrElse } from 'fp-ts/lib/Option.js';
 import { max, concatAll } from "fp-ts/lib/Monoid.js";
 import { Bounded } from "fp-ts/lib/number.js";
-import { elem } from 'fp-ts/lib/Array';
+import { elem } from 'fp-ts/lib/Array.js';
 
 export type PlacementType = "1-col" | "2-col" | "3-col" | "custom";
 export type Placement = [number, number, number, number];

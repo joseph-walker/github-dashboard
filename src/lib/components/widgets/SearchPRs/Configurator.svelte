@@ -9,26 +9,33 @@
 
 	import { emptyPRSearchWidget } from "$lib/stores/configuration";
 	import { __configuration } from "$lib/stores/keys";
+	import { dispatchToast } from "$lib/components/organisms/ToastManager.svelte";
 	import Input from "$lib/components/atoms/Input.svelte";
 	import HoldButton from "$lib/components/molecules/HoldButton.svelte";
 	import Button from "$lib/components/atoms/Button.svelte";
-	import { dispatchToast } from "$lib/components/organisms/ToastManager.svelte";
 
 	const dispatch = createEventDispatcher();
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
 	export let focus: Optional<HoardboardConfiguration, PRSearchWidget>;
 
-	const clean = focus.getOption($configuration);
-	const dirty: PRSearchWidget = fold(
-		() => emptyPRSearchWidget,
-		(clone: PRSearchWidget) => clone
-	)(clean);
+	let clean: PRSearchWidget;
+	let dirty: PRSearchWidget;
+
+	function boot() {
+		clean = fold(
+			() => emptyPRSearchWidget,
+			(id: PRSearchWidget) => id
+		)(focus.getOption($configuration));
+		dirty = { ...clean };
+	}
 
 	function saveChanges() {
 		configuration.update(focus.set(dirty));
-		dispatchToast("Saved", "Configuration successfully updated");
+		dispatchToast("Saved", "Widget configuration successfully updated");
 	}
+
+	boot();
 </script>
 
 <section>

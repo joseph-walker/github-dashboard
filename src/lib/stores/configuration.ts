@@ -419,12 +419,18 @@ export const emptyConfiguration: HoardboardConfiguration = {
 	tabs: []
 };
 
+export const emptyTab: Tab = {
+	name: "",
+	placementType: "custom",
+	widgets: []
+};
+
 export const emptyPRSearchWidget: PRSearchWidget = {
 	type: "__PRSearchWidget",
-	title: "New Search",
+	title: "",
 	placement: emptyPlacement,
 	args: {
 		searchQuery: "",
 		itemsPerPage: 5
 	}
-}
+};

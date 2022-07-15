@@ -3,87 +3,90 @@
 	import type { Option } from "fp-ts/lib/Option.js";
 	import type { Optional } from "monocle-ts";
 
-	import type { HoardboardConfiguration, PlacementType, Tab } from "$lib/stores/configuration";
+	import { tabNameIsTaken, type HoardboardConfiguration, type PlacementType, type Tab } from "$lib/stores/configuration";
 
 	import { createEventDispatcher, getContext } from "svelte";
+	import { fold } from "fp-ts/lib/Option.js";
 
-	import { tabNameLens, withDefaultEmptyString, placementTypeLens, tabNameIsTaken } from "$lib/stores/configuration";
+	import { emptyTab } from "$lib/stores/configuration";
 	import { __configuration } from "$lib/stores/keys";
+	import { dispatchToast } from "$lib/components/organisms/ToastManager.svelte";
 	import Input from "$lib/components/atoms/Input.svelte";
 	import HoldButton from "$lib/components/molecules/HoldButton.svelte";
+	import Button from "$lib/components/atoms/Button.svelte";
 	import LayoutPreview from "$lib/components/atoms/LayoutPreview.svelte";
-	import RunOption from "$lib/components/atoms/RunOption.svelte";
 
 	const dispatch = createEventDispatcher();
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
 	export let focus: Optional<HoardboardConfiguration, Tab>;
 
-	const tabNameFocus = focus.composeLens(tabNameLens);
-	const placementTypeFocus = focus.composeLens(placementTypeLens);
+	let clean: Tab;
+	let dirty: Tab;
+	let nameError: string;
 
-	let nameError: string = null;
-	let tabName: string = withDefaultEmptyString(tabNameFocus)($configuration);
-
-	// Not the prettiest error handling, but it works
-	let tabNameDirty = false;
-	let tabNameInitial = tabName;
-
-	let maybePlacementType: Option<PlacementType>;
-	$: maybePlacementType = placementTypeFocus.getOption($configuration);
-
-	$: {
-		if (tabName === tabNameInitial) {
-			tabNameDirty = false;
-		}
-
-		if (tabNameDirty && tabNameIsTaken(tabName)($configuration)) {
-			nameError = `"${tabName}" is already in use`;
-		} else if (tabName === "") {
-			nameError = "Empty string is not a valid name";
-		} else {
-			nameError = null;
-			configuration.update(tabNameFocus.set(tabName));
-			tabNameDirty = true;
-		}
+	function boot() {
+		clean = fold(
+			() => emptyTab,
+			(id: Tab) => id
+		)(focus.getOption($configuration));
+		dirty = { ...clean };
 	}
 
 	function setPlacementType(t: PlacementType) {
-		return () => configuration.update(placementTypeFocus.set(t));
+		return () => {
+			dirty.placementType = t;
+		};
 	}
+
+	function saveChanges() {
+		console.log(clean);
+
+		if (tabNameIsTaken(dirty.name)($configuration) && clean.name !== dirty.name) {
+			nameError = `"${dirty.name}" is already in use`;
+		} else if (dirty.name === "") {
+			nameError = "Empty string is not a valid name";
+		} else {
+			nameError = null;
+			configuration.update(focus.set(dirty));
+			dispatchToast("Saved", "Widget configuration successfully updated");
+			boot();
+		}
+	}
+
+	boot();
 </script>
 
 <section>
-	<Input bind:value={tabName} error={nameError}>Tab Name</Input>
+	<Input bind:value={dirty.name} error={nameError}>Tab Name</Input>
 
 	<!-- TODO: This should probably be a molecule/organism -->
 	<div class="layout-picker">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label>Widget Layout</label>
-		<RunOption option={maybePlacementType}>
-			<svelte:fragment slot="some" let:some={placementType}>
-				<button on:click={setPlacementType("1-col")} class:active={placementType === "1-col"}>
-					<LayoutPreview layout="1-col" />
-					<p>1 Column</p>
-				</button>
-				<button on:click={setPlacementType("2-col")} class:active={placementType === "2-col"}>
-					<LayoutPreview layout="2-col" />
-					<p>2 Column</p>
-				</button>
-				<button on:click={setPlacementType("3-col")} class:active={placementType === "3-col"}>
-					<LayoutPreview layout="3-col" />
-					<p>3 Column</p>
-				</button>
-				<button on:click={setPlacementType("custom")} class:active={placementType === "custom"}>
-					<LayoutPreview layout="custom" />
-					<p>Custom</p>
-				</button>
-			</svelte:fragment>
-		</RunOption>
+		<button on:click={setPlacementType("1-col")} class:active={dirty.placementType === "1-col"}>
+			<LayoutPreview layout="1-col" />
+			<p>1 Column</p>
+		</button>
+		<button on:click={setPlacementType("2-col")} class:active={dirty.placementType === "2-col"}>
+			<LayoutPreview layout="2-col" />
+			<p>2 Column</p>
+		</button>
+		<button on:click={setPlacementType("3-col")} class:active={dirty.placementType === "3-col"}>
+			<LayoutPreview layout="3-col" />
+			<p>3 Column</p>
+		</button>
+		<button on:click={setPlacementType("custom")} class:active={dirty.placementType === "custom"}>
+			<LayoutPreview layout="custom" />
+			<p>Custom</p>
+		</button>
 	</div>
 
 	<div class="actions">
-		<HoldButton theme="danger" on:hold={() => dispatch("delete")}>Hold to Delete</HoldButton>
+		<Button theme="primary" on:click={saveChanges}>Save Changes</Button>
+		<HoldButton theme="tertiary" on:hold={() => dispatch("delete")}>
+			<img class="trashcan" src="/icons/trash-outline.svg" alt="Delete">
+		</HoldButton>
 	</div>
 </section>
 
@@ -135,6 +138,12 @@
 	.actions {
 		display: flex;
 		flex-direction: row;
+		gap: var(--grid-1x);
+	}
+
+	.trashcan {
+		width: var(--grid-2x);
+		margin-bottom: -2px;
 	}
 
 	:global(.actions > *:first-child) {

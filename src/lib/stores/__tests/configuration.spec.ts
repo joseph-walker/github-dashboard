@@ -9,7 +9,10 @@ import {
 	withDefaultEmptyString,
 	oneColumnPlacementGenerator,
 	twoColumnPlacementGenerator,
-	threeColumnPlacementGenerator
+	threeColumnPlacementGenerator,
+	uniqueTabNameGenerator,
+	getUniqueTabName,
+	tabNameIsTaken
 } from "../configuration";
 
 describe("tabToSlug Utility", function () {
@@ -84,6 +87,52 @@ describe("placement generators", function () {
 			expect(gen.next().value).toEqual([5, 7, 1, 2]);
 			expect(gen.next().value).toEqual([1, 3, 2, 3]);
 			expect(gen.next().value).toEqual([3, 5, 2, 3]);
+		});
+	});
+});
+
+describe("unique tab name generation", function () {
+	describe("tabNameIsTaken", function () {
+		it("correctly identifies already used names", function () {
+			expect(tabNameIsTaken("Test A | 3 Rows")(mockConfiguration)).toBe(true);
+			expect(tabNameIsTaken("foobar")(mockConfiguration)).toBe(false);
+		});
+	});
+
+	describe("uniqueTabNameGenerator", function () {
+		it("generates a unique tab name", function () {
+			const gen = uniqueTabNameGenerator();
+
+			expect(gen.next().value).toEqual("New Tab");
+			expect(gen.next().value).toEqual("New Tab (1)");
+			expect(gen.next().value).toEqual("New Tab (2)");
+			expect(gen.next().value).toEqual("New Tab (3)");
+		});
+	});
+
+	describe("getUniqueTabName", function () {
+		it("returns the first available unique tab name", function () {
+			let mockConfigurationWithExtraNewTabs = {
+				...mockConfiguration,
+			};
+
+			mockConfigurationWithExtraNewTabs.tabs = [
+				{
+					placementType: "custom",
+					name: "New Tab",
+					widgets: [],
+				},
+				{
+					placementType: "custom",
+					name: "New Tab (1)",
+					widgets: [],
+				},
+				...mockConfigurationWithExtraNewTabs.tabs,
+			];
+
+			const nextTabName = getUniqueTabName(mockConfigurationWithExtraNewTabs);
+
+			expect(nextTabName).toEqual("New Tab (2)");
 		});
 	});
 });

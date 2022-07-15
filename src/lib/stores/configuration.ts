@@ -347,6 +347,28 @@ export const tabNameIsTaken = (tabName: string) => flow(
 	elem(tabEq)(tabName)
 );
 
+export const uniqueTabNameGenerator = function * (): Generator<string> {
+	let id = 1;
+
+	yield "New Tab";
+
+	while (true) {
+		yield `New Tab (${id++})`;
+	}
+};
+
+export const getUniqueTabName = (config: HoardboardConfiguration) => {
+	const tryGenerateUniqueTabName = uniqueTabNameGenerator();
+
+	for (let maybeName of tryGenerateUniqueTabName) {
+		if (tabNameIsTaken(maybeName)(config)) {
+			continue;
+		}
+
+		return maybeName;
+	}
+}
+
 export function * oneColumnPlacementGenerator(): Generator<Placement> {
 	let row = 1;
 

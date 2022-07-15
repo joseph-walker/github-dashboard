@@ -4,6 +4,7 @@ export const mockConfiguration: HoardboardConfiguration = {
 	theme: "light",
 	tabs: [
 		{
+			placementType: "custom",
 			name: "Test A | 3 Rows",
 			widgets: [
 				{
@@ -34,6 +35,7 @@ export const mockConfiguration: HoardboardConfiguration = {
 		},
 		{
 			name: "Test B | 2 Columns",
+			placementType: "custom",
 			widgets: [
 				{
 					type: "__PRSearchWidget",

@@ -37,6 +37,8 @@
 			--button-text-secondary: var(--white);
 			--button-color-danger: var(--red);
 			--button-text-danger: var(--white);
+			--button-color-tertiary: var(--light-gray);
+			--button-text-tertiary: var(--neutral-rich-black);
 			--button-color-disabled: var(--neutral-gray);
 			--button-text-disabled: var(--neutral-dark-gray);
 			--body-bg: var(--neutral-light-gray);

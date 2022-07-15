@@ -69,10 +69,11 @@
 
 	/** Props */
 	export let title: string = "Custom Search";
+	export let itemsPerPage: number = 5;
 	export let searchQuery: string;
 
 	/** GraphQL Data */
-	const { query, paginator } = makeQuery(searchQuery, 5);
+	const { query, paginator } = makeQuery(searchQuery, itemsPerPage);
 
 	queryWithUtilization(query);
 

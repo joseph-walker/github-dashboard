@@ -1,6 +1,8 @@
 <script lang="ts">
-	export let value: string;
+	export let value: string | number;
 	export let error: string = null;
+	export let type: "text" | "number" = "text";
+	export let placeholder: string = "";
 </script>
 
 <div class="field">
@@ -12,7 +14,11 @@
 			{error}
 		{/if}
 	</label>
-	<input bind:value type="text" class:error />
+	{#if type === "text"}
+		<input bind:value {placeholder} type="text" class:error />
+	{:else if type === "number"}
+		<input bind:value {placeholder} type="number" class:error />
+	{/if}
 </div>
 
 <style>

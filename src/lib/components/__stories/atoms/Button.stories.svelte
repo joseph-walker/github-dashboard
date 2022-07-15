@@ -15,6 +15,7 @@
 			<Button>An Button</Button>
 			<Button theme="secondary">An Secondary Button</Button>
 			<Button theme="danger">An Danger Button</Button>
+			<Button theme="tertiary">An Tertiary Button</Button>
 		</div>
 	</WidgetBackgroundDecorator>
 </Story>

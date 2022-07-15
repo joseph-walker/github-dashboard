@@ -24,6 +24,7 @@
 
 	const configuration: Writable<HoardboardConfiguration> = getContext(__configuration);
 
+	// TODO: Pretty sure I can use yield* here instead of a factory function
 	function placementGenerator(widgetList: WidgetUnion[], placementType: PlacementType): Generator<Placement> {
 		if (placementType === "custom") {
 			return (function * (): Generator<Placement> {
@@ -33,7 +34,7 @@
 			})();
 		} else {
 			switch (placementType) {
-				// TODO: Is this a memory leak? 🤔
+				// TODO: Is this a memory leak? 🤔 How do generators work?
 				case "1-col": return oneColumnPlacementGenerator();
 				case "2-col": return twoColumnPlacementGenerator();
 				case "3-col": return threeColumnPlacementGenerator();

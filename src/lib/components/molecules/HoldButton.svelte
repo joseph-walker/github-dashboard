@@ -8,7 +8,7 @@
 	export let holdDuration: number = 1000;
 	export let resetHoldDuration: number = 2000;
 	export let resetSpeed: number = 300;
-	export let theme: "primary" | "secondary" | "danger" = "primary";
+	export let theme: "primary" | "secondary" | "danger" | "tertiary" = "primary";
 
 	const dispatch = createEventDispatcher();
 
@@ -102,5 +102,9 @@
 
 	.fill-overlay.danger {
 		background: var(--light-red);
+	}
+
+	.fill-overlay.tertiary {
+		background: var(--gray);
 	}
 </style>

@@ -33,6 +33,7 @@
 	import { __configuration, __me, __remaining } from "$lib/stores/keys";
 
 	import NavBar from "$lib/components/organisms/NavBar.svelte";
+	import ToastManager from "$lib/components/organisms/ToastManager.svelte";
 	import ThemeSwitcher from "$lib/components/organisms/ThemeController.svelte";
 
 	export let theme: HoardboardConfiguration["theme"];
@@ -93,5 +94,6 @@
 
 <ThemeSwitcher />
 <NavBar />
+<ToastManager />
 
 <slot></slot>

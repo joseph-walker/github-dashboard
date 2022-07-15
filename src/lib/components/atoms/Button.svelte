@@ -3,7 +3,7 @@
 	export let disabled: boolean = false;
 	export let href: string = "";
 	export let type: string | undefined = undefined;
-	export let theme: "primary" | "secondary" | "danger" = "primary";
+	export let theme: "primary" | "secondary" | "danger" | "tertiary" = "primary";
 </script>
 
 {#if role === "button"}
@@ -52,5 +52,10 @@
 	.danger {
 		background: var(--button-color-danger);
 		color: var(--button-text-danger);
+	}
+
+	.tertiary {
+		background: var(--button-color-tertiary);
+		color: var(--button-text-tertiary);
 	}
 </style>

@@ -19,6 +19,7 @@
 			<HoldButton on:hold={notify}>An Hold Button</HoldButton>
 			<HoldButton theme="secondary" on:hold={notify}>An Secondary Hold Button</HoldButton>
 			<HoldButton theme="danger" on:hold={notify}>An Danger Hold Button</HoldButton>
+			<HoldButton theme="tertiary" on:hold={notify}>An Tertiary Hold Button</HoldButton>
 		</div>
 	</WidgetBackgroundDecorator>
 </Story>

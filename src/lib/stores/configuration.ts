@@ -23,7 +23,8 @@ type BaseWidget<T extends string, Args extends {}> = {
 }
 
 export type PRSearchWidget = BaseWidget<"__PRSearchWidget", {
-    searchQuery: string;
+	searchQuery: string;
+	itemsPerPage: number;
 }>
 
 export type WidgetUnion
@@ -81,9 +82,15 @@ const prSearchArgsLens = Lens.fromProp<PRSearchWidget>()('args');
 /** searchQueryLens :: Lens PRSearchArgs string */
 const searchQueryLens = Lens.fromProp<PRSearchWidget['args']>()('searchQuery');
 
+const itemsPerPageOptional = Optional.fromNullableProp<PRSearchWidget['args']>()('itemsPerPage');
+
 /** searchQueryArgLens :: Lens PRSearchWidget string */
 export const searchQueryArgLens = prSearchArgsLens
 	.composeLens(searchQueryLens);
+
+/** itemsPerPageArgLens :: Lens PRSearchWidget (Maybe Number) */
+export const itemsPerPageArgLens = prSearchArgsLens
+	.composeOptional(itemsPerPageOptional);
 
 /** widgetsTraversal :: Traversal PRSearchWidget[] PRSearchWidget */
 const widgetsTraversal = fromTraversable(readonlyArrayTraversableInstance)<WidgetUnion>();
@@ -404,9 +411,20 @@ export function * threeColumnPlacementGenerator(): Generator<Placement> {
 	}
 }
 
+/** Pure Instances */
 export const emptyPlacement: Placement = [1, 7, 1, 2];
 
 export const emptyConfiguration: HoardboardConfiguration = {
 	theme: "light",
 	tabs: []
 };
+
+export const emptyPRSearchWidget: PRSearchWidget = {
+	type: "__PRSearchWidget",
+	title: "New Search",
+	placement: emptyPlacement,
+	args: {
+		searchQuery: "",
+		itemsPerPage: 5
+	}
+}

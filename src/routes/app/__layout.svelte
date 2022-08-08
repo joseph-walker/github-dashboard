@@ -2,7 +2,7 @@
 	import type { Load } from "@sveltejs/kit";
 
 	export const load: Load = async function load(request) {
-		if (!request.session.accessToken) {
+		if (!request.session?.accessToken) {
 			return {
 				status: 301,
 				redirect: "/"

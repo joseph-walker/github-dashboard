@@ -1,8 +1,8 @@
 /// <reference types="@sveltejs/kit" />
 
 interface SessionData {
-	accessToken: string;
-	theme: import("$lib/stores/configuration").HoardboardConfiguration["theme"];
+	accessToken?: string;
+	theme?: import("$lib/stores/configuration").HoardboardConfiguration["theme"];
 }
 
 // See https://kit.svelte.dev/docs#typescript

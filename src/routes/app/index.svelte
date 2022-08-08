@@ -13,7 +13,7 @@
 		insertWidgetAtTabWithAutoPlacement
 	} from "$lib/stores/configuration";
 	import SearchPRs from "$lib/components/widgets/SearchPRs/Widget.svelte";
-	import SearchGuide from "$lib/components/molecules/SearchGuide.svelte";
+	import SearchGuide from "$lib/components/organisms/SearchGuide.svelte";
 	import Widget from "$lib/components/atoms/Widget.svelte";
 	import Input from "$lib/components/atoms/Input.svelte";
 	import Button from "$lib/components/atoms/Button.svelte";
@@ -41,6 +41,7 @@
 		};
 
 		if (idx === Infinity) {
+			// TODO: Use empty widget exported from config file here
 			newConfig = insertWidgetInNewTab("New Tab")({ ...newWidget, placement: emptyPlacement })($configuration);
 		} else {
 			newConfig = insertWidgetAtTabWithAutoPlacement(idx)(newWidget)($configuration);

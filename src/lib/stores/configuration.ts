@@ -27,8 +27,15 @@ export type PRSearchWidget = BaseWidget<"__PRSearchWidget", {
 	itemsPerPage: number;
 }>
 
+export type ReviewBalanceWidget = BaseWidget<"__ReviewBalanceWidget", {
+	org: string;
+	users: string[];
+	sinceDays: number;
+}>
+
 export type WidgetUnion
-    = PRSearchWidget;
+    = PRSearchWidget
+	| ReviewBalanceWidget;
 
 export type WidgetType =
 	WidgetUnion['type']
@@ -238,10 +245,12 @@ export const insertWidgetAtTab = (tabIdx: number) => (newWidget: WidgetUnion) =>
 export const insertWidgetAtTabWithAutoPlacement = (tabIdx: number) => (newWidget: Omit<WidgetUnion, "placement">) => tabAtIndexOptional(tabIdx)
 	.composeLens(widgetsLens)
 	.modify(function (widgets) {
-		return widgets.concat({
+		const nextWidget = {
 			...newWidget,
 			placement: calculateNextPlacement(widgets)
-		});
+		} as WidgetUnion // Explicit widening
+
+		return widgets.concat(nextWidget);
 	});
 
 /** insertWidgetInNewTab :: string -> WidgetUnion -> HoardboardConfiguration -> HoardboardConfiguration */
@@ -434,3 +443,14 @@ export const emptyPRSearchWidget: PRSearchWidget = {
 		itemsPerPage: 5
 	}
 };
+
+export const emptyReviewBalanceWidget: ReviewBalanceWidget = {
+	type: "__ReviewBalanceWidget",
+	title: "",
+	placement: emptyPlacement,
+	args: {
+		org: "",
+		users: [],
+		sinceDays: 30
+	}
+}

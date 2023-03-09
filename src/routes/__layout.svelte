@@ -34,7 +34,6 @@
 	}
 
 	:global(html, body, #svelte) {
-		height: 100%;
 		min-height: 100%;
 	}
 

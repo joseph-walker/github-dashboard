@@ -64,6 +64,9 @@
 			--search-prs-widget-zebra-stripe-background: var(--off-white);
 			--input-background: var(--widget-background);
 			--input-focus-color: var(--green);
+			--score-good-bg: var(--green);
+			--score-mid-bg: var(--yellow);
+			--score-bad-bg: var(--red);
 
 			/* Font characteristics */
 			--root-font-size: 14px;

@@ -27,6 +27,7 @@
 	import RootConfigurator from "$lib/components/widgets/RootConfigurator.svelte";
 	import TabConfigurator from "$lib/components/widgets/TabConfigurator.svelte";
 	import SearchPRsConfigurator from "$lib/components/widgets/SearchPRs/Configurator.svelte";
+	import ReviewBalanceConfigurator from "$lib/components/widgets/ReviewBalance/Configurator.svelte";
 
 	type ConfiguratorType
 		= "Root"
@@ -48,9 +49,15 @@
 			case "Tab": {
 				return TabConfigurator;
 			}
+			case "__PRSearchWidget": {
+				return SearchPRsConfigurator;
+			}
+			case "__ReviewBalanceWidget": {
+				return ReviewBalanceConfigurator;
+			}
 			default: {
 				// TODO: Expand this when new widget types are introduced
-				return SearchPRsConfigurator;
+				return null;
 			}
 		}
 	}

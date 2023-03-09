@@ -61,4 +61,9 @@
 		background: var(--green);
 		color: var(--white);
 	}
+
+	super.__ReviewBalanceWidget {
+		background: var(--indigo);
+		color: var(--white);
+	}
 </style>
